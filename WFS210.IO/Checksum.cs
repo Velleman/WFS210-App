@@ -16,12 +16,17 @@ namespace WFS210.IO
 			checksum = 0;
 		}
 
-		public void Update(byte[] data, int size)
+		public void Update(byte[] buffer, int offset, int count)
 		{
-			foreach (byte value in data) {
+			for (int i = 0; i < count; i++) {
 
-				checksum += value;
+				checksum += buffer[offset + i];
 			}
+		}
+
+		public void Update(int b)
+		{
+			checksum += (byte)b;
 		}
 
 		public byte GetValue()

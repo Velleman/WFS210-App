@@ -9,16 +9,23 @@ namespace WFS210.IO
 	/// </summary>
 	public class PacketWriter
 	{
-		protected BinaryWriter writer;
+		private BinaryWriter writer;
 
-		public PacketWriter (Stream stream)
+		private Checksum checksum;
+
+		public Checksum Checksum {
+			get { return checksum; }
+		}
+
+		public PacketWriter (Stream stream, Checksum checksum)
 		{
-			writer = new BinaryWriter (stream);
+			this.checksum = checksum;
+			this.writer = new BinaryWriter (new CheckedStream(stream, checksum));
 		}
 
 		public void WritePacket(Packet packet)
 		{
-			Protocol.Frame (packet);
+			Checksum.Reset ();
 
 			writer.Write (packet.STX);
 			writer.Write (packet.Command);
@@ -26,6 +33,11 @@ namespace WFS210.IO
 			writer.Write (packet.Reserved1);
 			writer.Write (packet.Reserved2);
 			writer.Write (packet.Data);
+
+			// Calculate the checksum with what has been
+			// written so far to the stream.
+			packet.Checksum = Checksum.GetValue ();
+			
 			writer.Write (packet.Checksum);
 			writer.Write (packet.ETX);
 		}

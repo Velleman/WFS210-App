@@ -9,15 +9,24 @@ namespace WFS210.IO
 	/// </summary>
 	public class PacketReader
 	{
-		protected BinaryReader reader;
+		private BinaryReader reader;
 
-		public PacketReader (Stream stream)
+		private Checksum checksum;
+
+		public Checksum Checksum {
+			get { return checksum; }
+		}
+
+		public PacketReader (Stream stream, Checksum checksum)
 		{
-			reader = new BinaryReader (stream);
+			this.checksum = checksum;
+			this.reader = new BinaryReader (new CheckedStream(stream, checksum));
 		}
 
 		public Packet ReadPacket()
 		{
+			// TODO: this is just some placeholder code
+
 			var packet = new Packet ();
 			packet.STX = reader.ReadByte ();
 			packet.Command = reader.ReadByte ();
@@ -25,7 +34,10 @@ namespace WFS210.IO
 			packet.Reserved1 = reader.ReadByte ();
 			packet.Reserved2 = reader.ReadByte ();
 			packet.Data = reader.ReadBytes (packet.DataLength);
-			packet.Checksum = reader.ReadByte ();
+
+			// byte checksum = Checksum.GetValue ();
+
+			packet.Checksum = reader.ReadByte (); // TODO: verify
 			packet.ETX = reader.ReadByte ();
 
 			return packet;

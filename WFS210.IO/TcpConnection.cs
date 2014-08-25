@@ -26,6 +26,11 @@ namespace WFS210.IO
 		protected TcpClient client;
 
 		/// <summary>
+		/// Checksum implementation used to send and receive packet.
+		/// </summary>
+		protected Checksum checksum;
+
+		/// <summary>
 		/// Reader in charge of reading packet objects from the network stream.
 		/// </summary>
 		protected PacketReader reader;
@@ -40,7 +45,8 @@ namespace WFS210.IO
 		/// </summary>
 		public TcpConnection ()
 		{
-			client = new TcpClient ();
+			this.client = new TcpClient ();
+			this.checksum = new Checksum ();
 		}
 
 		/// <summary>
@@ -83,8 +89,8 @@ namespace WFS210.IO
 
 			if (Connected) {
 
-				reader = new PacketReader (client.GetStream ());
-				writer = new PacketWriter (client.GetStream ());
+				reader = new PacketReader (client.GetStream (), checksum);
+				writer = new PacketWriter (client.GetStream (), checksum);
 			}
 
 			return Connected;

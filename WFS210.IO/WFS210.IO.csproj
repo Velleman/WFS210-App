@@ -46,6 +46,8 @@
     <Compile Include="PacketWriter.cs" />
     <Compile Include="Protocol.cs" />
     <Compile Include="TcpConnection.cs" />
+    <Compile Include="PacketFactory.cs" />
+    <Compile Include="CheckedStream.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
