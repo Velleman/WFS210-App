@@ -5,7 +5,7 @@ using System.IO;
 namespace WFS210.IO
 {
 	/// <summary>
-	/// Provides efficient parsing of incoming oscilloscope packets.
+	/// Provides efficient parsing and validation of incoming packets.
 	/// </summary>
 	public class PacketReader
 	{

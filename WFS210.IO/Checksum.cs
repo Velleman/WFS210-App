@@ -2,6 +2,10 @@
 
 namespace WFS210.IO
 {
+	/// <summary>
+	/// Checksum implements a checksum algorithm that is specific
+	/// to Velbus. This should become an abstract class or interface.
+	/// </summary>
 	public class Checksum
 	{
 		private byte checksum;

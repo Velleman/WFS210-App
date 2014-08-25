@@ -8,6 +8,8 @@ namespace WFS210.IO
 		public static readonly byte STX = 0x02;
 
 		public static readonly byte ETX = 0x0a;
+
+		// TODO: get checksum implementation?
 	}
 }
 

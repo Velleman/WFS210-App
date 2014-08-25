@@ -23,7 +23,7 @@ namespace WFS210.IO
 			this.writer = new BinaryWriter (new CheckedStream(stream, checksum));
 		}
 
-		public void WritePacket(Packet packet)
+		public void WritePacket(Packet packet) // TODO: assume that STX is correct?
 		{
 			Checksum.Reset ();
 
@@ -35,7 +35,7 @@ namespace WFS210.IO
 			writer.Write (packet.Data);
 
 			// Calculate the checksum with what has been
-			// written so far to the stream.
+			// written so far to the checked stream.
 			packet.Checksum = Checksum.GetValue ();
 			
 			writer.Write (packet.Checksum);

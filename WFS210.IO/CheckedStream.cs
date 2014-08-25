@@ -4,20 +4,36 @@ using System.IO;
 namespace WFS210.IO
 {
 	/// <summary>
-	/// Stream decorator that adds checksum calculation.
+	/// Stream decorator that adds automatic checksum calculation 
+	/// of data that has been read or written.
 	/// </summary>
 	public class CheckedStream : Stream
 	{
+		/// <summary>
+		/// The underlying decorated stream.
+		/// </summary>
 		private Stream stream;
 
+		/// <summary>
+		/// The checksum calculation implementation.
+		/// </summary>
 		private Checksum checksum;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.IO.CheckedStream"/> class.
+		/// </summary>
+		/// <param name="stream">Underlying stream object.</param>
+		/// <param name="checksum">Checksum implementation.</param>
 		public CheckedStream(Stream stream, Checksum checksum)
 		{
 			this.stream = stream;
 			this.checksum = checksum;
 		}
 
+		/// <summary>
+		/// Checksum implementation.
+		/// </summary>
+		/// <value>The checksum implementation.</value>
 		public Checksum Checksum {
 			get { return checksum; }
 		}
@@ -29,6 +45,7 @@ namespace WFS210.IO
 
 		public override long Seek(long offset, SeekOrigin origin)
 		{
+			// seeking does not influence the checksum
 			return stream.Seek(offset, origin);
 		}
 
