@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFS210", "WFS210\WFS210.csproj", "{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFS210.IO", "WFS210.IO\WFS210.IO.csproj", "{5567BC5E-558A-4C08-A9FB-F5B6EC374849}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFS210.UI", "WFS210.UI\WFS210.UI.csproj", "{70236110-F85F-4A01-8AE8-53D6459AD1F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Release|iPhone.Build.0 = Release|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{5567BC5E-558A-4C08-A9FB-F5B6EC374849}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|iPhone.Build.0 = Debug|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhone.ActiveCfg = Release|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhone.Build.0 = Release|iPhone
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Release|iPhone.Build.0 = Release|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = WFS210.UI\WFS210.UI.csproj
+	EndGlobalSection
+EndGlobal
