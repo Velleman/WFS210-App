@@ -4,45 +4,59 @@ using System.Collections;
 
 namespace WFS210.UI
 {
+	/// <summary>
+	/// Trace.
+	/// </summary>
 	public class Trace : IEnumerable
 	{
-		PointF[] traceData;
+		/// <summary>
+		/// The points that construct the trace.
+		/// </summary>
+		private PointF[] points;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.UI.Trace"/> class
+		/// that can hold Size number of points.
+		/// </summary>
+		/// <param name="size">Number of points.</param>
 		public Trace (int size)
 		{
-			traceData = new PointF[size];
+			points = new PointF[size];
 		}
 
 		/// <summary>
-		/// Gets the total number of samples.
+		/// Gets the total number of points in the trace.
 		/// </summary>
-		/// <value>The total number of samples.</value>
+		/// <value>The total number of points.</value>
 		public int Count
 		{
-			get { return traceData.Length; }
+			get { return points.Length; }
 		}
 
 		/// <summary>
-		/// Gets or sets the <see cref="iWFS210.Trace"/> at the specified index.
+		/// Gets or sets a specified point in the trace.
 		/// </summary>
-		/// <param name="index">Index.</param>
+		/// <param name="index">Index of the point to get/set.</param>
 		public PointF this[int index]
 		{
 			get
 			{
-				return traceData [index];
+				return points [index];
 			}
 			set
 			{
-				traceData [index] = value;
+				points [index] = value;
 			}
 		}
-			
-		#region IEnumerable implementation
+
+		/// <summary>
+		/// Gets the enumerator.
+		/// </summary>
+		/// <returns>The enumerator.</returns>
 		public IEnumerator GetEnumerator ()
 		{
 			throw new NotImplementedException ();
 		}
-		#endregion
 	}
 }
 
