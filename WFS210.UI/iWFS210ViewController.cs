@@ -34,10 +34,11 @@ namespace WFS210.UI
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			ScopeView.setOscilloscope (wfs210);
-			wfs210.Channels [0].GenerateTestSignal ();
-			ScopeView.UpdateScopeView ();
-			ScopeView.BackgroundColor = UIColor.FromRGB (29,29,29);
+			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("BACKGROUND/BG-0x0.png"));
+			//ScopeView.setOscilloscope (wfs210);
+			//wfs210.Channels [0].GenerateTestSignal ();
+			//ScopeView.UpdateScopeView ();
+			//ScopeView.BackgroundColor = UIColor.FromRGB (29,29,29);
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -55,11 +56,6 @@ namespace WFS210.UI
 			base.ViewDidDisappear (animated);
 		}
 
-
-		partial void UIButton6_TouchUpInside (UIButton sender)
-		{
-			service.Update();
-		}
 		#endregion
 	}
 }

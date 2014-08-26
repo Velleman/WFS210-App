@@ -7,7 +7,7 @@ namespace WFS210.UI
 	public class Grid
 	{
 		float sizePerDiv;
-		CGPath[] horizontalLines = new CGPath[10];
+		CGPath[] horizontalLines = new CGPath[11];
 		CGPath[] verticalLines;
 		RectangleF frame;
 		/// <summary>
@@ -38,7 +38,7 @@ namespace WFS210.UI
 		public Grid (RectangleF rect)
 		{
 			frame = rect;
-			for(int i=0;i<10;i++)
+			for(int i=0;i<11;i++)
 			{
 				horizontalLines [i] = new CGPath ();
 			}
@@ -72,6 +72,16 @@ namespace WFS210.UI
 				line[1].Y = (i * sizePerDiv) + spareSpace;
 				horizontalLines [i].AddLines (line);
 			}
+
+			//Create the last line
+			PointF[] endLine = new PointF[2];
+			endLine [0].X = 0;
+			endLine [0].Y = frame.Height - spareSpace;
+			endLine [1].X = frame.Width;
+			endLine[1].Y = frame.Height - spareSpace;
+			horizontalLines [10].AddLines (endLine);
+
+
 		}
 		/// <summary>
 		/// Generates the vertical lines.
