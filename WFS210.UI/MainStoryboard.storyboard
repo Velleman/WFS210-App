@@ -12,30 +12,25 @@
                         <viewControllerLayoutGuide type="top" id="3"/>
                         <viewControllerLayoutGuide type="bottom" id="4"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userInteractionEnabled="NO">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userInteractionEnabled="YES" customClass="MainView">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="5" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" customClass="ScopeView" multipleTouchEnabled="YES">
-                                <rect key="frame" x="116" y="66" width="908" height="636"/>
+                                <rect key="frame" x="131" y="79" width="894" height="612"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.11372549019607843" green="0.11372549019607843" blue="0.11372549019607843" alpha="1"/>
                                 <subviews/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="43" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="7" y="7" width="102" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title=" " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-OFF-6x6.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="44" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="44" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="128" y="7" width="60" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-AC-OFF-129x6.png">
+                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-AC-ON-129x6.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnAC1_TouchUpInside:" destination="BYZ-38-t0r" id="190" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="57" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="198" y="7" width="60" height="52"/>
@@ -43,6 +38,9 @@
                                 <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnDC1_TouchUpInside:" destination="BYZ-38-t0r" id="191" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="58" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="268" y="7" width="60" height="52"/>
@@ -50,6 +48,9 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-GND-OFF-263x6.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnGND1_TouchUpInside:" destination="BYZ-38-t0r" id="192" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="59" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="345" y="7" width="102" height="52"/>
@@ -57,13 +58,19 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-10X-OFF-344x6.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnProbe1_TouchUpInside:" destination="BYZ-38-t0r" id="193" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="60" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="467" y="7" width="60" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-LEFT-OFF-467x6.png">
+                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-LEFT-ON-467x6.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnVoltDown1_TouchUpInside:" destination="BYZ-38-t0r" id="194" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="61" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
                                 <rect key="frame" x="529" y="22" width="94" height="21"/>
@@ -76,9 +83,12 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="62" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="623" y="7" width="60" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-RIGHT-OFF-628x6.png">
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-RIGHT-ON-628x6.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnVoltUp1_TouchUpInside:" destination="BYZ-38-t0r" id="195" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="63" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="988" y="7" width="28" height="54"/>
@@ -90,9 +100,12 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="64" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="7" y="106" width="48" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-CHAN1-OFF-6x96.png">
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-CHAN1-ON-6x96.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTriggerCH1_TouchUpInside:" destination="BYZ-38-t0r" id="196" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="65" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="61" y="107" width="48" height="52"/>
@@ -100,13 +113,19 @@
                                 <state key="normal" title="    " backgroundImage="BUTTONS/TRIGGER/TRIG-CHAN2-OFF-60x96.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTriggerCH2_TouchUpInside:" destination="BYZ-38-t0r" id="197" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="66" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="7" y="167" width="48" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-UP-OFF-6x156.png">
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-UP-ON-6x156.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTriggerSlopeUp_TouchUpInside:" destination="BYZ-38-t0r" id="198" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="67" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
                                 <rect key="frame" x="61" y="167" width="48" height="52"/>
@@ -118,9 +137,12 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="68" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="7" y="225" width="102" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="    " backgroundImage="BUTTONS/TRIGGER/TRIG-RUN-OFF-6x216.png">
+                                <state key="normal" title="    " backgroundImage="BUTTONS/TRIGGER/TRIG-RUN-ON-6x216.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTriggerRun_TouchUpInside:" destination="BYZ-38-t0r" id="200" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="69" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="7" y="285" width="48" height="52"/>
@@ -128,6 +150,9 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-NRML-OFF-6x276.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTriggerNrml_TouchUpInside:" destination="BYZ-38-t0r" id="201" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="70" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="61" y="285" width="48" height="52"/>
@@ -135,6 +160,9 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTriggerOnce_TouchUpInside:" destination="BYZ-38-t0r" id="202" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="71" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="7" y="341" width="102" height="52"/>
@@ -142,6 +170,9 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-HOLD-OFF-6x336.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTriggerHold_TouchUpInside:" destination="BYZ-38-t0r" id="203" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Trigger" lineBreakMode="tailTruncation" minimumFontSize="10" id="72" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
                                 <rect key="frame" x="7" y="74" width="102" height="21"/>
@@ -162,23 +193,32 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="76" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="7" y="471" width="48" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="   " backgroundImage="BUTTONS/TIME/TIME-LEFT-OFF-6X468.png">
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TIME/TIME-LEFT-ON-6X468.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTimeLeft_TouchUpInside:" destination="BYZ-38-t0r" id="204" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="77" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="61" y="471" width="48" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="   " backgroundImage="BUTTONS/TIME/TIME-RIGHT-OFF-60X468.png">
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TIME/TIME-RIGHT-ON-60X468.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnTimeRight_TouchUpInside:" destination="BYZ-38-t0r" id="205" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="78" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="7" y="543" width="102" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="    " backgroundImage="BUTTONS/AUTO RANGE/AUTORANGE-OFF-6x541.png">
+                                <state key="normal" title="    " backgroundImage="BUTTONS/AUTO RANGE/AUTORANGE-ON-6x541.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnAutorange_TouchUpInside:" destination="BYZ-38-t0r" id="206" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1ms/DIV" lineBreakMode="tailTruncation" minimumFontSize="10" id="91" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
                                 <rect key="frame" x="15" y="433" width="102" height="21"/>
@@ -194,13 +234,19 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-OFF-6x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnSelectChannel2_TouchUpInside:" destination="BYZ-38-t0r" id="213" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="108" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="129" y="709" width="59" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-AC-OFF-129x710.png">
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-AC-ON-129x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnAC2_TouchUpInside:" destination="BYZ-38-t0r" id="212" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="109" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="196" y="709" width="60" height="52"/>
@@ -208,6 +254,9 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnDC2_TouchUpInside:" destination="BYZ-38-t0r" id="214" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="110" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="265" y="709" width="60" height="52"/>
@@ -215,6 +264,9 @@
                                 <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-GND-OFF-263x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnGND2_TouchUpInside:" destination="BYZ-38-t0r" id="215" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="111" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="345" y="709" width="102" height="52"/>
@@ -222,13 +274,19 @@
                                 <state key="normal" title=" " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-10X-OFF-344x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnProbe2_TouchUpInside:" destination="BYZ-38-t0r" id="216" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="112" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="468" y="709" width="60" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 2/CHAN2-LEFT-OFF-467x710.png">
+                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 2/CHAN2-LEFT-ON-467x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnVoltDown2_TouchUpInside:" destination="BYZ-38-t0r" id="217" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="113" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="555" y="722" width="42" height="21"/>
@@ -241,9 +299,12 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="114" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="622" y="709" width="60" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-RIGHT-OFF-628x710.png">
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-RIGHT-ON-628x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnVoltUp2_TouchUpInside:" destination="BYZ-38-t0r" id="218" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="115" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="963" y="709" width="54" height="52"/>
@@ -251,13 +312,25 @@
                                 <state key="normal" title="" backgroundImage="BUTTONS/SETTINGS/SETTINGS-964x710.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnSettings_TouchUpInside:" destination="BYZ-38-t0r" id="219" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="43" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="7" y="7" width="102" height="52"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="test    " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-ON-6x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSelectChannel1_TouchUpInside:" destination="BYZ-38-t0r" id="160" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="ScopeView" destination="5" id="name-outlet-5"/>
                         <outlet property="MainView" destination="8bC-Xf-vdC" id="name-outlet-8bC-Xf-vdC"/>
-                        <outlet property="btnSelectChannel1" destination="43" id="name-outlet-43"/>
                         <outlet property="btnAC1" destination="44" id="name-outlet-44"/>
                         <outlet property="btnDC1" destination="57" id="name-outlet-57"/>
                         <outlet property="btnGND1" destination="58" id="name-outlet-58"/>
@@ -291,7 +364,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <pinchGestureRecognizer id="37"/>
             </objects>
             <point key="canvasLocation" x="-13" y="-25"/>
         </scene>

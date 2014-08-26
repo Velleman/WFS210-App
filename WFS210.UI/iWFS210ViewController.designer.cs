@@ -52,10 +52,6 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnSelectChannel1 { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnSelectChannel2 { get; set; }
 
 		[Outlet]
@@ -140,11 +136,111 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIView MainView { get; set; }
+		MainView MainView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		ScopeView ScopeView { get; set; }
+
+		[Action ("btnAC1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnAC1_TouchUpInside (UIButton sender);
+
+		[Action ("btnAC2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnAC2_TouchUpInside (UIButton sender);
+
+		[Action ("btnAutorange_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnAutorange_TouchUpInside (UIButton sender);
+
+		[Action ("btnDC1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnDC1_TouchUpInside (UIButton sender);
+
+		[Action ("btnDC2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnDC2_TouchUpInside (UIButton sender);
+
+		[Action ("btnGND1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnGND1_TouchUpInside (UIButton sender);
+
+		[Action ("btnGND2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnGND2_TouchUpInside (UIButton sender);
+
+		[Action ("btnProbe1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnProbe1_TouchUpInside (UIButton sender);
+
+		[Action ("btnProbe2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnProbe2_TouchUpInside (UIButton sender);
+
+		[Action ("btnSelectChannel1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnSelectChannel1_TouchUpInside (UIButton sender);
+
+		[Action ("btnSelectChannel2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnSelectChannel2_TouchUpInside (UIButton sender);
+
+		[Action ("btnSettings_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnSettings_TouchUpInside (UIButton sender);
+
+		[Action ("btnTimeLeft_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTimeLeft_TouchUpInside (UIButton sender);
+
+		[Action ("btnTimeRight_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTimeRight_TouchUpInside (UIButton sender);
+
+		[Action ("btnTriggerCH1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerCH1_TouchUpInside (UIButton sender);
+
+		[Action ("btnTriggerCH2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerCH2_TouchUpInside (UIButton sender);
+
+		[Action ("btnTriggerHold_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerHold_TouchUpInside (UIButton sender);
+
+		[Action ("btnTriggerNrml_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerNrml_TouchUpInside (UIButton sender);
+
+		[Action ("btnTriggerOnce_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerOnce_TouchUpInside (UIButton sender);
+
+		[Action ("btnTriggerRun_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerRun_TouchUpInside (UIButton sender);
+
+		[Action ("btnTriggerSlopeUp_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender);
+
+		[Action ("btnVoltDown1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnVoltDown1_TouchUpInside (UIButton sender);
+
+		[Action ("btnVoltDown2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnVoltDown2_TouchUpInside (UIButton sender);
+
+		[Action ("btnVoltUp1_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnVoltUp1_TouchUpInside (UIButton sender);
+
+		[Action ("btnVoltUp2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnVoltUp2_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -183,10 +279,6 @@ namespace WFS210.UI
 			if (btnProbe2 != null) {
 				btnProbe2.Dispose ();
 				btnProbe2 = null;
-			}
-			if (btnSelectChannel1 != null) {
-				btnSelectChannel1.Dispose ();
-				btnSelectChannel1 = null;
 			}
 			if (btnSelectChannel2 != null) {
 				btnSelectChannel2.Dispose ();

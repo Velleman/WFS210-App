@@ -24,7 +24,7 @@ namespace WFS210.UI
 		XMarker xMarker2;
 		YMarker yMarker1;
 		YMarker yMarker2;
-
+		CALayer gridLayer;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iWFS210.ScopeView"/> class.
 		/// </summary>
@@ -37,7 +37,13 @@ namespace WFS210.UI
 			RectangleF frame = this.Frame;
 			width = (int)frame.Width;
 			height = (int)frame.Height;
-			grid = new Grid (frame);
+
+			gridLayer = new CALayer ();
+			gridLayer.Bounds = new RectangleF (0, 0, frame.Width, frame.Height);
+			gridLayer.Position = new PointF (frame.Width/2,frame.Height/2);
+			gridLayer.Contents = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png").CGImage;
+			//gridLayer.ContentsGravity = CALayer.GravityResizeAspect;
+			Layer.AddSublayer (gridLayer);
 		}
 
 		/// <summary>
@@ -144,21 +150,8 @@ namespace WFS210.UI
 
 		public void DrawGrid (CGContext g)
 		{
-			//get graphics context
 
 
-			//set up drawing attributes
-			g.SetLineWidth (1);
-			UIColor.Gray.SetStroke ();
-			g.SetAlpha (0.5f);
-			//add geometry to graphics context and draw it
-			foreach (CGPath path in grid.HorizontalLines) {
-				g.AddPath (path);
-			}
-			foreach (CGPath path in grid.VerticalLines) {
-				g.AddPath (path);
-			}
-			g.DrawPath (CGPathDrawingMode.Stroke);
 		}
 
 		public void DrawMarkers ()

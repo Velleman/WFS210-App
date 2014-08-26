@@ -117,6 +117,10 @@
     <Compile Include="YMarker.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Marker.cs" />
+    <Compile Include="MainView.cs" />
+    <Compile Include="MainView.designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

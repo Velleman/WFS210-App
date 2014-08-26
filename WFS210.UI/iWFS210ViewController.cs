@@ -54,8 +54,138 @@ namespace WFS210.UI
 		public override void ViewDidDisappear (bool animated)
 		{
 			base.ViewDidDisappear (animated);
+
+		}
+		partial void btnSelectChannel2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
 		}
 
+		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnAC1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnDC1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnGND1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnProbe1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnVoltDown1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnVoltUp1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTriggerCH1_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTriggerCH2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTriggerSlopeDown_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+
+		partial void btnTriggerRun_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTriggerNrml_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTriggerOnce_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTriggerHold_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTimeLeft_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnTimeRight_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnAutorange_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnAC2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnDC2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnGND2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnProbe2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnVoltDown2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnVoltUp2_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
+
+		partial void btnSettings_TouchUpInside (UIButton sender)
+		{
+			throw new NotImplementedException ();
+		}
 		#endregion
 	}
 }
