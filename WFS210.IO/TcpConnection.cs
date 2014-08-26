@@ -46,7 +46,7 @@ namespace WFS210.IO
 		public TcpConnection ()
 		{
 			this.client = new TcpClient ();
-			this.checksum = new Checksum ();
+			this.checksum = new ComplementChecksum ();
 		}
 
 		/// <summary>

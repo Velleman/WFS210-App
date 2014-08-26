@@ -3,40 +3,35 @@
 namespace WFS210.IO
 {
 	/// <summary>
-	/// Checksum implements a checksum algorithm that is specific
-	/// to Velbus. This should become an abstract class or interface.
+	/// Checksum provides an interface for any number of checksum
+	/// algorithms specific to your application.
 	/// </summary>
-	public class Checksum
+	public interface Checksum
 	{
-		private byte checksum;
+		/// <summary>
+		/// Resets the checksum algorithm.
+		/// </summary>
+		void Reset();
 
-		public Checksum ()
-		{
-			Reset ();
-		}
+		/// <summary>
+		/// Update the checksum using the specified buffer, offset and count.
+		/// </summary>
+		/// <param name="buffer">Data to include in the checksum.</param>
+		/// <param name="offset">Offset to start from.</param>
+		/// <param name="count">Count bytes to include.</param>
+		void Update(byte[] buffer, int offset, int count);
 
-		public void Reset()
-		{
-			checksum = 0;
-		}
+		/// <summary>
+		/// Update the checksum using a single byte value.
+		/// </summary>
+		/// <param name="value">Value to include in the checksum.</param>
+		void Update(int value);
 
-		public void Update(byte[] buffer, int offset, int count)
-		{
-			for (int i = 0; i < count; i++) {
-
-				checksum += buffer[offset + i];
-			}
-		}
-
-		public void Update(int b)
-		{
-			checksum += (byte)b;
-		}
-
-		public byte GetValue()
-		{
-			return (byte)(~checksum + 1);
-		}
+		/// <summary>
+		/// Gets the calculated checksum value.
+		/// </summary>
+		/// <returns>The checksum.</returns>
+		byte GetValue();
 	}
 }
 
