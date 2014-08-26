@@ -66,7 +66,7 @@ namespace WFS210.IO
 		{
 			int b = stream.ReadByte();
 			if (b != -1)
-				checksum.Update(b);
+				checksum.Update((byte)b);
 			return b;
 		}
 

@@ -46,9 +46,9 @@ namespace WFS210.IO
 		/// Update the checksum with a single value.
 		/// </summary>
 		/// <param name="value">The value.</param>
-		public void Update(int value)
+		public void Update(byte value)
 		{
-			checksum += (byte)value;
+			checksum += value;
 		}
 
 		/// <summary>

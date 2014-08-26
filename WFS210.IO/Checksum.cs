@@ -25,7 +25,7 @@ namespace WFS210.IO
 		/// Update the checksum using a single byte value.
 		/// </summary>
 		/// <param name="value">Value to include in the checksum.</param>
-		void Update(int value);
+		void Update(byte value);
 
 		/// <summary>
 		/// Gets the calculated checksum value.

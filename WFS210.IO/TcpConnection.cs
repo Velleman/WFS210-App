@@ -26,19 +26,9 @@ namespace WFS210.IO
 		protected TcpClient client;
 
 		/// <summary>
-		/// Checksum implementation used to send and receive packet.
-		/// </summary>
-		protected Checksum checksum;
-
-		/// <summary>
-		/// Reader in charge of reading packet objects from the network stream.
-		/// </summary>
-		protected PacketReader reader;
-
-		/// <summary>
 		/// Writer in charge of writing packet objects from the network stream.
 		/// </summary>
-		protected PacketWriter writer;
+		protected MessageWriter writer;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.IO.TcpConnection"/> class.
@@ -46,7 +36,6 @@ namespace WFS210.IO
 		public TcpConnection ()
 		{
 			this.client = new TcpClient ();
-			this.checksum = new ComplementChecksum ();
 		}
 
 		/// <summary>
@@ -88,9 +77,8 @@ namespace WFS210.IO
 			client.Connect (remoteEP);
 
 			if (Connected) {
-
-				reader = new PacketReader (client.GetStream (), checksum);
-				writer = new PacketWriter (client.GetStream (), checksum);
+				
+				writer = new MessageWriter (client.GetStream (), new MessageFormatter ());
 			}
 
 			return Connected;
@@ -116,20 +104,12 @@ namespace WFS210.IO
 		}
 
 		/// <summary>
-		/// Attempt to read a packet from the connection.
-		/// </summary>
-		public Packet Read()
-		{
-			return reader.ReadPacket();
-		}
-
-		/// <summary>
 		/// Write a packet to the connection
 		/// </summary>
 		/// <param name="packet">Packet.</param>
-		public void Write(Packet packet)
+		public void Write (Message message)
 		{
-			writer.WritePacket (packet);
+			writer.Write (message);
 		}
 	}
 }
