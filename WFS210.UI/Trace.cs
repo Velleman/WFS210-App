@@ -50,6 +50,15 @@ namespace WFS210.UI
 		}
 
 		/// <summary>
+		/// Get an array of points that represents the trace.
+		/// </summary>
+		/// <returns>The point array.</returns>
+		public PointF[] ToPointArray()
+		{
+			return points;
+		}
+
+		/// <summary>
 		/// Gets the enumerator.
 		/// </summary>
 		/// <returns>The enumerator.</returns>
