@@ -47,7 +47,7 @@
     <Compile Include="Packet.cs" />
     <Compile Include="MessageWriter.cs" />
     <Compile Include="TcpConnection.cs" />
-    <Compile Include="MessageFormatter.cs" />
+    <Compile Include="MessageSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

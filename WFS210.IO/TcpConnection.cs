@@ -78,7 +78,7 @@ namespace WFS210.IO
 
 			if (Connected) {
 				
-				writer = new MessageWriter (client.GetStream (), new MessageFormatter ());
+				writer = new MessageWriter (client.GetStream (), null);
 			}
 
 			return Connected;

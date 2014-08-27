@@ -8,17 +8,17 @@ namespace WFS210.IO
 	{
 		private Stream stream;
 
-		private MessageFormatter formatter;
+		private MessageSerializer serializer;
 
-		public MessageWriter(Stream stream, MessageFormatter formatter)
+		public MessageWriter(Stream stream, MessageSerializer serializer)
 		{
 			this.stream = stream;
-			this.formatter = formatter;
+			this.serializer = serializer;
 		}
 
 		public void Write (Message message)
 		{
-			formatter.Serialize (stream, message);
+			serializer.Serialize (stream, message);
 		}
 	}
 }
