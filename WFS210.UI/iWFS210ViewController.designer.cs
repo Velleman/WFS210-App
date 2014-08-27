@@ -222,6 +222,10 @@ namespace WFS210.UI
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnTriggerRun_TouchUpInside (UIButton sender);
 
+		[Action ("btnTriggerSlopeDown_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnTriggerSlopeDown_TouchUpInside (UIButton sender);
+
 		[Action ("btnTriggerSlopeUp_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender);
