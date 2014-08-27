@@ -55,7 +55,7 @@ namespace WFS210.UI
 		/// <returns>The enumerator.</returns>
 		public IEnumerator GetEnumerator ()
 		{
-			throw new NotImplementedException ();
+			return points.GetEnumerator ();
 		}
 	}
 }
