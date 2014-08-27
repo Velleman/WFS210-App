@@ -38,10 +38,10 @@ namespace WFS210
 		}
 
 		/// <summary>
-		/// Gets or sets the channel that is used for triggering.
+		/// Gets or sets the index of the channel that is used for triggering.
 		/// </summary>
 		/// <value>The trigger channel.</value>
-		public int Channel { get; set; }//TODO: unclear what values can be given to channel 0 and 1 or 1 and 2
+		public int Channel { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.Trigger"/> class.
