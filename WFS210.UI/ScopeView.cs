@@ -14,16 +14,10 @@ namespace WFS210.UI
 		PointF latestPoint;
 		Oscilloscope wfs210;
 		PointF[] scopePoints;
-		int width, height;
+		Trace[] traces = new Trace[2];
 		float sampleToPointRatio;
 
-		Trace trace1;
-		Trace trace2;
-		Grid grid;
-		XMarker xMarker1;
-		XMarker xMarker2;
-		YMarker yMarker1;
-		YMarker yMarker2;
+
 		CALayer gridLayer;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iWFS210.ScopeView"/> class.
@@ -35,25 +29,24 @@ namespace WFS210.UI
 
 			path = new CGPath ();
 			RectangleF frame = this.Frame;
-			width = (int)frame.Width;
-			height = (int)frame.Height;
 
 			gridLayer = new CALayer ();
 			gridLayer.Bounds = new RectangleF (0, 0, frame.Width, frame.Height);
 			gridLayer.Position = new PointF (frame.Width/2,frame.Height/2);
 			gridLayer.Contents = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png").CGImage;
 			//gridLayer.ContentsGravity = CALayer.GravityResizeAspect;
+			gridLayer.ZPosition = 0;
 			Layer.AddSublayer (gridLayer);
+			this.Layer.ZPosition = 10;
 		}
-
-		/// <summary>
-		/// Sets the oscilloscope.
-		/// </summary>
-		/// <param name="scope">Scope.</param>
-		public void setOscilloscope (Oscilloscope scope)
+			
+		public Oscilloscope Wfs210
 		{
-			wfs210 = scope;
-			sampleToPointRatio = (float)height / (wfs210.DeviceContext.SampleMax - wfs210.DeviceContext.SampleMin);
+			set{
+
+				wfs210 = value;
+				sampleToPointRatio = (float)this.Frame.Height / (wfs210.DeviceContext.SampleMax - wfs210.DeviceContext.SampleMin);
+			}	
 		}
 
 		/// <summary>
@@ -62,16 +55,16 @@ namespace WFS210.UI
 		public void UpdateScopeView ()
 		{
 			SampleBuffer buffer = wfs210.Channels [0].Samples;
-			scopePoints = new PointF[width];
-			for (int x = 0; x < width; x++) {
+			scopePoints = new PointF[buffer.Count];
+			for (int x = 0; x < this.Frame.Width; x++) {
 				scopePoints [x].X = x;
 				scopePoints [x].Y = MapSampleDataToScreen (buffer [x]);
 			}
 			path.AddLines (scopePoints);
 			initialPoint.X = 0;
 			initialPoint.Y = buffer [0];
-			latestPoint.X = width - 1;
-			latestPoint.Y = buffer [width - 1];
+			latestPoint.X = this.Frame.Width - 1;
+			latestPoint.Y = buffer [(int)this.Frame.Width - 1];
 			path.AddLineToPoint (latestPoint);
 		}
 
@@ -134,7 +127,6 @@ namespace WFS210.UI
 				//add geometry to graphics context and draw it
 				g.AddPath (path);		
 				g.DrawPath (CGPathDrawingMode.Stroke);
-				DrawGrid (g);
 			}       
 		}
 

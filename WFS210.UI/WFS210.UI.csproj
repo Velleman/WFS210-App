@@ -104,10 +104,6 @@
     <Compile Include="ScopeView.designer.cs">
       <DependentUpon>ScopeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestButton.cs" />
-    <Compile Include="TestButton.designer.cs">
-      <DependentUpon>TestButton.cs</DependentUpon>
-    </Compile>
     <Compile Include="iWFS210ViewController.cs" />
     <Compile Include="iWFS210ViewController.designer.cs">
       <DependentUpon>iWFS210ViewController.cs</DependentUpon>
