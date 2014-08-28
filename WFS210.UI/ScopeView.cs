@@ -56,9 +56,8 @@ namespace WFS210.UI
 		{
 			SampleBuffer buffer = wfs210.Channels [0].Samples;
 			scopePoints = new PointF[buffer.Count];
-			for (int x = 0; x < this.Frame.Width; x++) {
-				scopePoints [x].X = x;
-				scopePoints [x].Y = MapSampleDataToScreen (buffer [x]);
+			for (int x = 0; x < buffer.Count; x++) {
+				scopePoints [x] = new PointF(x,MapSampleDataToScreen (buffer [x]));
 			}
 			path.AddLines (scopePoints);
 			initialPoint.X = 0;
