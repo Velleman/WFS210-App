@@ -17,6 +17,11 @@ namespace WFS210.UI
 		Trace[] traces = new Trace[2];
 		float sampleToPointRatio;
 
+		XMarker[] xMarkers = new XMarker[2];
+		YMarker[] yMarkers = new YMarker[2];
+		ZeroLine[] zeroLines = new ZeroLine[2];
+		TriggerMarker trigMarker;
+
 
 		CALayer gridLayer;
 		/// <summary>
@@ -25,19 +30,17 @@ namespace WFS210.UI
 		/// <param name="handle">Handle.</param>
 		public ScopeView (IntPtr handle) : base (handle)
 		{
-			BackgroundColor = UIColor.Gray;
-
 			path = new CGPath ();
-			RectangleF frame = this.Frame;
 
-			gridLayer = new CALayer ();
-			gridLayer.Bounds = new RectangleF (0, 0, frame.Width, frame.Height);
-			gridLayer.Position = new PointF (frame.Width/2,frame.Height/2);
-			gridLayer.Contents = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png").CGImage;
-			//gridLayer.ContentsGravity = CALayer.GravityResizeAspect;
-			gridLayer.ZPosition = 0;
-			Layer.AddSublayer (gridLayer);
-			this.Layer.ZPosition = 10;
+			AddGrid ();
+
+			AddXMarkers ();
+
+			AddYMarkers ();
+
+			AddZeroLines ();
+
+			AddTriggerMarker ();
 		}
 			
 		public Oscilloscope Wfs210
@@ -129,30 +132,47 @@ namespace WFS210.UI
 			}       
 		}
 
-		public void DrawTraces ()
+		private void AddGrid ()
 		{
-
+			gridLayer = new CALayer ();
+			gridLayer.Bounds = new RectangleF (0, 0, Frame.Width, Frame.Height);
+			gridLayer.Position = new PointF (Frame.Width/2,Frame.Height/2);
+			gridLayer.Contents = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png").CGImage;
+			Layer.AddSublayer (gridLayer);
 		}
 
-		public void DrawTrace (Trace trace)
+		private void AddXMarkers()
 		{
-
+			//Makeing XMarkers and adding it to the layers
+			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png",Convert.ToInt32(Frame.Height/1.5));
+			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png",(int)Frame.Height/2);
+			Layer.AddSublayer (xMarkers [0].Layer);
+			Layer.AddSublayer (xMarkers [1].Layer);
 		}
 
-		public void DrawGrid (CGContext g)
+		private void AddYMarkers()
 		{
-
-
+			//Makeing YMarkers and adding it to the layers
+			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png",Convert.ToInt32(Frame.Width/1.5));
+			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png",(int)Frame.Width/2);
+			Layer.AddSublayer (yMarkers [0].Layer);
+			Layer.AddSublayer (yMarkers [1].Layer);
 		}
 
-		public void DrawMarkers ()
+		void AddZeroLines ()
 		{
-
+			//Makeing XMarkers and adding it to the layers
+			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png",Convert.ToInt32(Frame.Height/5));
+			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png",(int)Frame.Height/6);
+			Layer.AddSublayer (zeroLines [0].Layer);
+			Layer.AddSublayer (zeroLines [1].Layer);
 		}
 
-		public void DrawMarker (Marker marker)
+		private void AddTriggerMarker()
 		{
-
+			//Makeing TriggerMarkers and adding it to the layers
+			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png",Convert.ToInt32(Frame.Height/3));
+			Layer.AddSublayer (trigMarker.Layer);
 		}
 	}
 }

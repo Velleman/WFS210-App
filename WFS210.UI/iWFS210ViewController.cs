@@ -36,10 +36,9 @@ namespace WFS210.UI
 		{
 			base.ViewWillAppear (animated);
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("BACKGROUND/BG-0x0.png"));
-			//ScopeView.setOscilloscope (wfs210);
+			ScopeView.Wfs210 = wfs210;
 			//wfs210.Channels [0].GenerateTestSignal ();
-			//ScopeView.UpdateScopeView ();
-			//ScopeView.BackgroundColor = UIColor.FromRGB (29,29,29);
+			ScopeView.UpdateScopeView ();
 		}
 
 		public override void ViewDidAppear (bool animated)

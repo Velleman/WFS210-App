@@ -1,24 +1,24 @@
 ﻿using System;
 using MonoTouch.CoreAnimation;
-using System.Drawing;
 using MonoTouch.UIKit;
+using System.Drawing;
 
 namespace WFS210.UI
 {
-	public class XMarker : Marker
+	public class TriggerMarker : Marker
 	{
 		public CALayer Layer{ get; set;}
 		PointF position;
-		public XMarker (string resource,int pos) : base(resource)
+		public TriggerMarker (string resource,int pos) : base(resource)
 		{
-			position = new PointF(pos , Image.CGImage.Height /2 - 18);
+			position = new PointF(Image.CGImage.Width/2 - 18 ,pos);
 			Layer = new CALayer ();
 			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height);
 			Layer.Position = position;
 			Layer.Contents = Image.CGImage;
 		}
 
-		public int X
+		public int TriggerLevel
 		{
 			set
 			{

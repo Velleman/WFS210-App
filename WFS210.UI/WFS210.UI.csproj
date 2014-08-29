@@ -117,6 +117,8 @@
     <Compile Include="MainView.designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
+    <Compile Include="TriggerMarker.cs" />
+    <Compile Include="ZeroLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

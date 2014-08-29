@@ -1,19 +1,18 @@
 ﻿using System;
-using MonoTouch.UIKit;
 using MonoTouch.CoreAnimation;
 using System.Drawing;
 
 namespace WFS210.UI
 {
-	public class YMarker : Marker
+	public class ZeroLine : Marker
 	{
 		public CALayer Layer{ get; set;}
 		PointF position;
-		public YMarker (string resource,int pos) : base(resource)
+		public ZeroLine (string resource,int pos) : base(resource)
 		{
-			position = new PointF(Image.CGImage.Width/2 - 18,pos);
+			position = new PointF(Image.CGImage.Width/2+1 ,pos);
 			Layer = new CALayer ();
-			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height );
+			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height);
 			Layer.Position = position;
 			Layer.Contents = Image.CGImage;
 		}
@@ -23,7 +22,7 @@ namespace WFS210.UI
 			set
 			{
 				base.VariablePosition = value;
-				position.Y = base.VariablePosition;
+				position.X = base.VariablePosition;
 			}
 		}
 	}
