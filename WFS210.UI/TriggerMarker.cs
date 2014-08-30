@@ -7,23 +7,18 @@ namespace WFS210.UI
 {
 	public class TriggerMarker : Marker
 	{
-		public CALayer Layer{ get; set;}
-		PointF position;
-		public TriggerMarker (string resource,int pos) : base(resource)
+		public TriggerMarker (string resource,int pos,string name) : base(resource,name)
 		{
-			position = new PointF(Image.CGImage.Width/2 - 18 ,pos);
-			Layer = new CALayer ();
-			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height);
-			Layer.Position = position;
-			Layer.Contents = Image.CGImage;
+			Position = new PointF(Image.CGImage.Width/2 - 18 ,pos);
 		}
 
 		public int TriggerLevel
 		{
 			set
 			{
-				base.VariablePosition = value;
-				position.X = base.VariablePosition;
+				var pos = Position;
+				pos.X = value;
+				Position = pos;
 			}
 		}
 	}

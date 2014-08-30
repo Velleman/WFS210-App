@@ -4,6 +4,7 @@ using MonoTouch.CoreGraphics;
 using System.Drawing;
 using MonoTouch.CoreAnimation;
 using WFS210;
+using System.Collections.Generic;
 
 namespace WFS210.UI
 {
@@ -22,8 +23,12 @@ namespace WFS210.UI
 		ZeroLine[] zeroLines = new ZeroLine[2];
 		TriggerMarker trigMarker;
 
+		List<Marker> allMarkers = new List<Marker> ();
 
 		CALayer gridLayer;
+
+		UIPinchGestureRecognizer pinchGesture;
+		UILongPressGestureRecognizer longPressGesture;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iWFS210.ScopeView"/> class.
 		/// </summary>
@@ -41,6 +46,10 @@ namespace WFS210.UI
 			AddZeroLines ();
 
 			AddTriggerMarker ();
+
+			FillList ();
+
+			RegisterLongPressRecognizer ();
 		}
 			
 		public Oscilloscope Wfs210
@@ -87,7 +96,7 @@ namespace WFS210.UI
 			UITouch touch = touches.AnyObject as UITouch;
 
 			if (touch != null) {
-
+				initialPoint = touch.LocationInView (this);
 			}
 		}
 
@@ -132,6 +141,8 @@ namespace WFS210.UI
 			}       
 		}
 
+
+
 		private void AddGrid ()
 		{
 			gridLayer = new CALayer ();
@@ -144,8 +155,8 @@ namespace WFS210.UI
 		private void AddXMarkers()
 		{
 			//Makeing XMarkers and adding it to the layers
-			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png",Convert.ToInt32(Frame.Height/1.5));
-			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png",(int)Frame.Height/2);
+			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png",Convert.ToInt32(Frame.Height/1.5),"XMARKER1");
+			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png",(int)Frame.Height/2,"XMARKER2");
 			Layer.AddSublayer (xMarkers [0].Layer);
 			Layer.AddSublayer (xMarkers [1].Layer);
 		}
@@ -153,8 +164,8 @@ namespace WFS210.UI
 		private void AddYMarkers()
 		{
 			//Makeing YMarkers and adding it to the layers
-			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png",Convert.ToInt32(Frame.Width/1.5));
-			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png",(int)Frame.Width/2);
+			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png",Convert.ToInt32(Frame.Width/1.5),"YMARKER1");
+			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png",(int)Frame.Width/2,"YMARKER2");
 			Layer.AddSublayer (yMarkers [0].Layer);
 			Layer.AddSublayer (yMarkers [1].Layer);
 		}
@@ -162,8 +173,8 @@ namespace WFS210.UI
 		void AddZeroLines ()
 		{
 			//Makeing XMarkers and adding it to the layers
-			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png",Convert.ToInt32(Frame.Height/5));
-			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png",(int)Frame.Height/6);
+			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png",Convert.ToInt32(Frame.Height/5),"ZEROLINE1");
+			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png",(int)Frame.Height/6,"ZEROLINE2");
 			Layer.AddSublayer (zeroLines [0].Layer);
 			Layer.AddSublayer (zeroLines [1].Layer);
 		}
@@ -171,8 +182,102 @@ namespace WFS210.UI
 		private void AddTriggerMarker()
 		{
 			//Makeing TriggerMarkers and adding it to the layers
-			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png",Convert.ToInt32(Frame.Height/3));
+			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png",Convert.ToInt32(Frame.Height/3),"TRIGGERMARKER");
 			Layer.AddSublayer (trigMarker.Layer);
 		}
+
+		void FillList ()
+		{
+			allMarkers.Add (xMarkers [0]);
+			allMarkers.Add (xMarkers [1]);
+			allMarkers.Add (yMarkers [0]);
+			allMarkers.Add (yMarkers [1]);
+			allMarkers.Add (trigMarker);
+			allMarkers.Add (zeroLines[0]);
+			allMarkers.Add (zeroLines [1]);
+		}
+
+		private void RegisterPinchRecognizer()
+		{
+			pinchGesture = new UIPinchGestureRecognizer ((pg) => {
+				if (pg.State == UIGestureRecognizerState.Began){
+					initialPoint = pg.LocationInView(this);
+				}
+				else if(pg.State == UIGestureRecognizerState.Changed){
+
+				} else if (pg.State == UIGestureRecognizerState.Ended) {
+
+				}
+			});
+
+			this.AddGestureRecognizer (pinchGesture);
+		}
+
+		private void RegisterLongPressRecognizer()
+		{
+			Marker closestMarker;
+			closestMarker = null;
+			longPressGesture = new UILongPressGestureRecognizer ((lp) => {
+				if (lp.State == UIGestureRecognizerState.Began){
+					initialPoint = lp.LocationInView(this);
+					closestMarker = GetClosestMarker(initialPoint);
+				}
+				else if(lp.State == UIGestureRecognizerState.Changed){
+					if(closestMarker != null)
+					{
+						if(closestMarker is XMarker)
+						{
+							var position = closestMarker.Position;
+							position.X = lp.LocationInView(this).X;
+							closestMarker.Position = position;
+						}
+						else
+						{
+							var position = closestMarker.Position;
+							position.Y = lp.LocationInView(this).Y;
+							closestMarker.Position = position;
+						}
+					}
+				} else if (lp.State == UIGestureRecognizerState.Ended) {
+
+				}
+			});
+			longPressGesture.MinimumPressDuration = 0.1d;
+			this.AddGestureRecognizer (longPressGesture);
+		}
+
+		private Marker GetClosestMarker(PointF point)
+		{
+			Marker closestXMarker = null;
+			Marker closestYMarker = null;
+			float distanceX;
+			float distanceY;
+			float closestX ,closestY;
+			closestX = closestY = float.MaxValue;
+			foreach (Marker marker in allMarkers) {
+				distanceX = Math.Abs(marker.Position.X - point.X);
+				if (distanceX < closestX) {
+					closestXMarker = marker;
+					closestX = distanceX;
+				}
+			}
+
+			foreach (Marker marker in allMarkers) {
+				distanceY = Math.Abs(marker.Position.Y - point.Y);
+				if (distanceY < closestY) {
+					closestYMarker = marker;
+					closestY = distanceY;
+				}
+			}
+
+			if (Math.Abs (closestX) < Math.Abs (closestY)) {
+				Console.WriteLine (closestXMarker.Name);
+				return closestXMarker;
+			} else {
+				Console.WriteLine (closestYMarker.Name);
+				return closestYMarker;
+			}
+		}
+
 	}
 }

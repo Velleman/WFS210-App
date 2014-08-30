@@ -7,23 +7,19 @@ namespace WFS210.UI
 {
 	public class YMarker : Marker
 	{
-		public CALayer Layer{ get; set;}
-		PointF position;
-		public YMarker (string resource,int pos) : base(resource)
+		public YMarker (string resource,int pos,string name) : base(resource,name)
 		{
-			position = new PointF(Image.CGImage.Width/2 - 18,pos);
-			Layer = new CALayer ();
-			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height );
-			Layer.Position = position;
-			Layer.Contents = Image.CGImage;
+			Position = new PointF(Image.CGImage.Width/2 - 18,pos);
+
 		}
 
 		public int Y
 		{
 			set
 			{
-				base.VariablePosition = value;
-				position.Y = base.VariablePosition;
+				var pos = Position;
+				pos.Y = value;
+				Position = pos;
 			}
 		}
 	}
