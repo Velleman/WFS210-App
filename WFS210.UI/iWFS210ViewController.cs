@@ -39,6 +39,7 @@ namespace WFS210.UI
 			ScopeView.Wfs210 = wfs210;
 			//wfs210.Channels [0].GenerateTestSignal ();
 			ScopeView.UpdateScopeView ();
+			UpdateScopeControls ();
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -95,14 +96,16 @@ namespace WFS210.UI
 
 		partial void btnVoltDown1_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.VdivNone)
+			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
 				wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision + 1;
+			UpdateScopeControls ();
 		}
 
 		partial void btnVoltUp1_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
-				wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision + 1;
+			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.VdivNone)
+				wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision - 1;
+			UpdateScopeControls ();
 		}
 
 		#endregion
@@ -112,43 +115,43 @@ namespace WFS210.UI
 		partial void btnTriggerCH1_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Channel = 0;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTriggerCH2_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Channel = 1;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Slope = TriggerSlope.Rising;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTriggerSlopeDown_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Slope = TriggerSlope.Falling;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTriggerRun_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Mode = TriggerMode.Run;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTriggerNrml_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Mode = TriggerMode.Normal;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTriggerOnce_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Mode = TriggerMode.Once;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTriggerHold_TouchUpInside (UIButton sender)
@@ -157,7 +160,7 @@ namespace WFS210.UI
 				wfs210.Hold = false;
 			else
 				wfs210.Hold = true;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnTimeLeft_TouchUpInside (UIButton sender)
@@ -176,7 +179,7 @@ namespace WFS210.UI
 				wfs210.AutoRange = false;
 			else
 				wfs210.AutoRange = true;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		#endregion
@@ -219,12 +222,14 @@ namespace WFS210.UI
 		{
 			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
 				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision + 1;
+			UpdateScopeControls();
 		}
 
 		partial void btnVoltUp2_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
-				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision + 1;
+			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.VdivNone)
+				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision - 1;
+			UpdateScopeControls();
 		}
 
 		#endregion
@@ -253,12 +258,14 @@ namespace WFS210.UI
 		{
 			UpdateInputCoupling1 ();
 			UpdateAttenuationFactor1 ();
+			UpdateVoltText1 ();
 		}
 
 		void UpdateChannel2UI ()
 		{
 			UpdateInputCoupling2 ();
 			UpdateAttenuationFactor2 ();
+			UpdateVoltText2 ();
 		}
 
 		void UpdateTriggerUI ()
@@ -307,6 +314,63 @@ namespace WFS210.UI
 			}
 		}
 
+		void UpdateVoltText1 ()
+		{
+			string text;
+			text = "Incorrect Value";
+			text = GetTextFromVoltPerDivision (wfs210.Channels [0].VoltsPerDivision);
+			lblVolt1.Text = text;
+		}
+
+		string  GetTextFromVoltPerDivision(VoltsPerDivision vpd)
+		{
+			string result = "";
+			switch (vpd) {
+			case VoltsPerDivision.Vdiv100mV:
+				result = "100mV/DIV";
+				break;
+			case VoltsPerDivision.Vdiv10mV:
+				result = "10mV/DIV";
+				break;
+			case VoltsPerDivision.Vdiv10V:
+				result = "10V/DIV";
+				break;
+			case VoltsPerDivision.Vdiv1V:
+				result = "1V/DIV";
+				break;
+			case VoltsPerDivision.Vdiv200mV:
+				result = "200mV/DIV";
+				break;
+			case VoltsPerDivision.Vdiv20mV:
+				result = "20mV/DIV";
+				break;
+			case VoltsPerDivision.Vdiv20V:
+				result = "20V/DIV";
+				break;
+			case VoltsPerDivision.Vdiv2V:
+				result = "2V/DIV";
+				break;
+			case VoltsPerDivision.Vdiv4V:
+				result = "4V/DIV";
+				break;
+			case VoltsPerDivision.Vdiv500mV:
+				result = "500mV/DIV";
+				break;
+			case VoltsPerDivision.Vdiv50mV:
+				result = "50mV/DIV";
+				break;
+			case VoltsPerDivision.Vdiv5mV:
+				result = "5mV/DIV";
+				break;
+			case VoltsPerDivision.VdivNone:
+				result = "Off";
+				break;
+			default:
+				break;
+			}
+			return result;
+		}
+
 		void UpdateInputCoupling2 ()
 		{
 			switch (wfs210.Channels [1].InputCoupling) {
@@ -342,6 +406,14 @@ namespace WFS210.UI
 			default:
 				break;
 			}
+		}
+
+		void UpdateVoltText2 ()
+		{
+			string text;
+			text = "Incorrect Value";
+			text = GetTextFromVoltPerDivision (wfs210.Channels [1].VoltsPerDivision);
+			lblVolt2.Text = text;
 		}
 
 		void UpdateTriggerChannelUI ()
