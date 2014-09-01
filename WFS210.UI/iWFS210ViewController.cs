@@ -6,6 +6,7 @@ using WFS210;
 
 namespace WFS210.UI
 {
+	//TODO: Add logic for TimeBase text
 	partial class iWFS210ViewController : UIViewController
 	{
 		Oscilloscope wfs210;
@@ -165,12 +166,16 @@ namespace WFS210.UI
 
 		partial void btnTimeLeft_TouchUpInside (UIButton sender)
 		{
-			wfs210.TimeBase = wfs210.TimeBase - 1;
+			if (wfs210.TimeBase != TimeBase.Tdiv1us)
+				wfs210.TimeBase = wfs210.TimeBase - 1;
+			UpdateScopeControls ();
 		}
 
 		partial void btnTimeRight_TouchUpInside (UIButton sender)
 		{
-			wfs210.TimeBase = wfs210.TimeBase + 1;
+			if (wfs210.TimeBase != TimeBase.Tdiv1s)
+				wfs210.TimeBase = wfs210.TimeBase + 1;
+			UpdateScopeControls ();
 		}
 
 		partial void btnAutorange_TouchUpInside (UIButton sender)
@@ -222,14 +227,14 @@ namespace WFS210.UI
 		{
 			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
 				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision + 1;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnVoltUp2_TouchUpInside (UIButton sender)
 		{
 			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.VdivNone)
 				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision - 1;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		#endregion
@@ -275,6 +280,7 @@ namespace WFS210.UI
 			UpdateTriggerModeUI ();
 			UpdateHoldUI ();
 			UpdateAutorangeUI ();
+			UpdateTimeBaseText ();
 		}
 
 		void UpdateInputCoupling1 ()
@@ -322,7 +328,7 @@ namespace WFS210.UI
 			lblVolt1.Text = text;
 		}
 
-		string  GetTextFromVoltPerDivision(VoltsPerDivision vpd)
+		string  GetTextFromVoltPerDivision (VoltsPerDivision vpd)
 		{
 			string result = "";
 			switch (vpd) {
@@ -370,6 +376,74 @@ namespace WFS210.UI
 			}
 			return result;
 		}
+
+		string  GetTextFromTimebase (TimeBase tb)
+		{
+			string result = "";
+			switch (tb) {
+			case TimeBase.Tdiv100ms:
+				result = "100ms/DIV";
+				break;
+			case TimeBase.Tdiv100us:
+				result = "100us/DIV";
+				break;
+			case TimeBase.Tdiv10ms:
+				result = "10ms/DIV";
+				break;
+			case TimeBase.Tdiv10us:
+				result = "10us/DIV";
+				break;
+			case TimeBase.Tdiv1ms:
+				result = "1ms/DIV";
+				break;
+			case TimeBase.Tdiv1s:
+				result = "1s/DIV";
+				break;
+			case TimeBase.Tdiv1us:
+				result = "1us/DIV";
+				break;
+			case TimeBase.Tdiv200ms:
+				result = "200ms/DIV";
+				break;
+			case TimeBase.Tdiv200us:
+				result = "200us/DIV";
+				break;
+			case TimeBase.Tdiv20ms:
+				result = "20ms/DIV";
+				break;
+			case TimeBase.Tdiv20us:
+				result = "20us/DIV";
+				break;
+			case TimeBase.Tdiv2ms:
+				result = "2ms/DIV";
+				break;
+			case TimeBase.Tdiv2us:
+				result = "2us/DIV";
+				break;
+			case TimeBase.Tdiv500ms:
+				result = "500ms/DIV";
+				break;
+			case TimeBase.Tdiv500us:
+				result = "500us/DIV";
+				break;
+			case TimeBase.Tdiv50ms:
+				result = "50ms/DIV";
+				break;
+			case TimeBase.Tdiv50us:
+				result = "50us/DIV";
+				break;
+			case TimeBase.Tdiv5ms:
+				result = "5ms/DIV";
+				break;
+			case TimeBase.Tdiv5us:
+				result = "5us/DIV";
+				break;
+			default:
+				break;
+			}
+			return result;
+		}
+
 
 		void UpdateInputCoupling2 ()
 		{
@@ -475,6 +549,14 @@ namespace WFS210.UI
 				btnAutorange.SetBackgroundImage (UIImage.FromFile ("BUTTONS/AUTO RANGE/AUTORANGE-ON-6x541.png"), UIControlState.Normal);
 			else
 				btnAutorange.SetBackgroundImage (UIImage.FromFile ("BUTTONS/AUTO RANGE/AUTORANGE-OFF-6x541.png"), UIControlState.Normal);
+		}
+
+		void UpdateTimeBaseText ()
+		{
+			string text;
+			text = "Incorrect Value";
+			text = GetTextFromTimebase (wfs210.TimeBase);
+			lblTime.Text = text;
 		}
 	}
 }
