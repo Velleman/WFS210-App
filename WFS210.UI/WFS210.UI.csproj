@@ -119,6 +119,8 @@
     </Compile>
     <Compile Include="TriggerMarker.cs" />
     <Compile Include="ZeroLine.cs" />
+    <Compile Include="VoltTimeIndicator.cs" />
+    <Compile Include="WFS210Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
