@@ -11,6 +11,7 @@ namespace WFS210.UI
 	{
 		Oscilloscope wfs210;
 		WFS210Tools tool;
+
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
 			wfs210 = new Oscilloscope ();
@@ -30,7 +31,6 @@ namespace WFS210.UI
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
@@ -42,6 +42,11 @@ namespace WFS210.UI
 			//wfs210.Channels [0].GenerateTestSignal ();
 			ScopeView.UpdateScopeView ();
 			UpdateScopeControls ();
+		}
+
+		public override bool PrefersStatusBarHidden ()
+		{
+			return true;
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -59,6 +64,7 @@ namespace WFS210.UI
 			base.ViewDidDisappear (animated);
 
 		}
+
 
 		#endregion
 
@@ -244,7 +250,8 @@ namespace WFS210.UI
 
 		partial void btnSettings_TouchUpInside (UIButton sender)
 		{
-			throw new NotImplementedException ();//TODO segue to settings
+			//throw new NotImplementedException();
+			var test = NavigationController;
 		}
 
 
