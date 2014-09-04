@@ -14,7 +14,7 @@ namespace WFS210.UI
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		// class-level declarations
-		
+		public static UIStoryboard Storyboard = UIStoryboard.FromName("MainStoryboard",null);
 		public override UIWindow Window {
 			get;
 			set;

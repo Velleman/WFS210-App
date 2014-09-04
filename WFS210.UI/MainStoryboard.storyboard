@@ -370,6 +370,35 @@
             </objects>
             <point key="canvasLocation" x="-13" y="-25"/>
         </scene>
+        <scene sceneID="228">
+            <objects>
+                <viewController id="229" sceneMemberID="viewController" customClass="SettingsViewController" storyboardIdentifier="SettingsViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="226"/>
+                        <viewControllerLayoutGuide type="bottom" id="227"/>
+                    </layoutGuides>
+                    <view contentMode="scaleToFill" id="287" translatesAutoresizingMaskIntoConstraints="NO" key="view">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="288" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="48" y="108" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="btnDismiss" destination="288" id="name-outlet-288"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="231" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1213" y="-22"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackOpaque"/>

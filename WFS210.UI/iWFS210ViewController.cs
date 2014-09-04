@@ -251,11 +251,9 @@ namespace WFS210.UI
 		partial void btnSettings_TouchUpInside (UIButton sender)
 		{
 			//throw new NotImplementedException();
-			var test = NavigationController;
+			SettingsViewController settingsViewController = this.Storyboard.InstantiateViewController("SettingsViewController") as SettingsViewController;
+			PresentViewController(settingsViewController,true,null);
 		}
-
-
-
 		#endregion
 
 

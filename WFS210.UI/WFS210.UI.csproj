@@ -121,6 +121,10 @@
     <Compile Include="ZeroLine.cs" />
     <Compile Include="VoltTimeIndicator.cs" />
     <Compile Include="WFS210Tools.cs" />
+    <Compile Include="SettingsViewController.cs" />
+    <Compile Include="SettingsViewController.designer.cs">
+      <DependentUpon>SettingsViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
