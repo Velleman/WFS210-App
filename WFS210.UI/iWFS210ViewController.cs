@@ -39,6 +39,7 @@ namespace WFS210.UI
 			base.ViewWillAppear (animated);
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromFile ("BACKGROUND/BG-0x0.png"));
 			ScopeView.Wfs210 = wfs210;
+			ScopeView.SelectedChannel = wfs210.Channels [0];
 			//wfs210.Channels [0].GenerateTestSignal ();
 			ScopeView.UpdateScopeView ();
 			UpdateScopeControls ();
@@ -72,7 +73,8 @@ namespace WFS210.UI
 
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
-			throw new NotImplementedException ();
+			ScopeView.SelectedChannel = wfs210.Channels[0];
+			UpdateScopeControls();
 		}
 
 		partial void btnAC1_TouchUpInside (UIButton sender)
@@ -200,7 +202,8 @@ namespace WFS210.UI
 
 		partial void btnSelectChannel2_TouchUpInside (UIButton sender)
 		{
-			throw new NotImplementedException ();
+			ScopeView.SelectedChannel = wfs210.Channels[1];
+			UpdateScopeControls();
 		}
 
 		partial void btnAC2_TouchUpInside (UIButton sender)
@@ -259,6 +262,7 @@ namespace WFS210.UI
 
 		private void UpdateScopeControls ()
 		{
+			UpdateSelectedChannel ();
 			UpdateChannel1UI ();
 			UpdateChannel2UI ();
 			UpdateTriggerUI ();
@@ -287,6 +291,17 @@ namespace WFS210.UI
 			UpdateHoldUI ();
 			UpdateAutorangeUI ();
 			UpdateTimeBaseText ();
+		}
+
+		void UpdateSelectedChannel ()
+		{
+			if (ScopeView.SelectedChannel == wfs210.Channels [0]) {
+				btnSelectChannel1.SetBackgroundImage (UIImage.FromFile ("BUTTONS/CHANNEL 1/CHAN1-ON-6x6.png"),UIControlState.Normal);
+				btnSelectChannel2.SetBackgroundImage (UIImage.FromFile ("BUTTONS/CHANNEL 2/CHAN2-OFF-6x710.png"),UIControlState.Normal);
+			} else {
+				btnSelectChannel1.SetBackgroundImage (UIImage.FromFile ("BUTTONS/CHANNEL 1/CHAN1-OFF-6x6.png"),UIControlState.Normal);
+				btnSelectChannel2.SetBackgroundImage (UIImage.FromFile ("BUTTONS/CHANNEL 2/CHAN2-ON-6x710.png"),UIControlState.Normal);
+			}
 		}
 
 		void UpdateInputCoupling1 ()

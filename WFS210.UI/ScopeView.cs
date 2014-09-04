@@ -18,7 +18,7 @@ namespace WFS210.UI
 		PointF[] scopePoints;
 		Trace[] traces = new Trace[2];
 		float sampleToPointRatio;
-
+		public Channel SelectedChannel{ get;set;}
 		XMarker[] xMarkers = new XMarker[2];
 		YMarker[] yMarkers = new YMarker[2];
 		ZeroLine[] zeroLines = new ZeroLine[2];
@@ -254,16 +254,16 @@ namespace WFS210.UI
 							if(distance > startDistance + 50)
 							{
 								startDistance = distance;
-								if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
-									wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision + 1;
+								if (SelectedChannel.VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
+									SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision + 1;
 							}
 							else if(distance < startDistance - 50)
 							{
 								startDistance = distance;
-								if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.VdivNone)
-									wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision - 1;
+								if (SelectedChannel.VoltsPerDivision != VoltsPerDivision.VdivNone)
+									SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision - 1;
 							}
-							vti.Text = tool.GetTextFromVoltPerDivision(wfs210.Channels[0].VoltsPerDivision);
+							vti.Text = tool.GetTextFromVoltPerDivision(SelectedChannel.VoltsPerDivision);
 						}
 					}
 				} else if (pg.State == UIGestureRecognizerState.Ended) {

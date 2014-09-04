@@ -52,6 +52,10 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnSelectChannel1 { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnSelectChannel2 { get; set; }
 
 		[Outlet]
@@ -113,6 +117,22 @@ namespace WFS210.UI
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnVoltUp2 { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblMarkerMeasurements1 { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblMarkerMeasurements2 { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblSignalMeasurements1 { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblSignalMeasurements2 { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -284,6 +304,10 @@ namespace WFS210.UI
 				btnProbe2.Dispose ();
 				btnProbe2 = null;
 			}
+			if (btnSelectChannel1 != null) {
+				btnSelectChannel1.Dispose ();
+				btnSelectChannel1 = null;
+			}
 			if (btnSelectChannel2 != null) {
 				btnSelectChannel2.Dispose ();
 				btnSelectChannel2 = null;
@@ -347,6 +371,22 @@ namespace WFS210.UI
 			if (btnVoltUp2 != null) {
 				btnVoltUp2.Dispose ();
 				btnVoltUp2 = null;
+			}
+			if (lblMarkerMeasurements1 != null) {
+				lblMarkerMeasurements1.Dispose ();
+				lblMarkerMeasurements1 = null;
+			}
+			if (lblMarkerMeasurements2 != null) {
+				lblMarkerMeasurements2.Dispose ();
+				lblMarkerMeasurements2 = null;
+			}
+			if (lblSignalMeasurements1 != null) {
+				lblSignalMeasurements1.Dispose ();
+				lblSignalMeasurements1 = null;
+			}
+			if (lblSignalMeasurements2 != null) {
+				lblSignalMeasurements2.Dispose ();
+				lblSignalMeasurements2 = null;
 			}
 			if (lblTime != null) {
 				lblTime.Dispose ();
