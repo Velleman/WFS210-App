@@ -325,10 +325,11 @@ namespace WFS210.UI
 						}
 					}
 				} else if (lp.State == UIGestureRecognizerState.Ended) {
-
+					closestMarker = null;
 				}
 			});
 			longPressGesture.MinimumPressDuration = 0.1d;
+			longPressGesture.AllowableMovement = 100f;
 			this.AddGestureRecognizer (longPressGesture);
 		}
 
@@ -343,26 +344,42 @@ namespace WFS210.UI
 			foreach (Marker marker in allMarkers) {
 				distanceX = Math.Abs (marker.Position.X - point.X);
 				if (distanceX < closestX) {
-					closestXMarker = marker;
-					closestX = distanceX;
+					if(marker is XMarker)
+					{
+						closestXMarker = marker;
+						closestX = distanceX;
+					}
 				}
 			}
 
 			foreach (Marker marker in allMarkers) {
 				distanceY = Math.Abs (marker.Position.Y - point.Y);
 				if (distanceY < closestY) {
-					closestYMarker = marker;
-					closestY = distanceY;
+					if (!(marker is XMarker)) {
+						closestYMarker = marker;
+						closestY = distanceY;
+					}
 				}
 			}
 
-			if (Math.Abs (closestX) < Math.Abs (closestY)) {
-				Console.WriteLine (closestXMarker.Name);
-				return closestXMarker;
-			} else {
-				Console.WriteLine (closestYMarker.Name);
-				return closestYMarker;
-			}
+				if (Math.Abs (closestX) < Math.Abs (closestY)) {
+					if(Math.Abs (closestX) < 60)
+					{
+					Console.WriteLine (closestXMarker.Name);
+					return closestXMarker;
+					}
+					else
+						return null;
+				} else {
+					if(Math.Abs (closestY) < 60)
+					{
+					Console.WriteLine (closestYMarker.Name);
+					return closestYMarker;
+					}
+					else
+						return null;
+				}
+
 		}
 
 	}
