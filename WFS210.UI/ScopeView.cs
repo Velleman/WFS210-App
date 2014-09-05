@@ -306,11 +306,21 @@ namespace WFS210.UI
 					if (closestMarker != null) {
 						if (closestMarker is XMarker) {
 							var position = closestMarker.Position;
-							position.X = lp.LocationInView (this).X;
+							var touchPos = lp.LocationInView(this).X;
+							if(touchPos > 0)
+							{
+								if(touchPos < this.Frame.Width)
+									position.X = lp.LocationInView (this).X;
+							}
 							closestMarker.Position = position;
 						} else {
 							var position = closestMarker.Position;
-							position.Y = lp.LocationInView (this).Y;
+							var touchPos = lp.LocationInView(this).Y;
+							if(touchPos > 0)
+							{
+								if(touchPos < this.Frame.Height)
+									position.Y = lp.LocationInView (this).Y;
+							}
 							closestMarker.Position = position;
 						}
 					}
