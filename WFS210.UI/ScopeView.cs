@@ -10,6 +10,8 @@ namespace WFS210.UI
 {
 	public partial class ScopeView : UIView
 	{
+		public int GrappleDistance { get; set; }
+
 		CGPath path;
 		PointF initialPoint;
 		PointF latestPoint;
@@ -38,6 +40,8 @@ namespace WFS210.UI
 		/// <param name="handle">Handle.</param>
 		public ScopeView (IntPtr handle) : base (handle)
 		{
+			this.GrappleDistance = 60;
+
 			path = new CGPath ();
 
 			tool = new WFS210Tools ();
@@ -301,7 +305,7 @@ namespace WFS210.UI
 			longPressGesture = new UILongPressGestureRecognizer ((lp) => {
 				if (lp.State == UIGestureRecognizerState.Began) {
 					initialPoint = lp.LocationInView (this);
-					closestMarker = GetClosestMarker (initialPoint);
+					closestMarker = GetMarkerAt (initialPoint);
 				} else if (lp.State == UIGestureRecognizerState.Changed) {
 					if (closestMarker != null) {
 						if (closestMarker is XMarker) {
@@ -333,53 +337,39 @@ namespace WFS210.UI
 			this.AddGestureRecognizer (longPressGesture);
 		}
 
-		private Marker GetClosestMarker (PointF point)
+		private float HitTest(PointF pt, Marker marker)
 		{
-			Marker closestXMarker = null;
-			Marker closestYMarker = null;
-			float distanceX;
-			float distanceY;
-			float closestX, closestY;
-			closestX = closestY = float.MaxValue;
-			foreach (Marker marker in allMarkers) {
-				distanceX = Math.Abs (marker.Position.X - point.X);
-				if (distanceX < closestX) {
-					if(marker is XMarker)
-					{
-						closestXMarker = marker;
-						closestX = distanceX;
+			float distance;
+
+			if (marker.Layout == MarkerLayout.Horizontal) {
+				distance = Math.Abs (marker.Position.Y - pt.Y);
+			} else {
+				distance = Math.Abs (marker.Position.X - pt.X);
+			}
+
+			return distance;
+		}
+
+		private Marker GetMarkerAt (PointF pt)
+		{
+			Marker closestMarker = null;
+
+			float distance, lastDistance = Frame.Width;
+
+			for (int i = 0; i < allMarkers.Count; i++) {
+			
+				distance = HitTest (pt, allMarkers [i]);
+				if (distance < GrappleDistance) {
+
+					if ((i == 0) || (distance < lastDistance)) {
+
+						closestMarker = allMarkers [i];
+						lastDistance = distance;
 					}
 				}
 			}
 
-			foreach (Marker marker in allMarkers) {
-				distanceY = Math.Abs (marker.Position.Y - point.Y);
-				if (distanceY < closestY) {
-					if (!(marker is XMarker)) {
-						closestYMarker = marker;
-						closestY = distanceY;
-					}
-				}
-			}
-
-				if (Math.Abs (closestX) < Math.Abs (closestY)) {
-					if(Math.Abs (closestX) < 60)
-					{
-					Console.WriteLine (closestXMarker.Name);
-					return closestXMarker;
-					}
-					else
-						return null;
-				} else {
-					if(Math.Abs (closestY) < 60)
-					{
-					Console.WriteLine (closestYMarker.Name);
-					return closestYMarker;
-					}
-					else
-						return null;
-				}
-
+			return closestMarker;
 		}
 
 	}

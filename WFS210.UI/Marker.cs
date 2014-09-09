@@ -7,15 +7,22 @@ namespace WFS210.UI
 {
 	public class Marker
 	{
-		protected int VariablePosition{ get; set;}
-		private PointF position;
-		protected UIImage Image{ get; set;}
-		public string Name{ get; set;}
-		public CALayer Layer{ get; set;}
-		public Marker (string resourceUrl,string name)
+		public MarkerLayout Layout { get; set; }
+
+		protected UIImage Image { get; set; }
+
+		public string Name { get; set; }
+
+		public CALayer Layer { get; set; }
+
+		public Marker (string resourceUrl, string name, MarkerLayout layout)
 		{
+			this.Layout = layout;
+
 			Image = UIImage.FromFile (resourceUrl);
+
 			Name = name;
+
 			Layer = new CALayer ();
 			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height );
 			Layer.Position = Position;
@@ -24,10 +31,13 @@ namespace WFS210.UI
 
 		public PointF Position
 		{
-			get{ return position;}
-			set{ 
-				position = value;
-				Layer.Position = position;
+			get
+			{
+				return Layer.Position;
+			}
+			set
+			{ 
+				Layer.Position = value;
 			}
 		}
 	}

@@ -7,7 +7,7 @@ namespace WFS210.UI
 {
 	public class TriggerMarker : Marker
 	{
-		public TriggerMarker (string resource,int pos,string name) : base(resource,name)
+		public TriggerMarker (string resource,int pos,string name) : base(resource, name, MarkerLayout.Horizontal)
 		{
 			Position = new PointF(Image.CGImage.Width/2 - 18 ,pos);
 		}

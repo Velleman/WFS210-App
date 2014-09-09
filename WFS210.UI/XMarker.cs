@@ -8,7 +8,7 @@ namespace WFS210.UI
 	public class XMarker : Marker
 	{
 
-		public XMarker (string resource,int pos,string name) : base(resource,name)
+		public XMarker (string resource, int pos, string name) : base(resource, name, MarkerLayout.Vertical)
 		{
 			Position = new PointF(pos , Image.CGImage.Height /2 - 18);
 		}

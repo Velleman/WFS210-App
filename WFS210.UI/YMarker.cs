@@ -7,7 +7,7 @@ namespace WFS210.UI
 {
 	public class YMarker : Marker
 	{
-		public YMarker (string resource,int pos,string name) : base(resource,name)
+		public YMarker (string resource,int pos,string name) : base(resource, name, MarkerLayout.Horizontal)
 		{
 			Position = new PointF(Image.CGImage.Width/2 - 18,pos);
 

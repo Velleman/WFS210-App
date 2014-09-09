@@ -6,7 +6,7 @@ namespace WFS210.UI
 {
 	public class ZeroLine : Marker
 	{
-		public ZeroLine (string resource,int pos,string name) : base(resource,name)
+		public ZeroLine (string resource,int pos,string name) : base(resource, name, MarkerLayout.Horizontal)
 		{
 			Position = new PointF(Image.CGImage.Width/2+1 ,pos);
 		}
