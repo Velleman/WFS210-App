@@ -70,7 +70,7 @@ namespace WFS210.UI
 			set {
 
 				wfs210 = value;
-				sampleToPointRatio = (float)this.Frame.Height / (wfs210.DeviceContext.SampleMax - wfs210.DeviceContext.SampleMin);
+				sampleToPointRatio = (float)this.Bounds.Height / (wfs210.DeviceContext.SampleMax - wfs210.DeviceContext.SampleMin);
 			}	
 		}
 
@@ -87,8 +87,8 @@ namespace WFS210.UI
 			path.AddLines (scopePoints);
 			initialPoint.X = 0;
 			initialPoint.Y = buffer [0];
-			latestPoint.X = this.Frame.Width - 1;
-			latestPoint.Y = buffer [(int)this.Frame.Width - 1];
+			latestPoint.X = this.Bounds.Width - 1;
+			latestPoint.Y = buffer [(int)this.Bounds.Width - 1];
 			path.AddLineToPoint (latestPoint);
 		}
 
@@ -159,8 +159,8 @@ namespace WFS210.UI
 		private void AddGrid ()
 		{
 			gridLayer = new CALayer ();
-			gridLayer.Bounds = new RectangleF (0, 0, Frame.Width, Frame.Height);
-			gridLayer.Position = new PointF (Frame.Width / 2, Frame.Height / 2);
+			gridLayer.Bounds = new RectangleF (0, 0, Bounds.Width, Bounds.Height);
+			gridLayer.Position = new PointF (Bounds.Width / 2, Bounds.Height / 2);
 			gridLayer.Contents = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png").CGImage;
 			Layer.AddSublayer (gridLayer);
 		}
@@ -168,8 +168,8 @@ namespace WFS210.UI
 		private void AddXMarkers ()
 		{
 			//Makeing XMarkers and adding it to the layers
-			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png", Convert.ToInt32 (Frame.Height / 1.5), "XMARKER1");
-			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png", (int)Frame.Height / 2, "XMARKER2");
+			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png", Convert.ToInt32 (Bounds.Height / 1.5), "XMARKER1");
+			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png", (int)Bounds.Height / 2, "XMARKER2");
 			Layer.AddSublayer (xMarkers [0].Layer);
 			Layer.AddSublayer (xMarkers [1].Layer);
 		}
@@ -177,8 +177,8 @@ namespace WFS210.UI
 		private void AddYMarkers ()
 		{
 			//Makeing YMarkers and adding it to the layers
-			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png", Convert.ToInt32 (Frame.Width / 1.5), "YMARKER1");
-			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png", (int)Frame.Width / 2, "YMARKER2");
+			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png", Convert.ToInt32 (Bounds.Width / 1.5), "YMARKER1");
+			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png", (int)Bounds.Width / 2, "YMARKER2");
 			Layer.AddSublayer (yMarkers [0].Layer);
 			Layer.AddSublayer (yMarkers [1].Layer);
 		}
@@ -186,8 +186,8 @@ namespace WFS210.UI
 		void AddZeroLines ()
 		{
 			//Makeing XMarkers and adding it to the layers
-			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png", Convert.ToInt32 (Frame.Height / 5), "ZEROLINE1");
-			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", (int)Frame.Height / 6, "ZEROLINE2");
+			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png", Convert.ToInt32 (Bounds.Height / 5), "ZEROLINE1");
+			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", (int)Bounds.Height / 6, "ZEROLINE2");
 			Layer.AddSublayer (zeroLines [0].Layer);
 			Layer.AddSublayer (zeroLines [1].Layer);
 		}
@@ -195,7 +195,7 @@ namespace WFS210.UI
 		private void AddTriggerMarker ()
 		{
 			//Makeing TriggerMarkers and adding it to the layers
-			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", Convert.ToInt32 (Frame.Height / 3), "TRIGGERMARKER");
+			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", Convert.ToInt32 (Bounds.Height / 3), "TRIGGERMARKER");
 			Layer.AddSublayer (trigMarker.Layer);
 		}
 
@@ -313,7 +313,7 @@ namespace WFS210.UI
 							var touchPos = lp.LocationInView(this).X;
 							if(touchPos > 0)
 							{
-								if(touchPos < this.Frame.Width)
+								if(touchPos < this.Bounds.Width)
 									position.X = lp.LocationInView (this).X;
 							}
 							closestMarker.Position = position;
@@ -322,7 +322,7 @@ namespace WFS210.UI
 							var touchPos = lp.LocationInView(this).Y;
 							if(touchPos > 0)
 							{
-								if(touchPos < this.Frame.Height)
+								if(touchPos < this.Bounds.Height)
 									position.Y = lp.LocationInView (this).Y;
 							}
 							closestMarker.Position = position;
@@ -354,7 +354,7 @@ namespace WFS210.UI
 		{
 			Marker closestMarker = null;
 
-			float distance, lastDistance = Frame.Width;
+			float distance, lastDistance = Bounds.Width;
 
 			for (int i = 0; i < Markers.Count; i++) {
 			
