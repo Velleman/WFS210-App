@@ -53,6 +53,8 @@
     <Compile Include="Util\ConversionExtension.cs" />
     <Compile Include="TriggerSlope.cs" />
     <Compile Include="DeviceContext.cs" />
+    <Compile Include="SignalGenerator.cs" />
+    <Compile Include="SignalType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
