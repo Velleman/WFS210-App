@@ -26,7 +26,7 @@ namespace WFS210.UI
 		ZeroLine[] zeroLines = new ZeroLine[2];
 		TriggerMarker trigMarker;
 
-		List<Marker> allMarkers = new List<Marker> ();
+		public List<Marker> Markers = new List<Marker> ();
 
 		CALayer gridLayer;
 
@@ -210,13 +210,13 @@ namespace WFS210.UI
 
 		void FillList ()
 		{
-			allMarkers.Add (xMarkers [0]);
-			allMarkers.Add (xMarkers [1]);
-			allMarkers.Add (yMarkers [0]);
-			allMarkers.Add (yMarkers [1]);
-			allMarkers.Add (trigMarker);
-			allMarkers.Add (zeroLines [0]);
-			allMarkers.Add (zeroLines [1]);
+			Markers.Add (xMarkers [0]);
+			Markers.Add (xMarkers [1]);
+			Markers.Add (yMarkers [0]);
+			Markers.Add (yMarkers [1]);
+			Markers.Add (trigMarker);
+			Markers.Add (zeroLines [0]);
+			Markers.Add (zeroLines [1]);
 		}
 
 
@@ -356,14 +356,14 @@ namespace WFS210.UI
 
 			float distance, lastDistance = Frame.Width;
 
-			for (int i = 0; i < allMarkers.Count; i++) {
+			for (int i = 0; i < Markers.Count; i++) {
 			
-				distance = HitTest (pt, allMarkers [i]);
+				distance = HitTest (pt, Markers [i]);
 				if (distance < GrappleDistance) {
 
 					if ((i == 0) || (distance < lastDistance)) {
 
-						closestMarker = allMarkers [i];
+						closestMarker = Markers [i];
 						lastDistance = distance;
 					}
 				}
