@@ -19,6 +19,11 @@ namespace WFS210.IO
 		/// <value>The data.</value>
 		public byte[] Payload { get; set; }
 
+		public Message (byte command) : this (command, null)
+		{
+
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.IO.Message"/> class.
 		/// </summary>
@@ -29,8 +34,6 @@ namespace WFS210.IO
 			this.Command = command;
 			this.Payload = payload;
 		}
-
-		// TODO: Add timestamp?
 	}
 }
 

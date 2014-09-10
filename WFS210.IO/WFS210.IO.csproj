@@ -48,6 +48,14 @@
     <Compile Include="MessageWriter.cs" />
     <Compile Include="TcpConnection.cs" />
     <Compile Include="MessageSerializer.cs" />
+    <Compile Include="PacketSerializer.cs" />
+    <Compile Include="RemoteService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\WFS210\WFS210.csproj">
+      <Project>{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}</Project>
+      <Name>WFS210</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
