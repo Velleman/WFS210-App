@@ -337,34 +337,61 @@ namespace WFS210.UI
 			this.AddGestureRecognizer (longPressGesture);
 		}
 
-		private float HitTest(PointF pt, Marker marker)
+		/// <summary>
+		/// Returns the distance from the point to the marker. This value can
+		/// be used to check if the marker has been hit.
+		/// </summary>
+		/// <returns>The distance from the point to the marker.</returns>
+		/// <param name="pt">Point.</param>
+		/// <param name="marker">Marker.</param>
+		public int HitTest (PointF pt, Marker marker)
 		{
-			float distance;
+			int distance;
+
+			// Note: If the line is vertical, then we need to return the horizontal distance, and vice versa.
 
 			if (marker.Layout == MarkerLayout.Horizontal) {
-				distance = Math.Abs (marker.Position.Y - pt.Y);
+				distance = (int)Math.Abs (marker.Position.Y - pt.Y); // vertical distance
 			} else {
-				distance = Math.Abs (marker.Position.X - pt.X);
+				distance = (int)Math.Abs (marker.Position.X - pt.X); // horizontal distance
 			}
 
 			return distance;
 		}
 
-		private Marker GetMarkerAt (PointF pt)
+		/// <summary>
+		/// Gets the marker at the specified touch position that is
+		/// within grapple distance.
+		/// </summary>
+		/// <returns>The closest <see cref="WFS210.UI.Marker"/>, null if no marker is within
+		/// grapple distance.</returns>
+		/// <param name="pt">Touch position.</param>
+		public Marker GetMarkerAt (PointF pt)
 		{
 			Marker closestMarker = null;
 
-			float distance, lastDistance = Bounds.Width;
+			float distance, lastDistance = GrappleDistance;
+
+			// Here we will loop over all markers in an attempt
+			// to find the marker closest to the touch position.
 
 			for (int i = 0; i < Markers.Count; i++) {
 			
+				// First, we calculate the distance between the marker
+				// line and the touch position. If this distance is within
+				// grapple distance, then we have a hit.
+
 				distance = HitTest (pt, Markers [i]);
 				if (distance < GrappleDistance) {
+
+					// Check if this new hit is closer than the previous
+					// hit. If it is, the current marker will be the
+					// new closest marker.
 
 					if ((i == 0) || (distance < lastDistance)) {
 
 						closestMarker = Markers [i];
-						lastDistance = distance;
+						lastDistance = distance; // save
 					}
 				}
 			}
