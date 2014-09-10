@@ -50,12 +50,15 @@
     <Compile Include="TriggerMode.cs" />
     <Compile Include="AttenuationFactor.cs" />
     <Compile Include="InputCoupling.cs" />
-    <Compile Include="Util\ConversionExtension.cs" />
     <Compile Include="TriggerSlope.cs" />
     <Compile Include="DeviceContext.cs" />
     <Compile Include="SignalGenerator.cs" />
     <Compile Include="SignalType.cs" />
-    <Compile Include="Util\CultureExtension.cs" />
+    <Compile Include="Util\VoltageConverter.cs" />
+    <Compile Include="Util\TimeConverter.cs" />
+    <Compile Include="Util\TimeBaseConverter.cs" />
+    <Compile Include="Util\VoltsPerDivisionConverter.cs" />
+    <Compile Include="Util\UnitConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
