@@ -2,6 +2,7 @@
 using MonoTouch.UIKit;
 using System.Drawing;
 using MonoTouch.CoreAnimation;
+using MonoTouch.Foundation;
 
 namespace WFS210.UI
 {
@@ -37,8 +38,8 @@ namespace WFS210.UI
 				Layer.Position = value;
 
 				CATransaction.Begin ();
-				CATransaction.ValueForKey (CATransaction.DisableActionsKey);
 				Layer.Position = Position;
+				Layer.RemoveAnimation ("position");
 				CATransaction.Commit ();
 			}
 		}
