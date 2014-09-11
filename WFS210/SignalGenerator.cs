@@ -1,9 +1,13 @@
 ﻿using System;
 
+using WFS210.Util;
+
 namespace WFS210
 {
 	public class SignalGenerator
 	{
+		public SignalType SignalType { get; set; }
+
 		public double Frequency { get; set; }
 
 		public double Amplitude { get; set; }
@@ -14,6 +18,7 @@ namespace WFS210
 
 		public SignalGenerator ()
 		{
+			this.SignalType = SignalType.Sine;
 			this.Frequency = 100;
 			this.Amplitude = 5;
 			this.Phase = 0;
@@ -79,14 +84,9 @@ namespace WFS210
 					Phase = Math.PI - Math.Asin ((tl - (channel.YPosition - o)) / a);
 				}
 
-				double value = Math.Round(channel.YPosition - gnd * (o + a * Math.Sin(2 * Math.PI * Frequency * t + Phase)));
+				int value = (int)Math.Round(channel.YPosition - gnd * (o + a * Math.Sin(2 * Math.PI * Frequency * t + Phase)));
 
-				if (value < 0)
-					value = 0;
-				else if (value > 255)
-					value = 255;
-
-				channel.Samples[i] = (byte)value;
+				channel.Samples [i] = (byte)value.LimitToRange (0, 255);
 			}
 		}
 	}
