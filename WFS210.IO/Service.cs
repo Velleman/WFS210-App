@@ -10,7 +10,14 @@ namespace WFS210.IO
 
 		public TcpConnection Connection { get; private set; }
 
-		public SettingsDelegate SettingsChanged;
+		public event EventHandler SettingsChanged;
+
+		public void OnSettingsChanged(EventArgs e)
+		{
+			if (SettingsChanged != null) {
+				SettingsChanged (this, e);
+			}
+		}
 
 		public Service (Oscilloscope oscilloscope, TcpConnection connection)
 		{
