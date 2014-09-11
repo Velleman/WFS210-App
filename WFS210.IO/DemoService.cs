@@ -19,7 +19,7 @@ namespace WFS210.IO
 
 		public override void RequestSettings ()
 		{
-			SettingsChanged ();
+			OnSettingsChanged (new EventArgs ());
 		}
 
 		public override void Update ()
