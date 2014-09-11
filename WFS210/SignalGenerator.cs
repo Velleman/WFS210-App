@@ -4,8 +4,6 @@ namespace WFS210
 {
 	public class SignalGenerator
 	{
-		public SignalType Signal { get; set; }
-
 		public double Frequency { get; set; }
 
 		public double Amplitude { get; set; }
@@ -16,7 +14,6 @@ namespace WFS210
 
 		public SignalGenerator ()
 		{
-			this.Signal = SignalType.Sine;
 			this.Frequency = 100;
 			this.Amplitude = 5;
 			this.Phase = 0;
