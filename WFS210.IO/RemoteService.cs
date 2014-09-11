@@ -6,10 +6,12 @@ namespace WFS210.IO
 {
 	public class RemoteService : Service
 	{
-		public RemoteService (Oscilloscope oscilloscope, TcpConnection connection)
-			: base(oscilloscope, connection)
-		{
+		public TcpConnection Connection { get; private set; }
 
+		public RemoteService (Oscilloscope oscilloscope, TcpConnection connection)
+			: base(oscilloscope)
+		{
+			this.Connection = connection;
 		}
 
 		public override void ApplySettings ()

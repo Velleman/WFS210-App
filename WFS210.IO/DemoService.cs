@@ -6,8 +6,8 @@ namespace WFS210.IO
 	{
 		private SignalGenerator Generator { get; set; }
 
-		public DemoService (Oscilloscope oscilloscope, TcpConnection connection)
-			: base(oscilloscope, connection)
+		public DemoService (Oscilloscope oscilloscope)
+			: base(oscilloscope)
 		{
 			Generator = new SignalGenerator ();
 		}

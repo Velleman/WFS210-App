@@ -8,8 +8,6 @@ namespace WFS210.IO
 	{
 		public Oscilloscope Oscilloscope { get; private set; }
 
-		public TcpConnection Connection { get; private set; }
-
 		public event EventHandler SettingsChanged;
 
 		public void OnSettingsChanged(EventArgs e)
@@ -19,10 +17,9 @@ namespace WFS210.IO
 			}
 		}
 
-		public Service (Oscilloscope oscilloscope, TcpConnection connection)
+		protected Service (Oscilloscope oscilloscope)
 		{
 			this.Oscilloscope = oscilloscope;
-			this.Connection = connection;
 		}
 
 		public abstract void ApplySettings ();
