@@ -18,7 +18,7 @@ namespace WFS210
 		{
 			this.Signal = SignalType.Sine;
 			this.Frequency = 100;
-			this.Amplitude = 40;
+			this.Amplitude = 5;
 			this.Phase = 0;
 			this.Offset = 5;
 		}
@@ -82,7 +82,14 @@ namespace WFS210
 					Phase = Math.PI - Math.Asin ((tl - (channel.YPosition - o)) / a);
 				}
 
-				channel.Samples [i] = (byte)Math.Round(channel.YPosition - gnd * (o + a * Math.Sin(2 * Math.PI * Frequency * t + Phase)));
+				double value = Math.Round(channel.YPosition - gnd * (o + a * Math.Sin(2 * Math.PI * Frequency * t + Phase)));
+
+				if (value < 0)
+					value = 0;
+				else if (value > 255)
+					value = 255;
+
+				channel.Samples[i] = (byte)value;
 			}
 		}
 	}
