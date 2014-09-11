@@ -4,11 +4,11 @@ using System.ComponentModel.Design;
 
 namespace WFS210.IO
 {
-	public class RemoteService : Service
+	public class LiveService : Service
 	{
 		public TcpConnection Connection { get; private set; }
 
-		public RemoteService (Oscilloscope oscilloscope, TcpConnection connection)
+		public LiveService (Oscilloscope oscilloscope, TcpConnection connection)
 			: base(oscilloscope)
 		{
 			this.Connection = connection;

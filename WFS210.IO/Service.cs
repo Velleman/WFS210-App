@@ -12,7 +12,8 @@ namespace WFS210.IO
 
 		public void OnSettingsChanged(EventArgs e)
 		{
-			if (SettingsChanged != null) {
+			if (SettingsChanged != null) 
+			{
 				SettingsChanged (this, e);
 			}
 		}
