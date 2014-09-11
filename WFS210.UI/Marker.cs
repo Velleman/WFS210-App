@@ -32,24 +32,14 @@ namespace WFS210.UI
 
 		public PointF Position
 		{
-<<<<<<< HEAD
-			get
-			{
-				return Layer.Position;
-			}
-			set
-			{ 
-				Layer.Position = value;
-=======
-			get{ return position;}
+			get{ return Layer.Position;}
 			set{ 
-				position = value;
+				Layer.Position = value;
 
 				CATransaction.Begin ();
 				CATransaction.ValueForKey (CATransaction.DisableActionsKey);
 				Layer.Position = Position;
 				CATransaction.Commit ();
->>>>>>> Stash
 			}
 		}
 	}

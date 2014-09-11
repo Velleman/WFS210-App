@@ -53,7 +53,6 @@
     <Compile Include="InputCoupling.cs" />
     <Compile Include="TriggerSlope.cs" />
     <Compile Include="DeviceContext.cs" />
-<<<<<<< HEAD
     <Compile Include="SignalGenerator.cs" />
     <Compile Include="SignalType.cs" />
     <Compile Include="Util\VoltageConverter.cs" />
@@ -61,9 +60,7 @@
     <Compile Include="Util\TimeBaseConverter.cs" />
     <Compile Include="Util\VoltsPerDivisionConverter.cs" />
     <Compile Include="Util\UnitConverter.cs" />
-=======
     <Compile Include="Util\MarkerDataCalculator.cs" />
->>>>>>> Stash
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />

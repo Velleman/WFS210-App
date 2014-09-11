@@ -26,12 +26,8 @@ namespace WFS210.UI
 		public YMarker[] yMarkers = new YMarker[2];
 		ZeroLine[] zeroLines = new ZeroLine[2];
 		TriggerMarker trigMarker;
-<<<<<<< HEAD
 
 		public List<Marker> Markers = new List<Marker> ();
-=======
-		List<Marker> allMarkers = new List<Marker> ();
->>>>>>> Stash
 
 		CALayer gridLayer;
 
@@ -169,7 +165,7 @@ namespace WFS210.UI
 
 		public void DisableMarkers ()
 		{
-			foreach (Marker m in allMarkers) {
+			foreach (Marker m in Markers) {
 				m.Layer.Opacity = 0f;
 			}
 			MarkersAreVisible = false;
@@ -177,7 +173,7 @@ namespace WFS210.UI
 
 		public void EnableMarkers ()
 		{
-			foreach (Marker m in allMarkers) {
+			foreach (Marker m in Markers) {
 				m.Layer.Opacity = 255f;
 			}
 			MarkersAreVisible = true;
@@ -238,7 +234,6 @@ namespace WFS210.UI
 
 		void FillList ()
 		{
-<<<<<<< HEAD
 			Markers.Add (xMarkers [0]);
 			Markers.Add (xMarkers [1]);
 			Markers.Add (yMarkers [0]);
@@ -246,16 +241,6 @@ namespace WFS210.UI
 			Markers.Add (trigMarker);
 			Markers.Add (zeroLines [0]);
 			Markers.Add (zeroLines [1]);
-=======
-			allMarkers.Add (xMarkers [0]);
-			allMarkers.Add (xMarkers [1]);
-			allMarkers.Add (yMarkers [0]);
-			allMarkers.Add (yMarkers [1]);
-			allMarkers.Add (trigMarker);
-			allMarkers.Add (zeroLines [0]);
-			allMarkers.Add (zeroLines [1]);
-			MarkersAreVisible = true;
->>>>>>> Stash
 		}
 
 

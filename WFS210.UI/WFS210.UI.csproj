@@ -125,9 +125,7 @@
     <Compile Include="SettingsViewController.designer.cs">
       <DependentUpon>SettingsViewController.cs</DependentUpon>
     </Compile>
-<<<<<<< HEAD
     <Compile Include="MarkerLayout.cs" />
-=======
     <Compile Include="MeasurementsViewController.cs" />
     <Compile Include="MeasurementsViewController.designer.cs">
       <DependentUpon>MeasurementsViewController.cs</DependentUpon>
@@ -137,7 +135,6 @@
     <Compile Include="SignalUnit.cs" />
     <Compile Include="SignalMeasurement.cs" />
     <Compile Include="MarkerMeasurement.cs" />
->>>>>>> Stash
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
