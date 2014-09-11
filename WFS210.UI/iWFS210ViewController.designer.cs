@@ -44,6 +44,14 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnMarkerMeasurements { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnMarkerMeasurements2 { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnProbe1 { get; set; }
 
 		[Outlet]
@@ -61,6 +69,14 @@ namespace WFS210.UI
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnSettings { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnSignalMeasurements { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnSignalMeasurements2 { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -120,22 +136,6 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblMarkerMeasurements1 { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblMarkerMeasurements2 { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblSignalMeasurements1 { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblSignalMeasurements2 { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblTime { get; set; }
 
 		[Outlet]
@@ -190,6 +190,14 @@ namespace WFS210.UI
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnGND2_TouchUpInside (UIButton sender);
 
+		[Action ("btnMarkerMeasurements_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender);
+
+		[Action ("btnMarkerMeasurements2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnMarkerMeasurements2_TouchUpInside (UIButton sender);
+
 		[Action ("btnProbe1_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnProbe1_TouchUpInside (UIButton sender);
@@ -209,6 +217,14 @@ namespace WFS210.UI
 		[Action ("btnSettings_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnSettings_TouchUpInside (UIButton sender);
+
+		[Action ("btnSignalMeasurements_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnSignalMeasurements_TouchUpInside (UIButton sender);
+
+		[Action ("btnSignalMeasurements2_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnSignalMeasurements2_TouchUpInside (UIButton sender);
 
 		[Action ("btnTimeLeft_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -296,6 +312,14 @@ namespace WFS210.UI
 				btnGND2.Dispose ();
 				btnGND2 = null;
 			}
+			if (btnMarkerMeasurements != null) {
+				btnMarkerMeasurements.Dispose ();
+				btnMarkerMeasurements = null;
+			}
+			if (btnMarkerMeasurements2 != null) {
+				btnMarkerMeasurements2.Dispose ();
+				btnMarkerMeasurements2 = null;
+			}
 			if (btnProbe1 != null) {
 				btnProbe1.Dispose ();
 				btnProbe1 = null;
@@ -315,6 +339,14 @@ namespace WFS210.UI
 			if (btnSettings != null) {
 				btnSettings.Dispose ();
 				btnSettings = null;
+			}
+			if (btnSignalMeasurements != null) {
+				btnSignalMeasurements.Dispose ();
+				btnSignalMeasurements = null;
+			}
+			if (btnSignalMeasurements2 != null) {
+				btnSignalMeasurements2.Dispose ();
+				btnSignalMeasurements2 = null;
 			}
 			if (btnTimeLeft != null) {
 				btnTimeLeft.Dispose ();
@@ -371,22 +403,6 @@ namespace WFS210.UI
 			if (btnVoltUp2 != null) {
 				btnVoltUp2.Dispose ();
 				btnVoltUp2 = null;
-			}
-			if (lblMarkerMeasurements1 != null) {
-				lblMarkerMeasurements1.Dispose ();
-				lblMarkerMeasurements1 = null;
-			}
-			if (lblMarkerMeasurements2 != null) {
-				lblMarkerMeasurements2.Dispose ();
-				lblMarkerMeasurements2 = null;
-			}
-			if (lblSignalMeasurements1 != null) {
-				lblSignalMeasurements1.Dispose ();
-				lblSignalMeasurements1 = null;
-			}
-			if (lblSignalMeasurements2 != null) {
-				lblSignalMeasurements2.Dispose ();
-				lblSignalMeasurements2 = null;
 			}
 			if (lblTime != null) {
 				lblTime.Dispose ();

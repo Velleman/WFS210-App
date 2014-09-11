@@ -125,7 +125,19 @@
     <Compile Include="SettingsViewController.designer.cs">
       <DependentUpon>SettingsViewController.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="MarkerLayout.cs" />
+=======
+    <Compile Include="MeasurementsViewController.cs" />
+    <Compile Include="MeasurementsViewController.designer.cs">
+      <DependentUpon>MeasurementsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewDataEventArgs.cs" />
+    <Compile Include="MarkerUnit.cs" />
+    <Compile Include="SignalUnit.cs" />
+    <Compile Include="SignalMeasurement.cs" />
+    <Compile Include="MarkerMeasurement.cs" />
+>>>>>>> Stash
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -208,5 +220,20 @@
     <BundleResource Include="Resources\VIEWPORT\VIEWPORT-130x78.png" />
     <BundleResource Include="Resources\ZEROLINE\ZERO-CHAN1-131x__.png" />
     <BundleResource Include="Resources\ZEROLINE\ZERO-CHAN2-131x__.png" />
+    <BundleResource Include="Resources\Icon-76.png" />
+    <BundleResource Include="Resources\Icon-72%402x.png" />
+    <BundleResource Include="Resources\Icon-76%402x.png" />
+    <BundleResource Include="Resources\Icon-72.png" />
+    <BundleResource Include="Resources\Icon-Small.png" />
+    <BundleResource Include="Resources\Icon-Small-50.png" />
+    <BundleResource Include="Resources\Icon-Small-40.png" />
+    <BundleResource Include="Resources\Icon-Small-40%402x.png" />
+    <BundleResource Include="Resources\Icon-Small%402x.png" />
+    <BundleResource Include="Resources\Icon-Small-50%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage-1.launchimage\Default-Landscape.png" />
   </ItemGroup>
 </Project>

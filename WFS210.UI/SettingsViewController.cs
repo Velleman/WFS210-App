@@ -7,6 +7,7 @@ namespace WFS210.UI
 {
 	partial class SettingsViewController : UIViewController
 	{
+
 		public SettingsViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -15,8 +16,11 @@ namespace WFS210.UI
 		{
 			base.ViewDidLoad ();
 			btnDismiss.TouchUpInside += (object sender, EventArgs e) => {
-				this.DismissViewController(true,null);
+				var parent = this.PresentingViewController as iWFS210ViewController;
+				parent.DismissSettingsViewController();
 			};
 		}
+
+
 	}
 }

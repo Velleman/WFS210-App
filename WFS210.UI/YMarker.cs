@@ -21,6 +21,10 @@ namespace WFS210.UI
 				pos.Y = value;
 				Position = pos;
 			}
+			get
+			{ 
+				return Convert.ToInt32(Position.Y);
+			}
 		}
 	}
 }

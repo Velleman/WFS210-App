@@ -21,19 +21,26 @@ namespace WFS210.UI
 		Trace[] traces = new Trace[2];
 		float sampleToPointRatio;
 		public Channel SelectedChannel{ get;set;}
-		XMarker[] xMarkers = new XMarker[2];
-		YMarker[] yMarkers = new YMarker[2];
+		public bool MarkersAreVisible { get; private set;}
+		public XMarker[] xMarkers = new XMarker[2];
+		public YMarker[] yMarkers = new YMarker[2];
 		ZeroLine[] zeroLines = new ZeroLine[2];
 		TriggerMarker trigMarker;
+<<<<<<< HEAD
 
 		public List<Marker> Markers = new List<Marker> ();
+=======
+		List<Marker> allMarkers = new List<Marker> ();
+>>>>>>> Stash
 
 		CALayer gridLayer;
 
 		UIPinchGestureRecognizer pinchGesture;
 		UILongPressGestureRecognizer longPressGesture;
+		UIPanGestureRecognizer panGesture;
+		public VoltTimeIndicator vti;
 
-		VoltTimeIndicator vti;
+		public event EventHandler<NewDataEventArgs> NewData;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="iWFS210.ScopeView"/> class.
 		/// </summary>
@@ -64,6 +71,12 @@ namespace WFS210.UI
 
 			RegisterPinchRecognizer ();
 
+		}
+
+		protected virtual void OnNewData(NewDataEventArgs e)
+		{
+			if (NewData != null)
+				NewData (this, e);
 		}
 
 		public Oscilloscope Wfs210 {
@@ -154,6 +167,21 @@ namespace WFS210.UI
 			}       
 		}
 
+		public void DisableMarkers ()
+		{
+			foreach (Marker m in allMarkers) {
+				m.Layer.Opacity = 0f;
+			}
+			MarkersAreVisible = false;
+		}
+
+		public void EnableMarkers ()
+		{
+			foreach (Marker m in allMarkers) {
+				m.Layer.Opacity = 255f;
+			}
+			MarkersAreVisible = true;
+		}
 
 
 		private void AddGrid ()
@@ -210,6 +238,7 @@ namespace WFS210.UI
 
 		void FillList ()
 		{
+<<<<<<< HEAD
 			Markers.Add (xMarkers [0]);
 			Markers.Add (xMarkers [1]);
 			Markers.Add (yMarkers [0]);
@@ -217,6 +246,16 @@ namespace WFS210.UI
 			Markers.Add (trigMarker);
 			Markers.Add (zeroLines [0]);
 			Markers.Add (zeroLines [1]);
+=======
+			allMarkers.Add (xMarkers [0]);
+			allMarkers.Add (xMarkers [1]);
+			allMarkers.Add (yMarkers [0]);
+			allMarkers.Add (yMarkers [1]);
+			allMarkers.Add (trigMarker);
+			allMarkers.Add (zeroLines [0]);
+			allMarkers.Add (zeroLines [1]);
+			MarkersAreVisible = true;
+>>>>>>> Stash
 		}
 
 
@@ -272,11 +311,27 @@ namespace WFS210.UI
 					}
 				} else if (pg.State == UIGestureRecognizerState.Ended) {
 					vti.Hidden = true;
+					OnNewData(new NewDataEventArgs());
 				}
 			});
-
 			this.AddGestureRecognizer (pinchGesture);
 		}
+
+		void RegisterPanGestureRecognizer()
+		{
+			panGesture = new UIPanGestureRecognizer ((pg) => {
+				if (pg.State == UIGestureRecognizerState.Began) {
+					Console.WriteLine("PAN BEGAN");
+				} else if (pg.State == UIGestureRecognizerState.Changed) {
+					Console.WriteLine("PAN CHANGE");
+				} else if (pg.State == UIGestureRecognizerState.Ended) {
+					Console.WriteLine("PAN END");
+				}
+			});
+			this.AddGestureRecognizer (panGesture);
+		}
+
+
 
 		private bool isHorizontal (PointF firstPoint, PointF secondPoint)
 		{
@@ -330,6 +385,7 @@ namespace WFS210.UI
 					}
 				} else if (lp.State == UIGestureRecognizerState.Ended) {
 					closestMarker = null;
+					OnNewData(new NewDataEventArgs());
 				}
 			});
 			longPressGesture.MinimumPressDuration = 0.1d;

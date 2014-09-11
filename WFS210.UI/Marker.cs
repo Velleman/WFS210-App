@@ -27,10 +27,12 @@ namespace WFS210.UI
 			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height );
 			Layer.Position = Position;
 			Layer.Contents = Image.CGImage;
+			Layer.RemoveAllAnimations ();
 		}
 
 		public PointF Position
 		{
+<<<<<<< HEAD
 			get
 			{
 				return Layer.Position;
@@ -38,6 +40,16 @@ namespace WFS210.UI
 			set
 			{ 
 				Layer.Position = value;
+=======
+			get{ return position;}
+			set{ 
+				position = value;
+
+				CATransaction.Begin ();
+				CATransaction.ValueForKey (CATransaction.DisableActionsKey);
+				Layer.Position = Position;
+				CATransaction.Commit ();
+>>>>>>> Stash
 			}
 		}
 	}
