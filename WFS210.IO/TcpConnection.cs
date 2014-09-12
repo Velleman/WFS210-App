@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
@@ -23,12 +23,17 @@ namespace WFS210.IO
 		/// <summary>
 		/// Underlying client used for TCP communication.
 		/// </summary>
-		protected TcpClient client;
+		protected TcpClient Client;
 
 		/// <summary>
 		/// Writer in charge of writing packet objects from the network stream.
 		/// </summary>
-		protected MessageWriter writer;
+		protected MessageWriter Writer;
+
+		/// <summary>
+		/// The reader.
+		/// </summary>
+		protected MessageReader Reader;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.IO.TcpConnection"/> class.
@@ -74,12 +79,16 @@ namespace WFS210.IO
 		/// <param name="remoteEP">Remote network endpoint</param>
 		public bool Connect(IPEndPoint remoteEP)
 		{
-			client = new TcpClient ();
-			client.Connect (remoteEP);
+			Client = new TcpClient ();
+			Client.Connect (remoteEP);
 
 			if (Connected) {
-				
-				writer = new MessageWriter (client.GetStream (), new PacketSerializer ());
+
+				BinaryReader hello = new BinaryReader (Client.GetStream ());
+				/*byte[] helloString = */hello.ReadBytes (7); // *HELLO*
+
+				Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());
+				Reader = new MessageReader (Client.GetStream (), new PacketSerializer ());
 			}
 
 			return Connected;
@@ -90,7 +99,7 @@ namespace WFS210.IO
 		/// </summary>
 		/// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
 		public bool Connected {
-			get { return ((client != null) && (client.Connected)); }
+			get { return ((Client != null) && (Client.Connected)); }
 		}
 
 		/// <summary>
@@ -100,18 +109,26 @@ namespace WFS210.IO
 		{
 			if (Connected) {
 
-				client.Close ();
-				client = null;
+				Client.Close ();
+				Client = null;
 			}
 		}
 
 		/// <summary>
-		/// Write a packet to the connection
+		/// Write the specified message.
 		/// </summary>
-		/// <param name="packet">Packet.</param>
+		/// <param name="message">Message.</param>
 		public void Write (Message message)
 		{
-			writer.Write (message);
+			Writer.Write (message);
+		}
+
+		/// <summary>
+		/// Read a message.
+		/// </summary>
+		public Message Read ()
+		{
+			return Reader.Read ();
 		}
 	}
 }

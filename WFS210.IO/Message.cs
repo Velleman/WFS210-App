@@ -19,6 +19,10 @@ namespace WFS210.IO
 		/// <value>The data.</value>
 		public byte[] Payload { get; set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.IO.Message"/> class.
+		/// </summary>
+		/// <param name="command">Command.</param>
 		public Message (byte command) : this (command, null)
 		{
 

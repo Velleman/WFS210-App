@@ -2,21 +2,21 @@
 
 namespace WFS210.IO
 {
-	public class MessageWriter
+	public class MessageReader
 	{
 		protected readonly Stream Stream;
 
 		protected readonly MessageSerializer Serializer;
 
-		public MessageWriter(Stream stream, MessageSerializer serializer)
+		public MessageReader(Stream stream, MessageSerializer serializer)
 		{
 			this.Stream = stream;
 			this.Serializer = serializer;
 		}
 
-		public void Write (Message message)
+		public Message Read ()
 		{
-			Serializer.Serialize (Stream, message);
+			return Serializer.Deserialize (Stream);
 		}
 	}
 }
