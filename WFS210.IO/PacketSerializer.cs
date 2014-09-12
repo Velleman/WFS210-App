@@ -7,13 +7,15 @@ namespace WFS210.IO
 	{
 		public void Serialize (System.IO.Stream stream, Message message)
 		{
-			CheckedStream checkedStream = new CheckedStream (stream, new ComplementChecksum());
+			BufferedStream buffer = new BufferedStream (stream);
+			CheckedStream checkedStream = new CheckedStream (buffer, new ComplementChecksum());
+
 			BinaryWriter writer = new BinaryWriter (checkedStream);
 
 			Packet packet;
 			packet.STX = 0x02;
 			packet.Command = message.Command;
-			packet.DataLength = (UInt16)message.Payload.Length;
+			packet.DataLength = (message.Payload == null ? (UInt16)0 : (UInt16)message.Payload.Length);
 			packet.Reserved1 = 0x00;
 			packet.Reserved2 = 0x00;
 			packet.Data = message.Payload;
@@ -33,6 +35,8 @@ namespace WFS210.IO
 
 			writer.Write (packet.Checksum);
 			writer.Write (packet.ETX);
+
+			buffer.Flush (); // writes the entire packet in one go
 		}
 
 		public Message Deserialize (System.IO.Stream stream)
