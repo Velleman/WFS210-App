@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using System;
 
 namespace WFS210.IO
 {
@@ -19,6 +21,11 @@ namespace WFS210.IO
 		/// The default port on which the gateway is listening for connections.
 		/// </summary>
 		static readonly int DefaultPort = 2000;
+
+		/// <summary>
+		/// The welcome text.
+		/// </summary>
+		static readonly string WelcomeText = "*HELLO*";
 
 		/// <summary>
 		/// Underlying client used for TCP communication.
@@ -84,8 +91,7 @@ namespace WFS210.IO
 
 			if (Connected) {
 
-				var hello = new BinaryReader (Client.GetStream ());
-				/*byte[] helloString = */hello.ReadBytes (7); // *HELLO*
+				ReadWelcomeMessage ();
 
 				Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());
 				Reader = new MessageReader (Client.GetStream (), new PacketSerializer ());
@@ -124,10 +130,27 @@ namespace WFS210.IO
 		}
 
 		/// <summary>
+		/// Attempts to read the welcome message from the server.
+		/// </summary>
+		public void ReadWelcomeMessage ()
+		{
+			var hello = new BinaryReader (Client.GetStream ());
+
+			string message = Encoding.ASCII.GetString (hello.ReadBytes (7));
+			if (!message.Equals (TcpConnection.WelcomeText)) {
+				throw new InvalidOperationException ();
+			}
+		}
+
+		/// <summary>
 		/// Read a message.
 		/// </summary>
 		public Message Read ()
 		{
+			if (Client.Available <= 0) {
+				return null;
+			}
+
 			return Reader.Read ();
 		}
 	}
