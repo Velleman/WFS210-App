@@ -35,7 +35,7 @@ namespace WFS210.IO
 		/// </summary>
 		public TcpConnection ()
 		{
-			this.client = new TcpClient ();
+
 		}
 
 		/// <summary>
@@ -74,6 +74,7 @@ namespace WFS210.IO
 		/// <param name="remoteEP">Remote network endpoint</param>
 		public bool Connect(IPEndPoint remoteEP)
 		{
+			client = new TcpClient ();
 			client.Connect (remoteEP);
 
 			if (Connected) {
@@ -89,7 +90,7 @@ namespace WFS210.IO
 		/// </summary>
 		/// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
 		public bool Connected {
-			get { return client.Connected; }
+			get { return ((client != null) && (client.Connected)); }
 		}
 
 		/// <summary>
@@ -100,6 +101,7 @@ namespace WFS210.IO
 			if (Connected) {
 
 				client.Close ();
+				client = null;
 			}
 		}
 
