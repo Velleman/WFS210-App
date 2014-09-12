@@ -15,14 +15,14 @@ namespace WFS210.IO
 			Packet packet;
 			packet.STX = 0x02;
 			packet.Command = message.Command;
-			packet.DataLength = (UInt16)(8 + (message.Payload == null ? 0 : message.Payload.Length));
+			packet.Size = (UInt16)(8 + (message.Payload == null ? 0 : message.Payload.Length));
 			packet.Reserved1 = 0x00;
 			packet.Reserved2 = 0x00;
 			packet.Data = message.Payload;
 
 			writer.Write (packet.STX);
 			writer.Write (packet.Command);
-			writer.Write (packet.DataLength);
+			writer.Write (packet.Size);
 			writer.Write (packet.Reserved1);
 			writer.Write (packet.Reserved2);
 
@@ -47,10 +47,10 @@ namespace WFS210.IO
 			Packet packet;
 			packet.STX = reader.ReadByte ();
 			packet.Command = reader.ReadByte ();
-			packet.DataLength = reader.ReadUInt16 ();
+			packet.Size = reader.ReadUInt16 ();
 			packet.Reserved1 = reader.ReadByte ();
 			packet.Reserved2 = reader.ReadByte ();
-			packet.Data = reader.ReadBytes (packet.DataLength);
+			packet.Data = reader.ReadBytes (packet.Size - 8);
 
 			byte expectedChecksum = checkedStream.Checksum.GetValue ();
 
