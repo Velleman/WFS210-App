@@ -52,6 +52,7 @@
     <Compile Include="Service.cs" />
     <Compile Include="DemoService.cs" />
     <Compile Include="LiveService.cs" />
+    <Compile Include="MessageReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
