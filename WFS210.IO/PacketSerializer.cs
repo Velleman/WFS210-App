@@ -7,10 +7,10 @@ namespace WFS210.IO
 	{
 		public void Serialize (Stream stream, Message message)
 		{
-			BufferedStream buffer = new BufferedStream (stream);
-			CheckedStream checkedStream = new CheckedStream (buffer, new ComplementChecksum());
+			var buffer = new BufferedStream (stream);
+			var checkedStream = new CheckedStream (buffer, new ComplementChecksum());
 
-			BinaryWriter writer = new BinaryWriter (checkedStream);
+			var writer = new BinaryWriter (checkedStream);
 
 			Packet packet;
 			packet.STX = 0x02;
@@ -41,8 +41,8 @@ namespace WFS210.IO
 
 		public Message Deserialize (Stream stream)
 		{
-			CheckedStream checkedStream = new CheckedStream (stream, new ComplementChecksum ());
-			BinaryReader reader = new BinaryReader (checkedStream);
+			var checkedStream = new CheckedStream (stream, new ComplementChecksum ());
+			var reader = new BinaryReader (checkedStream);
 
 			Packet packet;
 			packet.STX = reader.ReadByte ();

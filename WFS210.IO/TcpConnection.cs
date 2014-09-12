@@ -84,7 +84,7 @@ namespace WFS210.IO
 
 			if (Connected) {
 
-				BinaryReader hello = new BinaryReader (Client.GetStream ());
+				var hello = new BinaryReader (Client.GetStream ());
 				/*byte[] helloString = */hello.ReadBytes (7); // *HELLO*
 
 				Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());
