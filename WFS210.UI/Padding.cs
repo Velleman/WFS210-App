@@ -2,7 +2,7 @@
 
 namespace WFS210.UI
 {
-	public class Padding
+	public struct Padding
 	{
 		/// <summary>
 		/// Left padding.
@@ -23,14 +23,6 @@ namespace WFS210.UI
 		/// Bottom padding.
 		/// </summary>
 		public int Bottom;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WFS210.UI.Padding"/> class.
-		/// </summary>
-		public Padding() : this(0, 0, 0, 0)
-		{
-
-		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.UI.Padding"/> class.

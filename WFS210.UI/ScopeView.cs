@@ -77,8 +77,9 @@ float sampleToPointRatio;
 				return new RectangleF (
 					this.Bounds.X + Padding.Left, 
 					this.Bounds.Y + Padding.Top,
-					this.Bounds.Width - (Padding.Right + Padding.Left),
-					this.Bounds.Height - (Padding.Bottom + Padding.Top));
+					this.Bounds.Width - Padding.Horizontal,
+					this.Bounds.Height - Padding.Vertical
+				);
 			}
 		}
 
