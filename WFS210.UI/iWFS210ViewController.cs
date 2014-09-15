@@ -3,14 +3,15 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 using WFS210;
+using WFS210.IO;
+using System.Timers;
 
 namespace WFS210.UI
 {
-	//TODO: Add logic for TimeBase text
 	partial class iWFS210ViewController : UIViewController
 	{
 		Oscilloscope wfs210;
-		WFS210Tools tool;
+		Service service;
 		SettingsViewController settingsViewController;
 		MeasurementsViewController measurementsViewController;
 		SignalMeasurement[] signalMeasurements = new SignalMeasurement[2];
@@ -19,11 +20,26 @@ namespace WFS210.UI
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
 			wfs210 = new Oscilloscope ();
-			tool = new WFS210Tools ();
+			service = new DemoService (wfs210);
+			service.SettingsChanged += SettingsChanged;
 			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
 			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
 			markerMeasurements [0] = new MarkerMeasurement (){ Channel = 0,  SelectedUnit = MarkerUnit.dt };
 			markerMeasurements [1] = new MarkerMeasurement (){ Channel = 1,  SelectedUnit = MarkerUnit.dt };
+			Timer timer = new Timer (500);
+			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
+				service.Update ();
+				ScopeView.UpdateScopeView();
+			};
+			timer.AutoReset = true;
+			timer.Enabled = true;
+			timer.Start ();
+		}
+
+		void SettingsChanged (object sender, EventArgs e)
+		{
+			UpdateScopeControls ();
+
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -40,6 +56,7 @@ namespace WFS210.UI
 		{
 			base.ViewDidLoad ();
 			// Perform any additional setup after loading the view, typically from a nib.
+
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -49,11 +66,10 @@ namespace WFS210.UI
 			ScopeView.Wfs210 = wfs210;
 			ScopeView.SelectedChannel = wfs210.Channels [0];
 			//wfs210.Channels [0].GenerateTestSignal ();
-			ScopeView.UpdateScopeView ();
+
 			ScopeView.NewData += (object sender, NewDataEventArgs e) => {
 				UpdateScopeControls ();
 			};
-			UpdateScopeControls ();
 		}
 
 		public override bool PrefersStatusBarHidden ()
@@ -84,25 +100,25 @@ namespace WFS210.UI
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
 			ScopeView.SelectedChannel = wfs210.Channels [0];
-			UpdateScopeControls ();
+			UpdateScopeControls();
 		}
 
 		partial void btnAC1_TouchUpInside (UIButton sender)
 		{
 			wfs210.Channels [0].InputCoupling = InputCoupling.AC;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnDC1_TouchUpInside (UIButton sender)
 		{
 			wfs210.Channels [0].InputCoupling = InputCoupling.DC;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnGND1_TouchUpInside (UIButton sender)
 		{
 			wfs210.Channels [0].InputCoupling = InputCoupling.GND;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnProbe1_TouchUpInside (UIButton sender)
@@ -111,21 +127,21 @@ namespace WFS210.UI
 				wfs210.Channels [0].AttenuationFactor = AttenuationFactor.X1;
 			else
 				wfs210.Channels [0].AttenuationFactor = AttenuationFactor.X10;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnVoltDown1_TouchUpInside (UIButton sender)
 		{
 			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
 				wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision + 1;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnVoltUp1_TouchUpInside (UIButton sender)
 		{
 			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.VdivNone)
 				wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision - 1;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
@@ -159,43 +175,43 @@ namespace WFS210.UI
 		partial void btnTriggerCH1_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Channel = 0;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnTriggerCH2_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Channel = 1;
-			UpdateScopeControls ();
+			service.ApplySettings();
 		}
 
 		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Slope = TriggerSlope.Rising;
-			UpdateScopeControls ();
+			service.ApplySettings(); 
 		}
 
 		partial void btnTriggerSlopeDown_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Slope = TriggerSlope.Falling;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnTriggerRun_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Mode = TriggerMode.Run;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnTriggerNrml_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Mode = TriggerMode.Normal;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnTriggerOnce_TouchUpInside (UIButton sender)
 		{
 			wfs210.Trigger.Mode = TriggerMode.Once;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnTriggerHold_TouchUpInside (UIButton sender)
@@ -204,21 +220,21 @@ namespace WFS210.UI
 				wfs210.Hold = false;
 			else
 				wfs210.Hold = true;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnTimeLeft_TouchUpInside (UIButton sender)
 		{
 			if (wfs210.TimeBase != TimeBase.Tdiv1us)
 				wfs210.TimeBase = wfs210.TimeBase - 1;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnTimeRight_TouchUpInside (UIButton sender)
 		{
 			if (wfs210.TimeBase != TimeBase.Tdiv1s)
 				wfs210.TimeBase = wfs210.TimeBase + 1;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnAutorange_TouchUpInside (UIButton sender)
@@ -227,7 +243,7 @@ namespace WFS210.UI
 				wfs210.AutoRange = false;
 			else
 				wfs210.AutoRange = true;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		#endregion
@@ -237,25 +253,25 @@ namespace WFS210.UI
 		partial void btnSelectChannel2_TouchUpInside (UIButton sender)
 		{
 			ScopeView.SelectedChannel = wfs210.Channels [1];
-			UpdateScopeControls ();
+			UpdateScopeControls();
 		}
 
 		partial void btnAC2_TouchUpInside (UIButton sender)
 		{
 			wfs210.Channels [1].InputCoupling = InputCoupling.AC;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnDC2_TouchUpInside (UIButton sender)
 		{
 			wfs210.Channels [1].InputCoupling = InputCoupling.DC;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnGND2_TouchUpInside (UIButton sender)
 		{
 			wfs210.Channels [1].InputCoupling = InputCoupling.GND;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnProbe2_TouchUpInside (UIButton sender)
@@ -264,21 +280,21 @@ namespace WFS210.UI
 				wfs210.Channels [1].AttenuationFactor = AttenuationFactor.X1;
 			else
 				wfs210.Channels [1].AttenuationFactor = AttenuationFactor.X10;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnVoltDown2_TouchUpInside (UIButton sender)
 		{
 			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
 				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision + 1;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 		partial void btnVoltUp2_TouchUpInside (UIButton sender)
 		{
 			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.VdivNone)
 				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision - 1;
-			UpdateScopeControls ();
+			service.ApplySettings();  
 		}
 
 
@@ -443,7 +459,7 @@ namespace WFS210.UI
 		{
 			string text;
 			text = "Incorrect Value";
-			text = tool.GetTextFromVoltPerDivision (wfs210.Channels [0].VoltsPerDivision);
+			text = VoltsPerDivisionConverter.ToString (wfs210.Channels [0].VoltsPerDivision);
 			lblVolt1.Text = text;
 		}
 
@@ -488,7 +504,7 @@ namespace WFS210.UI
 		{
 			string text;
 			text = "Incorrect Value";
-			text = tool.GetTextFromVoltPerDivision (wfs210.Channels [1].VoltsPerDivision);
+			text = VoltsPerDivisionConverter.ToString (wfs210.Channels [1].VoltsPerDivision);
 			lblVolt2.Text = text;
 		}
 
@@ -557,7 +573,7 @@ namespace WFS210.UI
 		{
 			string text;
 			text = "Incorrect Value";
-			text = tool.GetTextFromTimebase (wfs210.TimeBase);
+			text = TimeBaseConverter.ToString (wfs210.TimeBase);
 			lblTime.Text = text;
 		}
 
@@ -587,7 +603,7 @@ namespace WFS210.UI
 
 		private void SetSignalWithDtValue (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateTime (wfs210.TimeBase, ScopeView.xMarkers [0].X, ScopeView.xMarkers [1].X, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateTime (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
 			value = Math.Round (value, 6);
 			var title = ToEngineeringNotation (value);
 			title += "s";
@@ -599,7 +615,7 @@ namespace WFS210.UI
 
 		void SetSignalWithFrequency (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateFrequency (wfs210.TimeBase, ScopeView.xMarkers [0].X, ScopeView.xMarkers [1].X, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateFrequency (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "Hz";
@@ -613,7 +629,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV1 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Y, ScopeView.yMarkers [1].Y, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";
@@ -625,7 +641,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV2 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Y, ScopeView.yMarkers [1].Y, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";

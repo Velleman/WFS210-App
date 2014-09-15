@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="5" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" customClass="ScopeView" multipleTouchEnabled="YES">
-                                <rect key="frame" x="131" y="79" width="894" height="612"/>
+                                <rect key="frame" x="113" y="61" width="912" height="630"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.11372549019607843" green="0.11372549019607843" blue="0.11372549019607843" alpha="1"/>
                                 <subviews/>
@@ -377,7 +377,6 @@
                     </view>
                     <connections>
                         <outlet property="ScopeView" destination="5" id="name-outlet-5"/>
-                        <outlet property="MainView" destination="8bC-Xf-vdC" id="name-outlet-8bC-Xf-vdC"/>
                         <outlet property="btnAC1" destination="44" id="name-outlet-44"/>
                         <outlet property="btnDC1" destination="57" id="name-outlet-57"/>
                         <outlet property="btnGND1" destination="58" id="name-outlet-58"/>
@@ -413,6 +412,7 @@
                         <outlet property="btnSignalMeasurements" destination="366" id="name-outlet-366"/>
                         <outlet property="btnMarkerMeasurements2" destination="367" id="name-outlet-367"/>
                         <outlet property="btnSignalMeasurements2" destination="368" id="name-outlet-368"/>
+                        <outlet property="MainView" destination="8bC-Xf-vdC" id="name-outlet-8bC-Xf-vdC"/>
                     </connections>
                     <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
@@ -569,8 +569,8 @@
         <image name="BUTTONS/TRIGGER/TRIG-RUN-ON-6x216.png" width="102" height="52"/>
         <image name="BUTTONS/TRIGGER/TRIG-UP-OFF-6x156.png" width="48" height="52"/>
         <image name="BUTTONS/TRIGGER/TRIG-UP-ON-6x156.png" width="48" height="52"/>
-        <image name="MARKERS/MARKER 1 SLIDER-__x60.png" width="32" height="708"/>
-        <image name="MARKERS/MARKER 2 SLIDER-__x60.png" width="32" height="708"/>
+        <image name="MARKERS/MARKER 1 SLIDER-__x60.png" width="32" height="628"/>
+        <image name="MARKERS/MARKER 2 SLIDER-__x60.png" width="32" height="628"/>
         <image name="MARKERS/MARKER A SLIDER-112x__.png" width="912" height="32"/>
         <image name="MARKERS/MARKER B SLIDER-112x__.png" width="912" height="32"/>
         <image name="TRIGGER LEVEL/TRIG SLIDER-SLOPE DOWN-112x__.png" width="912" height="32"/>

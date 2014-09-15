@@ -111,16 +111,10 @@
     <Compile Include="Trace.cs" />
     <Compile Include="XMarker.cs" />
     <Compile Include="YMarker.cs" />
-    <Compile Include="Grid.cs" />
     <Compile Include="Marker.cs" />
-    <Compile Include="MainView.cs" />
-    <Compile Include="MainView.designer.cs">
-      <DependentUpon>MainView.cs</DependentUpon>
-    </Compile>
     <Compile Include="TriggerMarker.cs" />
     <Compile Include="ZeroLine.cs" />
     <Compile Include="VoltTimeIndicator.cs" />
-    <Compile Include="WFS210Tools.cs" />
     <Compile Include="SettingsViewController.cs" />
     <Compile Include="SettingsViewController.designer.cs">
       <DependentUpon>SettingsViewController.cs</DependentUpon>
@@ -135,6 +129,12 @@
     <Compile Include="SignalUnit.cs" />
     <Compile Include="SignalMeasurement.cs" />
     <Compile Include="MarkerMeasurement.cs" />
+    <Compile Include="Padding.cs" />
+    <Compile Include="MainView.cs" />
+    <Compile Include="MainView.designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WFS210Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -144,6 +144,10 @@
     <ProjectReference Include="..\WFS210\WFS210.csproj">
       <Project>{E35F96D0-A0EF-4271-9DB2-E8D483CA250D}</Project>
       <Name>WFS210</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WFS210.IO\WFS210.IO.csproj">
+      <Project>{5567BC5E-558A-4C08-A9FB-F5B6EC374849}</Project>
+      <Name>WFS210.IO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -207,8 +211,6 @@
     <BundleResource Include="Resources\BUTTONS\TRIGGER\TRIG-RUN-ON-6x216.png" />
     <BundleResource Include="Resources\BUTTONS\TRIGGER\TRIG-UP-OFF-6x156.png" />
     <BundleResource Include="Resources\BUTTONS\TRIGGER\TRIG-UP-ON-6x156.png" />
-    <BundleResource Include="Resources\MARKERS\MARKER 1 SLIDER-__x60.png" />
-    <BundleResource Include="Resources\MARKERS\MARKER 2 SLIDER-__x60.png" />
     <BundleResource Include="Resources\MARKERS\MARKER A SLIDER-112x__.png" />
     <BundleResource Include="Resources\MARKERS\MARKER B SLIDER-112x__.png" />
     <BundleResource Include="Resources\TRIGGER LEVEL\TRIG SLIDER-SLOPE DOWN-112x__.png" />
@@ -227,6 +229,8 @@
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
     <BundleResource Include="Resources\Icon-Small%402x.png" />
     <BundleResource Include="Resources\Icon-Small-50%402x.png" />
+    <BundleResource Include="Resources\MARKERS\MARKER 1 SLIDER-__x60.png" />
+    <BundleResource Include="Resources\MARKERS\MARKER 2 SLIDER-__x60.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />

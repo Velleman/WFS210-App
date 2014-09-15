@@ -10,13 +10,15 @@ namespace WFS210.UI
 	{
 		public MarkerLayout Layout { get; set; }
 
-		protected UIImage Image { get; set; }
+		public UIImage Image { get; set; }
 
 		public string Name { get; set; }
 
-		public CALayer Layer { get; set; }
+		protected int value;
 
-		public Marker (string resourceUrl, string name, MarkerLayout layout)
+		public int Inlay { get; set;}
+
+		public Marker (string resourceUrl, string name, MarkerLayout layout, int inlay)
 		{
 			this.Layout = layout;
 
@@ -24,23 +26,15 @@ namespace WFS210.UI
 
 			Name = name;
 
-			Layer = new CALayer ();
-			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height );
-			Layer.Position = Position;
-			Layer.Contents = Image.CGImage;
-			Layer.RemoveAllAnimations ();
+			Inlay = inlay;
+
 		}
 
-		public PointF Position
+		public int Value
 		{
-			get{ return Layer.Position;}
+			get{ return value; }
 			set{ 
-				Layer.Position = value;
-
-				CATransaction.Begin ();
-				Layer.Position = Position;
-				Layer.RemoveAnimation ("position");
-				CATransaction.Commit ();
+				this.value = value;
 			}
 		}
 	}
