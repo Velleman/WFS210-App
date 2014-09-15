@@ -10,7 +10,7 @@ namespace WFS210.UI
 {
 	public partial class ScopeView : UIView
 	{
-		public Padding Padding{ get; set;}
+		public Padding Padding { get; set; }
 
 		private int TotalSamples;
 
@@ -47,10 +47,7 @@ float sampleToPointRatio;
 		public ScopeView (IntPtr handle) : base (handle)
 		{
 			this.GrappleDistance = 60;
-			Padding = new Padding ();
-			Padding.Left = 18;
-			Padding.Top = 18;
-
+			Padding = new Padding (18, 0, 18, 0);
 
 			grid = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png");
 
