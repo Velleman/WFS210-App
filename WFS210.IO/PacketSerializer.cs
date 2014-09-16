@@ -3,8 +3,17 @@ using System.IO;
 
 namespace WFS210.IO
 {
+	/// <summary>
+	/// Packet serializer that knows how to both serialize and deserialize
+	/// messages from a stream.
+	/// </summary>
 	public class PacketSerializer : MessageSerializer
 	{
+		/// <summary>
+		/// Serialize the specified message and send it over the stream.
+		/// </summary>
+		/// <param name="stream">Stream.</param>
+		/// <param name="message">Message.</param>
 		public void Serialize (Stream stream, Message message)
 		{
 			var buffer = new BufferedStream (stream);
@@ -39,6 +48,10 @@ namespace WFS210.IO
 			buffer.Flush (); // writes the entire packet in one go
 		}
 
+		/// <summary>
+		/// Deserialize a message from the specified stream.
+		/// </summary>
+		/// <param name="stream">Stream.</param>
 		public Message Deserialize (Stream stream)
 		{
 			var checkedStream = new CheckedStream (stream, new ComplementChecksum ());
