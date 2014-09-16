@@ -16,11 +16,7 @@ namespace WFS210.Util
 		/// <param name="max">Maximum value.</param>
 		public static int LimitToRange(this int value, int min, int max)
 		{
-			return (value < min
-				? min
-				: (value > max
-					? max
-					: value));
+			return Math.Min (Math.Max (value, min), max);
 		}
 
 		/// <summary>
