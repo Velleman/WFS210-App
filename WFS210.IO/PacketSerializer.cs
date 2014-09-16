@@ -7,7 +7,7 @@ namespace WFS210.IO
 	/// Packet serializer that knows how to both serialize and deserialize
 	/// messages from a stream.
 	/// </summary>
-	public class PacketSerializer : MessageSerializer
+	public class PacketSerializer : IMessageSerializer
 	{
 		/// <summary>
 		/// Serialize the specified message and send it over the stream.

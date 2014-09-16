@@ -47,12 +47,12 @@
     <Compile Include="Packet.cs" />
     <Compile Include="MessageWriter.cs" />
     <Compile Include="TcpConnection.cs" />
-    <Compile Include="MessageSerializer.cs" />
     <Compile Include="PacketSerializer.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="DemoService.cs" />
     <Compile Include="LiveService.cs" />
     <Compile Include="MessageReader.cs" />
+    <Compile Include="IMessageSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

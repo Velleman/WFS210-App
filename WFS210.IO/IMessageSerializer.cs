@@ -6,7 +6,7 @@ namespace WFS210.IO
 	/// <summary>
 	/// Message object serializer.
 	/// </summary>
-	public interface MessageSerializer
+	public interface IMessageSerializer
 	{
 		/// <summary>
 		/// Serialize the specified message and send it over the stream.

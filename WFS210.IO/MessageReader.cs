@@ -15,14 +15,14 @@ namespace WFS210.IO
 		/// <summary>
 		/// Object in charge of deserializing messages from the stream.
 		/// </summary>
-		protected readonly MessageSerializer Serializer;
+		protected readonly IMessageSerializer Serializer;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.IO.MessageReader"/> class.
 		/// </summary>
 		/// <param name="stream">Stream.</param>
 		/// <param name="serializer">Serializer.</param>
-		public MessageReader(Stream stream, MessageSerializer serializer)
+		public MessageReader(Stream stream, IMessageSerializer serializer)
 		{
 			this.Stream = stream;
 			this.Serializer = serializer;
