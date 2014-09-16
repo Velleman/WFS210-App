@@ -22,6 +22,19 @@ namespace WFS210.Util
 					? max
 					: value));
 		}
+
+		/// <summary>
+		/// Cycles an enum a specified number of values forwards or backwards.
+		/// </summary>
+		/// <param name="src">Enum object to cycle through.</param>
+		/// <param name="value">Number of positions to cycle (can be negative).</param>
+		/// <typeparam name="T">The resulting enum value.</typeparam>
+		public static T Cycle<T>(this T src, int value)
+		{
+			T[] values = (T[])Enum.GetValues (src.GetType ());
+			int index = Array.IndexOf<T> (values, src) + value;
+			return values [index.LimitToRange (0, values.Length - 1)];
+		}
 	}
 }
 
