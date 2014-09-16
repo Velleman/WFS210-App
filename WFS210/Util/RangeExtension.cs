@@ -22,13 +22,13 @@ namespace WFS210.Util
 		/// <summary>
 		/// Cycles an enum a specified number of values forwards or backwards.
 		/// </summary>
-		/// <param name="src">Enum object to cycle through.</param>
-		/// <param name="value">Number of positions to cycle (can be negative).</param>
+		/// <param name="value">Enum object to cycle through.</param>
+		/// <param name="amount">Number of positions to cycle (can be negative).</param>
 		/// <typeparam name="T">The resulting enum value.</typeparam>
-		public static T Cycle<T>(this T src, int value)
+		public static T Cycle<T>(this T value, int amount)
 		{
-			T[] values = (T[])Enum.GetValues (src.GetType ());
-			int index = Array.IndexOf<T> (values, src) + value;
+			T[] values = (T[])Enum.GetValues (value.GetType ());
+			int index = Array.IndexOf<T> (values, value) + amount;
 			return values [index.LimitToRange (0, values.Length - 1)];
 		}
 	}
