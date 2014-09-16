@@ -8,7 +8,7 @@ namespace WFS210
 		{
 			int i = 0;
 
-			while ((value < 0) && (i < units.Length)) {
+			while ((value < 1) && (i < units.Length)) {
 
 				value *= step;
 				i++;
