@@ -19,27 +19,13 @@ namespace WFS210.UI
 
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
-			wfs210 = new Oscilloscope ();
-			service = new DemoService (wfs210);
-			service.SettingsChanged += SettingsChanged;
-			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
-			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
-			markerMeasurements [0] = new MarkerMeasurement (){ Channel = 0,  SelectedUnit = MarkerUnit.dt };
-			markerMeasurements [1] = new MarkerMeasurement (){ Channel = 1,  SelectedUnit = MarkerUnit.dt };
-			Timer timer = new Timer (500);
-			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
-				service.Update ();
-				ScopeView.UpdateScopeView();
-			};
-			timer.AutoReset = true;
-			timer.Enabled = true;
-			timer.Start ();
+
 		}
 
 		void SettingsChanged (object sender, EventArgs e)
 		{
 			UpdateScopeControls ();
-
+			ScopeView.UpdateScopeView ();
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -63,7 +49,28 @@ namespace WFS210.UI
 		{
 			base.ViewWillAppear (animated);
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
+
+			wfs210 = new Oscilloscope ();
+			service = new DemoService (wfs210);
+			service.SettingsChanged += SettingsChanged;
+			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
+			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
+			markerMeasurements [0] = new MarkerMeasurement (){ Channel = 0,  SelectedUnit = MarkerUnit.dt };
+			markerMeasurements [1] = new MarkerMeasurement (){ Channel = 1,  SelectedUnit = MarkerUnit.dt };
 			ScopeView.Wfs210 = wfs210;
+			Timer timer = new Timer (500);
+			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
+				service.Update ();
+				InvokeOnMainThread ( () => {
+					ScopeView.UpdateScopeView();
+				});
+
+			};
+			timer.AutoReset = true;
+			timer.Enabled = true;
+			timer.Start ();
+			//service.Update ();
+
 			ScopeView.SelectedChannel = wfs210.Channels [0];
 			//wfs210.Channels [0].GenerateTestSignal ();
 
@@ -594,6 +601,7 @@ namespace WFS210.UI
 				break;
 			case MarkerUnit.EnableDisableMarkers:
 				EnableDisableMarkers ();
+				markerMeasurements [0].SelectedUnit = MarkerUnit.dt;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
@@ -654,10 +662,7 @@ namespace WFS210.UI
 
 		void EnableDisableMarkers()
 		{
-			if (ScopeView.MarkersAreVisible)
-				ScopeView.DisableMarkers ();
-			else
-				ScopeView.EnableMarkers ();
+			ScopeView.ToggleMarkers ();
 		}
 
 		void UpdateSignalMeasurement1 ()
@@ -676,7 +681,7 @@ namespace WFS210.UI
 				SetSignalWithDV2 (0);
 				break;
 			case SignalUnit.TRMS:
-				EnableDisableMarkers ();
+				//EnableDisableMarkers ();
 				break;
 			case SignalUnit.Vdc:
 				break;
@@ -719,6 +724,7 @@ namespace WFS210.UI
 				break;
 			case MarkerUnit.EnableDisableMarkers:
 				EnableDisableMarkers ();
+				markerMeasurements [1].SelectedUnit = MarkerUnit.dt;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);

@@ -18,11 +18,9 @@ namespace WFS210.UI
 
 		CGPath path;
 		PointF initialPoint;
-		PointF latestPoint;
 		Oscilloscope wfs210;
 		PointF[] scopePoints;
-		Trace[] traces = new Trace[2];
-float sampleToPointRatio;
+		float sampleToPointRatio;
 		public Channel SelectedChannel{ get;set;}
 		public bool MarkersAreVisible { get; private set;}
 		public XMarker[] xMarkers = new XMarker[2];
@@ -48,7 +46,7 @@ float sampleToPointRatio;
 		{
 			this.GrappleDistance = 60;
 			Padding = new Padding (18, 0, 18, 0);
-
+			MarkersAreVisible = true;
 			grid = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png");
 
 			LoadXMarkers ();
@@ -68,6 +66,8 @@ float sampleToPointRatio;
 			LoadVoltTimeIndicator ();
 
 			RegisterPinchRecognizer ();
+
+
 
 		}
 
@@ -103,8 +103,7 @@ float sampleToPointRatio;
 		/// </summary>
 		public void UpdateScopeView ()
 		{
-			path.Dispose ();
-			path = new CGPath ();
+			path  = new CGPath ();
 			SampleBuffer buffer = wfs210.Channels [0].Samples;
 			scopePoints = new PointF[TotalSamples];
 			for (int x = 0; x < TotalSamples; x++) {
@@ -112,6 +111,7 @@ float sampleToPointRatio;
 			}
 			path.AddLines (scopePoints);
 		}
+	
 
 		private int MapSampleDataToScreen (int sample)
 		{
@@ -136,13 +136,15 @@ float sampleToPointRatio;
 			//get graphics context
 			using (CGContext g = UIGraphics.GetCurrentContext ()) {
 
+				g.ClearRect (Bounds);
+
 				DrawGrid ();
 
 				DrawSignal1 (g);
 
-				DrawMarkers ();
-
 				DrawSignal2 (g);
+
+				DrawMarkers ();
 			}       
 		}
 
@@ -153,16 +155,12 @@ float sampleToPointRatio;
 
 		void DrawMarkers ()
 		{
-			foreach (Marker marker in Markers) {
+			if (MarkersAreVisible) {
+				foreach (Marker marker in Markers) {
 
-				UIImage image = marker.Image;
+					UIImage image = marker.Image;
 
-				if (marker.Layout == MarkerLayout.Vertical) {
-
-					image.Draw (GetMarkerRect(marker));
-				}
-				if (marker.Layout == MarkerLayout.Horizontal) {
-					image.Draw (GetMarkerRect(marker));
+					image.Draw (GetMarkerRect (marker));
 				}
 			}
 		}
@@ -195,23 +193,13 @@ float sampleToPointRatio;
 
 		void DrawSignal2 (CGContext g)
 		{
-			//throw new NotImplementedException ();
+			//UIColor.Green.SetStroke ();
+
 		}
 
-		public void DisableMarkers ()
+		public void ToggleMarkers()
 		{
-			foreach (Marker m in Markers) {
-				//m.Layer.Opacity = 255;
-			}
-			MarkersAreVisible = false;
-		}
-
-		public void EnableMarkers ()
-		{
-			foreach (Marker m in Markers) {
-				//m.Layer.Opacity = 255f;
-			}
-			MarkersAreVisible = true;
+			MarkersAreVisible =  !MarkersAreVisible;
 		}
 			
 
@@ -282,7 +270,6 @@ float sampleToPointRatio;
 						PointF firstPoint = pg.LocationOfTouch (0, this);
 						PointF secondPoint = pg.LocationOfTouch (1, this);
 						distance = CalculateDistance(firstPoint,secondPoint);
-						Console.WriteLine(distance.ToString());
 						if (isHorizontal (firstPoint, secondPoint)) {
 							if(distance > startDistance + 50)
 							{
@@ -361,6 +348,7 @@ float sampleToPointRatio;
 		{
 			Marker closestMarker;
 			closestMarker = null;
+			float latestTime;
 			longPressGesture = new UILongPressGestureRecognizer ((lp) => {
 				if (lp.State == UIGestureRecognizerState.Began) {
 					initialPoint = lp.LocationInView (this);
@@ -387,10 +375,7 @@ float sampleToPointRatio;
 							closestMarker.Value = position;
 						}
 					}
-					InvokeOnMainThread ( () => {
-						// manipulate UI controls
-						SetNeedsDisplay ();
-					});
+					SetNeedsDisplay();
 				} else if (lp.State == UIGestureRecognizerState.Ended) {
 					closestMarker = null;
 					OnNewData(new NewDataEventArgs());

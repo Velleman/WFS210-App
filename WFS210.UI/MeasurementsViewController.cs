@@ -29,9 +29,9 @@ namespace WFS210.UI
 				parent.DismissMeasurementsViewController ();
 			};
 			if (isMarkerMeasurement)
-				pMeasurement.Model = new MarkerMeasurementsModel (this);
+				pMeasurement.Model = new MarkerMeasurementsModel ();
 			else
-				pMeasurement.Model = new SignalMeasurementsModel (this);
+				pMeasurement.Model = new SignalMeasurementsModel ();
 		}
 
 		public class MarkerMeasurementsModel : UIPickerViewModel {
@@ -43,9 +43,10 @@ namespace WFS210.UI
 				"Enable/Disable Markers",
 			};
 
-			MeasurementsViewController mvc;
-			public MarkerMeasurementsModel (MeasurementsViewController mvc) {
-				this.mvc = mvc;
+
+
+			public MarkerMeasurementsModel () {
+
 			}
 
 			public override int GetComponentCount (UIPickerView v)
@@ -96,10 +97,9 @@ namespace WFS210.UI
 				"Dbm2",
 				"DbGain",
 			};
+				
+			public SignalMeasurementsModel () {
 
-			MeasurementsViewController mvc;
-			public SignalMeasurementsModel (MeasurementsViewController mvc) {
-				this.mvc = mvc;
 			}
 
 			public override int GetComponentCount (UIPickerView v)
