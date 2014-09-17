@@ -11,7 +11,7 @@ namespace WFS210
 		/// <summary>
 		/// Internal sample storage.
 		/// </summary>
-		private byte[] samples;
+		private readonly byte[] samples;
 
 		/// <summary>
 		/// Gets the total number of samples.
