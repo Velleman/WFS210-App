@@ -129,7 +129,7 @@ namespace WFS210.Services
 
 			for (int i = 0; i < buffer.Count; i++) {
 
-				buffer[i] += random.Next(-noiseLevel, noiseLevel);
+				buffer[i] += (byte)random.Next(-noiseLevel, noiseLevel);
 			}
 		}
 	}
