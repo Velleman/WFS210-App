@@ -1,8 +1,7 @@
-﻿using System;
-using WFS210;
-using System.ComponentModel.Design;
+﻿using WFS210;
+using WFS210.IO;
 
-namespace WFS210.IO
+namespace WFS210.Services
 {
 	public class LiveService : Service
 	{

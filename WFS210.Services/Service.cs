@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WFS210.IO
+namespace WFS210.Services
 {
 	public delegate void SettingsDelegate ();
 

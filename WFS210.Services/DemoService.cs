@@ -1,6 +1,8 @@
 ﻿using System;
 
-namespace WFS210.IO
+using WFS210;
+
+namespace WFS210.Services
 {
 	public class DemoService : Service
 	{

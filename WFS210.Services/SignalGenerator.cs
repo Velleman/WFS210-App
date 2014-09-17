@@ -2,7 +2,7 @@
 
 using WFS210.Util;
 
-namespace WFS210
+namespace WFS210.Services
 {
 	public class SignalGenerator
 	{

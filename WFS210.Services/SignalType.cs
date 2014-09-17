@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WFS210
+﻿namespace WFS210.Services
 {
 	public enum SignalType
 	{

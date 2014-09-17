@@ -53,8 +53,6 @@
     <Compile Include="InputCoupling.cs" />
     <Compile Include="TriggerSlope.cs" />
     <Compile Include="DeviceContext.cs" />
-    <Compile Include="SignalGenerator.cs" />
-    <Compile Include="SignalType.cs" />
     <Compile Include="Util\VoltageConverter.cs" />
     <Compile Include="Util\TimeConverter.cs" />
     <Compile Include="Util\TimeBaseConverter.cs" />
