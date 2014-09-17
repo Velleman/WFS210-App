@@ -6,6 +6,7 @@ using WFS210;
 using WFS210.IO;
 using System.Timers;
 using WFS210.Services;
+using WFS210.Util;
 
 namespace WFS210.UI
 {
@@ -111,43 +112,32 @@ namespace WFS210.UI
 
 		partial void btnAC1_TouchUpInside (UIButton sender)
 		{
-			wfs210.Channels [0].InputCoupling = InputCoupling.AC;
-			service.ApplySettings();
+			service.Execute(new InputCouplingCommand(0, InputCoupling.AC));
 		}
 
 		partial void btnDC1_TouchUpInside (UIButton sender)
 		{
-			wfs210.Channels [0].InputCoupling = InputCoupling.DC;
-			service.ApplySettings();
+			service.Execute(new InputCouplingCommand(0, InputCoupling.DC));
 		}
 
 		partial void btnGND1_TouchUpInside (UIButton sender)
 		{
-			wfs210.Channels [0].InputCoupling = InputCoupling.GND;
-			service.ApplySettings();
+			service.Execute(new InputCouplingCommand(0, InputCoupling.GND));
 		}
 
 		partial void btnProbe1_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [0].AttenuationFactor == AttenuationFactor.X10)
-				wfs210.Channels [0].AttenuationFactor = AttenuationFactor.X1;
-			else
-				wfs210.Channels [0].AttenuationFactor = AttenuationFactor.X10;
-			service.ApplySettings();
+			service.Execute(new FlipAttenuationFactorCommand(0));
 		}
 
 		partial void btnVoltDown1_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
-				wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision + 1;
-			service.ApplySettings();
+			service.Execute(new NextVoltsPerDivisionCommand(0));
 		}
 
 		partial void btnVoltUp1_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [0].VoltsPerDivision != VoltsPerDivision.VdivNone)
-				wfs210.Channels [0].VoltsPerDivision = wfs210.Channels [0].VoltsPerDivision - 1;
-			service.ApplySettings();
+			service.Execute(new PreviousVoltsPerDivisionCommand(0));
 		}
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
@@ -180,75 +170,57 @@ namespace WFS210.UI
 
 		partial void btnTriggerCH1_TouchUpInside (UIButton sender)
 		{
-			wfs210.Trigger.Channel = 0;
-			service.ApplySettings();
+			service.Execute(new TriggerChannelCommand(0));
 		}
 
 		partial void btnTriggerCH2_TouchUpInside (UIButton sender)
 		{
-			wfs210.Trigger.Channel = 1;
-			service.ApplySettings();
+			service.Execute(new TriggerChannelCommand(1));
 		}
 
 		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender)
 		{
-			wfs210.Trigger.Slope = TriggerSlope.Rising;
-			service.ApplySettings(); 
+			service.Execute(new TriggerSlopeCommand(TriggerSlope.Rising));
 		}
 
 		partial void btnTriggerSlopeDown_TouchUpInside (UIButton sender)
 		{
-			wfs210.Trigger.Slope = TriggerSlope.Falling;
-			service.ApplySettings();  
+			service.Execute(new TriggerSlopeCommand(TriggerSlope.Falling)); 
 		}
 
 		partial void btnTriggerRun_TouchUpInside (UIButton sender)
 		{
-			wfs210.Trigger.Mode = TriggerMode.Run;
-			service.ApplySettings();  
+			service.Execute(new TriggerModeCommand(TriggerMode.Run));
 		}
 
 		partial void btnTriggerNrml_TouchUpInside (UIButton sender)
 		{
-			wfs210.Trigger.Mode = TriggerMode.Normal;
-			service.ApplySettings();  
+			service.Execute(new TriggerModeCommand(TriggerMode.Normal));
 		}
 
 		partial void btnTriggerOnce_TouchUpInside (UIButton sender)
 		{
-			wfs210.Trigger.Mode = TriggerMode.Once;
-			service.ApplySettings();  
+			service.Execute(new TriggerModeCommand(TriggerMode.Once));
 		}
 
 		partial void btnTriggerHold_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Hold)
-				wfs210.Hold = false;
-			else
-				wfs210.Hold = true;
-			service.ApplySettings();  
+			service.Execute(new ToggleHoldCommand());
 		}
 
 		partial void btnTimeLeft_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.TimeBase != TimeBase.Tdiv1us)
-				wfs210.TimeBase = wfs210.TimeBase - 1;
-			service.ApplySettings();  
+			service.Execute(new PreviousTimeBaseCommand());
 		}
 
 		partial void btnTimeRight_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.TimeBase != TimeBase.Tdiv1s)
-				wfs210.TimeBase = wfs210.TimeBase + 1;
-			service.ApplySettings();  
+			service.Execute(new NextTimeBaseCommand());
 		}
 
 		partial void btnAutorange_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.AutoRange)
-				wfs210.AutoRange = false;
-			else
-				wfs210.AutoRange = true;
+			wfs210.AutoRange = !wfs210.AutoRange;
 			service.ApplySettings();  
 		}
 
@@ -264,43 +236,32 @@ namespace WFS210.UI
 
 		partial void btnAC2_TouchUpInside (UIButton sender)
 		{
-			wfs210.Channels [1].InputCoupling = InputCoupling.AC;
-			service.ApplySettings();  
+			service.Execute(new InputCouplingCommand(1, InputCoupling.AC));
 		}
 
 		partial void btnDC2_TouchUpInside (UIButton sender)
 		{
-			wfs210.Channels [1].InputCoupling = InputCoupling.DC;
-			service.ApplySettings();  
+			service.Execute(new InputCouplingCommand(1, InputCoupling.DC));
 		}
 
 		partial void btnGND2_TouchUpInside (UIButton sender)
 		{
-			wfs210.Channels [1].InputCoupling = InputCoupling.GND;
-			service.ApplySettings();  
+			service.Execute(new InputCouplingCommand(1, InputCoupling.GND));
 		}
 
 		partial void btnProbe2_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [1].AttenuationFactor == AttenuationFactor.X10)
-				wfs210.Channels [1].AttenuationFactor = AttenuationFactor.X1;
-			else
-				wfs210.Channels [1].AttenuationFactor = AttenuationFactor.X10;
-			service.ApplySettings();  
+			service.Execute(new FlipAttenuationFactorCommand(1));
 		}
 
 		partial void btnVoltDown2_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
-				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision + 1;
-			service.ApplySettings();  
+			service.Execute(new NextVoltsPerDivisionCommand(1));
 		}
 
 		partial void btnVoltUp2_TouchUpInside (UIButton sender)
 		{
-			if (wfs210.Channels [1].VoltsPerDivision != VoltsPerDivision.VdivNone)
-				wfs210.Channels [1].VoltsPerDivision = wfs210.Channels [1].VoltsPerDivision - 1;
-			service.ApplySettings();  
+			service.Execute(new PreviousVoltsPerDivisionCommand(1));
 		}
 
 
