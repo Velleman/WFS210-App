@@ -12,16 +12,29 @@ namespace WFS210.UI
 {
 	partial class iWFS210ViewController : UIViewController
 	{
-		Oscilloscope wfs210;
-		WFS210.Services.Service service;
+		/// <summary>
+		/// Wfs210 oscilloscope.
+		/// </summary>
+		protected readonly WFS210.Oscilloscope wfs210;
+
+		/// <summary>
+		/// The service used to control the oscilloscope.
+		/// </summary>
+		protected readonly WFS210.Services.Service service;
+
 		SettingsViewController settingsViewController;
 		MeasurementsViewController measurementsViewController;
 		SignalMeasurement[] signalMeasurements = new SignalMeasurement[2];
 		MarkerMeasurement[] markerMeasurements = new MarkerMeasurement[2];
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.UI.iWFS210ViewController"/> class.
+		/// </summary>
+		/// <param name="handle">Handle.</param>
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
-
+			this.wfs210 = new Oscilloscope ();
+			this.service = new DemoService (wfs210);
 		}
 
 		void SettingsChanged (object sender, EventArgs e)
@@ -30,30 +43,12 @@ namespace WFS210.UI
 			ScopeView.UpdateScopeView ();
 		}
 
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-
-			// Release any cached data, images, etc that aren't in use.
-		}
-
 		#region View lifecycle
-
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-			// Perform any additional setup after loading the view, typically from a nib.
-
-		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
-
-			wfs210 = new Oscilloscope ();
-			service = new WFS210.Services.DemoService (wfs210);
 			service.SettingsChanged += SettingsChanged;
 			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
 			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
@@ -82,22 +77,6 @@ namespace WFS210.UI
 		public override bool PrefersStatusBarHidden ()
 		{
 			return true;
-		}
-
-		public override void ViewDidAppear (bool animated)
-		{
-			base.ViewDidAppear (animated);
-		}
-
-		public override void ViewWillDisappear (bool animated)
-		{
-			base.ViewWillDisappear (animated);
-		}
-
-		public override void ViewDidDisappear (bool animated)
-		{
-			base.ViewDidDisappear (animated);
-
 		}
 
 		#endregion
