@@ -610,7 +610,7 @@ namespace WFS210.UI
 
 		private void SetSignalWithDtValue (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateTime (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateTime (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 6);
 			var title = ToEngineeringNotation (value);
 			title += "s";
@@ -622,7 +622,7 @@ namespace WFS210.UI
 
 		void SetSignalWithFrequency (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateFrequency (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateFrequency (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "Hz";
@@ -636,7 +636,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV1 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";
@@ -648,7 +648,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV2 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, new DeviceContext (), ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";

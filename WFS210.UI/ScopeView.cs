@@ -98,7 +98,7 @@ namespace WFS210.UI
 
 				wfs210 = value;
 				sampleToPointRatio = (float)ScopeBounds.Height / 256;
-				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase (wfs210.TimeBase) * 15;
+				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase * 15;
 			}	
 		}
 
