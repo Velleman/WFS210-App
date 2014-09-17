@@ -50,14 +50,13 @@ namespace WFS210.Services
 		}
 
 		/// <summary>
-		/// Generates a signal for the specified channel.
+		/// Generates a signal.
 		/// </summary>
-		/// <param name="oscilloscope">Oscilloscope.</param>
-		/// <param name="channelIndex">Index of the channel to generate to.</param>
-		/// <param name="addNoise">Whether noise should be added to the signal.</param>
-		public void GenerateSignal (Oscilloscope oscilloscope, int channelIndex, bool addNoise = true)
+		/// <param name="channel">Channel.</param>
+		/// <param name="addNoise">If set to <c>true</c> add noise.</param>
+		public void GenerateSignal (Channel channel, bool addNoise = true)
 		{
-			Channel channel = oscilloscope.Channels[channelIndex];
+			Oscilloscope oscilloscope = channel.DeviceContext.Device;
 
 			Random random = new Random ();
 			double randomPhase = random.Next (0, 628) / 100;
@@ -120,19 +119,19 @@ namespace WFS210.Services
 			}
 
 			if (addNoise) {
-				GenerateNoise (channel.Samples);
+				GenerateNoise (channel);
 			}
 		}
 
-		public void GenerateNoise (SampleBuffer buffer)
+		public void GenerateNoise (Channel channel)
 		{
 			Random random = new Random ();
 
 			const int noiseLevel = 2;
 
-			for (int i = 0; i < buffer.Count; i++) {
+			for (int i = 0; i < channel.Samples.Count; i++) {
 
-				buffer[i] += (byte)random.Next(-noiseLevel, noiseLevel);
+				channel.Samples[i] += (byte)random.Next(-noiseLevel, noiseLevel);
 			}
 		}
 	}

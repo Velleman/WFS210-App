@@ -13,7 +13,7 @@ namespace WFS210
 		/// Gets the oscilloscope's capabilities.
 		/// </summary>
 		/// <value>The oscilloscope's capabilities.</value>
-		protected DeviceContext DeviceContext { get; private set; }
+		public DeviceContext DeviceContext { get; private set; }
 
 		private int yPosition;
 
@@ -61,6 +61,7 @@ namespace WFS210
 		/// a sample buffer of the requested size.
 		/// </summary>
 		/// <param name="sampleBufferSize">Required sample buffer size.</param>
+		/// <param name="context">Device context.</param>
 		public Channel (int sampleBufferSize, DeviceContext context)
 		{
 			DeviceContext = context;

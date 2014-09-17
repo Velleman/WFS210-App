@@ -4,6 +4,16 @@ namespace WFS210
 {
 	public class DeviceContext
 	{
+		private Oscilloscope device;
+
+		/// <summary>
+		/// Gets the device for this context.
+		/// </summary>
+		/// <value>The device.</value>
+		public Oscilloscope Device {
+			get { return device; }
+		}
+
 		/// <summary>
 		/// The number of divisions.
 		/// </summary>
@@ -47,6 +57,15 @@ namespace WFS210
 			default:
 				return 50;
 			}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.DeviceContext"/> class.
+		/// </summary>
+		/// <param name="device">Device.</param>
+		public DeviceContext(Oscilloscope device)
+		{
+			this.device = device;
 		}
 	}
 }

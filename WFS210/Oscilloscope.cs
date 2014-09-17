@@ -75,7 +75,7 @@ namespace WFS210
 
 		public Oscilloscope ()
 		{
-			DeviceContext = new DeviceContext ();
+			DeviceContext = new DeviceContext (this);
 			DeviceContext.Divisions = 10;
 			DeviceContext.UnitsPerDivision = 25;
 			DeviceContext.CenterPosition = 128;

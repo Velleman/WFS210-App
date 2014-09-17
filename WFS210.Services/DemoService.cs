@@ -48,9 +48,9 @@ namespace WFS210.Services
 		/// </summary>
 		public override void Update ()
 		{
-			for (int i = 0; i < Oscilloscope.Channels.Count; i++) {
+			foreach (Channel channel in Oscilloscope.Channels) {
 
-				SignalGenerator.GenerateSignal (Oscilloscope, i);
+				SignalGenerator.GenerateSignal (channel, true);
 			}
 		}
 	}
