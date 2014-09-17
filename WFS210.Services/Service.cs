@@ -6,7 +6,15 @@ namespace WFS210.Services
 
 	public abstract class Service
 	{
-		public Oscilloscope Oscilloscope { get; private set; }
+		private readonly Oscilloscope oscilloscope;
+
+		/// <summary>
+		/// Gets the oscilloscope associated with this service.
+		/// </summary>
+		/// <value>The oscilloscope.</value>
+		public Oscilloscope Oscilloscope {
+			get { return oscilloscope; }
+		}
 
 		/// <summary>
 		/// Occurs when settings have changed.
@@ -31,7 +39,7 @@ namespace WFS210.Services
 		/// <param name="oscilloscope">Oscilloscope.</param>
 		protected Service (Oscilloscope oscilloscope)
 		{
-			this.Oscilloscope = oscilloscope;
+			this.oscilloscope = oscilloscope;
 		}
 
 		/// <summary>
