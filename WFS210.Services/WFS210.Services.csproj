@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Commands\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -42,6 +43,18 @@
     <Compile Include="DemoService.cs" />
     <Compile Include="LiveService.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="Commands\NextTimeBaseCommand.cs" />
+    <Compile Include="Commands\ServiceCommand.cs" />
+    <Compile Include="Commands\PreviousTimeBaseCommand.cs" />
+    <Compile Include="Commands\ToggleHoldCommand.cs" />
+    <Compile Include="Commands\ChannelCommand.cs" />
+    <Compile Include="Commands\TriggerModeCommand.cs" />
+    <Compile Include="Commands\InputCouplingCommand.cs" />
+    <Compile Include="Commands\TriggerSlopeCommand.cs" />
+    <Compile Include="Commands\NextVoltsPerDivisionCommand.cs" />
+    <Compile Include="Commands\PreviousVoltsPerDivisionCommand.cs" />
+    <Compile Include="Commands\TriggerChannelCommand.cs" />
+    <Compile Include="Commands\FlipAttenuationFactorCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

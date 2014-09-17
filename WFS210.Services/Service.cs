@@ -56,6 +56,12 @@ namespace WFS210.Services
 		/// Update this instance. This function should be called regularly.
 		/// </summary>
 		public abstract void Update ();
+
+		public void Execute(ServiceCommand command)
+		{
+			command.Execute (this);
+			ApplySettings ();
+		}
 	}
 }
 
