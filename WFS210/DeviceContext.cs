@@ -4,7 +4,7 @@ namespace WFS210
 {
 	public class DeviceContext
 	{
-		private Oscilloscope device;
+		private readonly Oscilloscope device;
 
 		/// <summary>
 		/// Gets the device for this context.
