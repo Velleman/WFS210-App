@@ -54,7 +54,8 @@ namespace WFS210.Services
 		/// </summary>
 		/// <param name="oscilloscope">Oscilloscope.</param>
 		/// <param name="channelIndex">Index of the channel to generate to.</param>
-		public void GenerateSignal (Oscilloscope oscilloscope, int channelIndex)
+		/// <param name="addNoise">Whether noise should be added to the signal.</param>
+		public void GenerateSignal (Oscilloscope oscilloscope, int channelIndex, bool addNoise = true)
 		{
 			Channel channel = oscilloscope.Channels[channelIndex];
 
@@ -118,10 +119,12 @@ namespace WFS210.Services
 				channel.Samples [i] = (byte)value.LimitToRange (0, 255);
 			}
 
-			AddNoise (channel.Samples);
+			if (addNoise) {
+				GenerateNoise (channel.Samples);
+			}
 		}
 
-		public void AddNoise (SampleBuffer buffer)
+		public void GenerateNoise (SampleBuffer buffer)
 		{
 			Random random = new Random ();
 
