@@ -7,6 +7,8 @@ namespace WFS210.Services
 {
 	public class SignalGenerator
 	{
+		private Random Noise = new Random ();
+
 		/// <summary>
 		/// Gets or sets the type of the signal.
 		/// </summary>
@@ -125,13 +127,12 @@ namespace WFS210.Services
 
 		public void GenerateNoise (Channel channel)
 		{
-			Random random = new Random ();
-
-			const int noiseLevel = 2;
+			const int noiseLevel = 1;
 
 			for (int i = 0; i < channel.Samples.Count; i++) {
 
-				channel.Samples[i] += (byte)random.Next(-noiseLevel, noiseLevel);
+				int value = channel.Samples[i] + Noise.Next(-noiseLevel, noiseLevel);
+				channel.Samples [i] = (byte)value.LimitToRange (0, 255);
 			}
 		}
 	}
