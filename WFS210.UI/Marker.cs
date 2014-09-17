@@ -12,6 +12,8 @@ namespace WFS210.UI
 
 		public UIImage Image { get; set; }
 
+		public CALayer Layer { get; set;}
+
 		public string Name { get; set; }
 
 		protected int value;
@@ -24,6 +26,10 @@ namespace WFS210.UI
 
 			Image = UIImage.FromFile (resourceUrl);
 
+			Layer = new CALayer ();
+			Layer.Contents = Image.CGImage;
+			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height);
+
 			Name = name;
 
 			Inlay = inlay;
@@ -35,6 +41,20 @@ namespace WFS210.UI
 			get{ return value; }
 			set{ 
 				this.value = value;
+				if (this.Layout == MarkerLayout.Horizontal)
+					Position = new PointF (Layer.Position.X, value);
+				else
+					Position = new PointF (value, Layer.Position.Y);
+			}
+		}
+
+		public PointF Position
+		{
+			set{ 
+				CATransaction.Begin ();
+				Layer.Position = value;
+				Layer.RemoveAnimation ("position");
+				CATransaction.Commit ();
 			}
 		}
 	}

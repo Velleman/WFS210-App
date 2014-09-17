@@ -4,6 +4,7 @@ using MonoTouch.CoreGraphics;
 using System.Drawing;
 using MonoTouch.CoreAnimation;
 using WFS210;
+using WFS210.Util;
 using System.Collections.Generic;
 
 namespace WFS210.UI
@@ -27,10 +28,10 @@ namespace WFS210.UI
 		public YMarker[] yMarkers = new YMarker[2];
 		ZeroLine[] zeroLines = new ZeroLine[2];
 		TriggerMarker trigMarker;
-		UIImage grid;
+		CALayer gridLayer;
 		public List<Marker> Markers = new List<Marker> ();
 
-
+		CAShapeLayer signal;
 
 		UIPinchGestureRecognizer pinchGesture;
 		UILongPressGestureRecognizer longPressGesture;
@@ -47,7 +48,8 @@ namespace WFS210.UI
 			this.GrappleDistance = 60;
 			Padding = new Padding (18, 0, 18, 0);
 			MarkersAreVisible = true;
-			grid = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png");
+
+			LoadGrid ();
 
 			LoadXMarkers ();
 
@@ -58,6 +60,8 @@ namespace WFS210.UI
 			LoadTriggerMarker ();
 
 			path = new CGPath ();
+
+			LoadSignal ();
 
 			FillList ();
 
@@ -110,6 +114,7 @@ namespace WFS210.UI
 				scopePoints [x] = new PointF (MapXPosToScreen(x) + ScopeBounds.Left, MapSampleDataToScreen (buffer [x]));
 			}
 			path.AddLines (scopePoints);
+			SetNeedsDisplay ();
 		}
 	
 
@@ -125,42 +130,46 @@ namespace WFS210.UI
 			return (int)(pos * ratio);
 		}
 
-		/// <summary>
-		/// Draws on the specified rect.
-		/// </summary>
-		/// <param name="rect">Rect.</param>
 		public override void Draw (RectangleF rect)
 		{
 			base.Draw (rect);
 
-			//get graphics context
 			using (CGContext g = UIGraphics.GetCurrentContext ()) {
-
-				g.ClearRect (Bounds);
-
-				DrawGrid ();
-
-				DrawSignal1 (g);
-
-				DrawSignal2 (g);
-
-				DrawMarkers ();
-			}       
+				LoadMarkers ();
+				CATransaction.Begin ();
+				signal.Path= path;
+				signal.DidChangeValue ("Path");
+				CATransaction.Commit ();
+			}
 		}
+			
 
-		void DrawGrid ()
+		void LoadGrid ()
 		{
-			grid.Draw (ScopeBounds);
+			gridLayer = new CALayer ();
+			gridLayer.Bounds = new RectangleF (0, 0, ScopeBounds.Width, ScopeBounds.Height);
+			gridLayer.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2+ ScopeBounds.Top);
+			gridLayer.Contents = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png").CGImage;
+			Layer.AddSublayer (gridLayer);
 		}
 
-		void DrawMarkers ()
+		void LoadSignal()
+		{
+			signal = new CAShapeLayer ();
+			signal.Path = path;
+			signal.LineWidth = 1f;
+			signal.StrokeColor = new CGColor (255, 0, 0);
+			signal.FillColor = new CGColor (0, 0, 0, 0);
+			Layer.AddSublayer (signal);
+		}
+
+		void LoadMarkers ()
 		{
 			if (MarkersAreVisible) {
 				foreach (Marker marker in Markers) {
-
-					UIImage image = marker.Image;
-
-					image.Draw (GetMarkerRect (marker));
+					var rect = GetMarkerRect (marker);
+					marker.Position = new PointF (rect.X, rect.Y);
+					Layer.AddSublayer (marker.Layer);
 				}
 			}
 		}
@@ -168,33 +177,16 @@ namespace WFS210.UI
 		RectangleF GetMarkerRect(Marker marker)
 		{
 			if (marker.Layout == MarkerLayout.Vertical) {
-				return new RectangleF (ScopeBounds.Left + marker.Value - marker.Image.CGImage.Width / 2,
-					ScopeBounds.Top - marker.Inlay,
+				return new RectangleF (marker.Value,
+					ScopeBounds.Height/2 + marker.Inlay,
 					marker.Image.CGImage.Width,
 					ScopeBounds.Height + marker.Inlay);
 			} else {
-				return new RectangleF (ScopeBounds.Left - marker.Inlay,
-					ScopeBounds.Top  + marker.Value - marker.Image.CGImage.Height/2,
+				return new RectangleF (ScopeBounds.Width/2 - marker.Inlay,
+					marker.Value,
 					ScopeBounds.Width + marker.Inlay,
 					marker.Image.CGImage.Height);
 			}
-		}
-
-		void DrawSignal1 (CGContext g)
-		{
-			//set up drawing attributes
-			g.SetLineWidth (1);
-			UIColor.Red.SetStroke ();
-
-			//add geometry to graphics context and draw it
-			g.AddPath (path);		
-			g.DrawPath (CGPathDrawingMode.Stroke);
-		}
-
-		void DrawSignal2 (CGContext g)
-		{
-			//UIColor.Green.SetStroke ();
-
 		}
 
 		public void ToggleMarkers()
@@ -206,28 +198,28 @@ namespace WFS210.UI
 		public void LoadXMarkers ()
 		{
 			//Makeing XMarkers and adding it to the layers
-			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png", Convert.ToInt32 (Bounds.Height / 1.5), "XMARKER1",18);
-			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png", (int)Bounds.Height / 2, "XMARKER2",18);
+			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png", Convert.ToInt32 (Bounds.Height / 1.5), "XMARKER1",9);
+			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png", (int)Bounds.Height / 2, "XMARKER2",9);
 		}
 
 		public void LoadYMarkers ()
 		{
 			//Makeing YMarkers and adding it to the layers
-			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png", Convert.ToInt32 (Bounds.Width / 1.5), "YMARKER1", 18);
-			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png", (int)Bounds.Width / 2, "YMARKER2",18);
+			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png", Convert.ToInt32 (Bounds.Width / 1.5), "YMARKER1", -9);
+			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png", (int)Bounds.Width / 2, "YMARKER2",-9);
 		}
 
 		public void LoadZeroLines ()
 		{
 			//Makeing ZeroLines and adding it to the layers
-			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png", Convert.ToInt32 (Bounds.Height / 5), "ZEROLINE1",0);
-			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", (int)Bounds.Height / 6, "ZEROLINE2",0);
+			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png", Convert.ToInt32 (Bounds.Height / 5), "ZEROLINE1",-18);
+			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", (int)Bounds.Height / 6, "ZEROLINE2",-18);
 		}
 
 		public void LoadTriggerMarker ()
 		{
 			//Makeing TriggerMarkers and adding it to the layers
-			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", Convert.ToInt32 (Bounds.Height / 3), "TRIGGERMARKER",18);
+			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", Convert.ToInt32 (Bounds.Height / 3), "TRIGGERMARKER",-9);
 		}
 
 		public void LoadVoltTimeIndicator ()
@@ -235,6 +227,8 @@ namespace WFS210.UI
 			vti = new VoltTimeIndicator ();
 
 			vti.Hidden = true;
+
+			vti.Layer.ZPosition = 100;
 
 			Layer.AddSublayer (vti.Layer);
 		}
@@ -274,28 +268,26 @@ namespace WFS210.UI
 							if(distance > startDistance + 50)
 							{
 								startDistance = distance;
-								if (wfs210.TimeBase != TimeBase.Tdiv1s)
-									wfs210.TimeBase = wfs210.TimeBase + 1;
+								wfs210.TimeBase = wfs210.TimeBase.Cycle(-1);
 							}
 							else if(distance < startDistance - 50)
 							{
 								startDistance = distance;
-								if (wfs210.TimeBase != TimeBase.Tdiv1us)
-									wfs210.TimeBase = wfs210.TimeBase - 1;
+								wfs210.TimeBase = wfs210.TimeBase.Cycle(1);
 							}
 							vti.Text = TimeBaseConverter.ToString(wfs210.TimeBase);
 						} else {
 							if(distance > startDistance + 50)
 							{
 								startDistance = distance;
-								if (SelectedChannel.VoltsPerDivision != VoltsPerDivision.Vdiv5mV)
-									SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision + 1;
+
+								SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision.Cycle(1);
 							}
 							else if(distance < startDistance - 50)
 							{
 								startDistance = distance;
-								if (SelectedChannel.VoltsPerDivision != VoltsPerDivision.VdivNone)
-									SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision - 1;
+
+								SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision.Cycle(-1);
 							}
 							vti.Text = VoltsPerDivisionConverter.ToString(SelectedChannel.VoltsPerDivision);
 						}
@@ -348,7 +340,6 @@ namespace WFS210.UI
 		{
 			Marker closestMarker;
 			closestMarker = null;
-			float latestTime;
 			longPressGesture = new UILongPressGestureRecognizer ((lp) => {
 				if (lp.State == UIGestureRecognizerState.Began) {
 					initialPoint = lp.LocationInView (this);
@@ -358,7 +349,7 @@ namespace WFS210.UI
 						if (closestMarker is XMarker) {
 							var position = closestMarker.Value;
 							var touchPos = lp.LocationInView(this).X;
-							if(touchPos > 0)
+							if(touchPos > ScopeBounds.Left)
 							{
 								if(touchPos < this.Bounds.Width)
 									position = (int)lp.LocationInView (this).X;
@@ -367,7 +358,7 @@ namespace WFS210.UI
 						} else {
 							var position = closestMarker.Value;
 							var touchPos = lp.LocationInView(this).Y;
-							if(touchPos > 0)
+							if(touchPos > ScopeBounds.Top)
 							{
 								if(touchPos < this.Bounds.Height)
 									position = (int)lp.LocationInView (this).Y;
@@ -375,7 +366,6 @@ namespace WFS210.UI
 							closestMarker.Value = position;
 						}
 					}
-					SetNeedsDisplay();
 				} else if (lp.State == UIGestureRecognizerState.Ended) {
 					closestMarker = null;
 					OnNewData(new NewDataEventArgs());

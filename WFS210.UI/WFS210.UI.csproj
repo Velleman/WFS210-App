@@ -150,6 +150,10 @@
       <Project>{5567BC5E-558A-4C08-A9FB-F5B6EC374849}</Project>
       <Name>WFS210.IO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WFS210.Services\WFS210.Services.csproj">
+      <Project>{2D19AE9F-112C-4205-9836-0BCDCFE3DCA3}</Project>
+      <Name>WFS210.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\CHAN1-SINE-LARGE.png" />

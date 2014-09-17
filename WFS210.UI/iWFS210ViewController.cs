@@ -5,13 +5,14 @@ using System.CodeDom.Compiler;
 using WFS210;
 using WFS210.IO;
 using System.Timers;
+using WFS210.Services;
 
 namespace WFS210.UI
 {
 	partial class iWFS210ViewController : UIViewController
 	{
 		Oscilloscope wfs210;
-		Service service;
+		WFS210.Services.Service service;
 		SettingsViewController settingsViewController;
 		MeasurementsViewController measurementsViewController;
 		SignalMeasurement[] signalMeasurements = new SignalMeasurement[2];
@@ -51,7 +52,7 @@ namespace WFS210.UI
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
 
 			wfs210 = new Oscilloscope ();
-			service = new DemoService (wfs210);
+			service = new WFS210.Services.DemoService (wfs210);
 			service.SettingsChanged += SettingsChanged;
 			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
 			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
@@ -69,10 +70,8 @@ namespace WFS210.UI
 			timer.AutoReset = true;
 			timer.Enabled = true;
 			timer.Start ();
-			//service.Update ();
 
 			ScopeView.SelectedChannel = wfs210.Channels [0];
-			//wfs210.Channels [0].GenerateTestSignal ();
 
 			ScopeView.NewData += (object sender, NewDataEventArgs e) => {
 				UpdateScopeControls ();
