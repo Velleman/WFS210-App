@@ -13,13 +13,13 @@ namespace WFS210.IO
 		/// </summary>
 		/// <param name="stream">Stream.</param>
 		/// <param name="message">Message.</param>
-		abstract public void Serialize(Stream stream, Message message);
+		public abstract void Serialize(Stream stream, Message message);
 
 		/// <summary>
 		/// Deserialize a message from the specified stream.
 		/// </summary>
 		/// <param name="stream">Stream.</param>
-		abstract public Message Deserialize(Stream stream);
+		public abstract Message Deserialize(Stream stream);
 	}
 }
 
