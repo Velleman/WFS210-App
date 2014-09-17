@@ -7,14 +7,14 @@ namespace WFS210.IO
 	/// Packet serializer that knows how to both serialize and deserialize
 	/// messages from a stream.
 	/// </summary>
-	public class PacketSerializer : IMessageSerializer
+	public class PacketSerializer : MessageSerializer
 	{
 		/// <summary>
 		/// Serialize the specified message and send it over the stream.
 		/// </summary>
 		/// <param name="stream">Stream.</param>
 		/// <param name="message">Message.</param>
-		public void Serialize (Stream stream, Message message)
+		public override void Serialize (Stream stream, Message message)
 		{
 			var buffer = new BufferedStream (stream);
 			var checkedStream = new CheckedStream (buffer, new ComplementChecksum());
@@ -52,7 +52,7 @@ namespace WFS210.IO
 		/// Deserialize a message from the specified stream.
 		/// </summary>
 		/// <param name="stream">Stream.</param>
-		public Message Deserialize (Stream stream)
+		public override Message Deserialize (Stream stream)
 		{
 			var checkedStream = new CheckedStream (stream, new ComplementChecksum ());
 			var reader = new BinaryReader (checkedStream);
