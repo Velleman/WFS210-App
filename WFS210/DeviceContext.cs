@@ -43,19 +43,20 @@ namespace WFS210
 		public int SampleMax { get; set; }
 
 		/// <summary>
-		/// Gets the number of samples per time base.
+		/// Gets the number of samples for the current time base.
 		/// </summary>
-		/// <returns>The number of samples per time base.</returns>
-		/// <param name="timeBase">Time base.</param>
-		public int SamplesPerTimeBase(TimeBase timeBase) {
+		/// <returns>The number of samples.</returns>
+		public int SamplesPerTimeBase {
 
-			switch(timeBase) {
-			case TimeBase.Tdiv1us:
-				return 10;
-			case TimeBase.Tdiv2us:
-				return 20;
-			default:
-				return 50;
+			get {
+				switch (Device.TimeBase) {
+				case TimeBase.Tdiv1us:
+					return 10;
+				case TimeBase.Tdiv2us:
+					return 20;
+				default:
+					return 50;
+				}
 			}
 		}
 
