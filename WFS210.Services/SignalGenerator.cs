@@ -1,21 +1,45 @@
 ﻿using System;
 
+using WFS210;
 using WFS210.Util;
 
 namespace WFS210.Services
 {
 	public class SignalGenerator
 	{
+		/// <summary>
+		/// Gets or sets the type of the signal.
+		/// </summary>
+		/// <value>The type of the signal.</value>
 		public SignalType SignalType { get; set; }
 
+		/// <summary>
+		/// Gets or sets the frequency of the signal.
+		/// </summary>
+		/// <value>The frequency.</value>
 		public double Frequency { get; set; }
 
+		/// <summary>
+		/// Gets or sets the amplitude of the signal.
+		/// </summary>
+		/// <value>The amplitude.</value>
 		public double Amplitude { get; set; }
 
+		/// <summary>
+		/// Gets or sets the phase of the signal.
+		/// </summary>
+		/// <value>The phase.</value>
 		public double Phase { get; set; }
 
+		/// <summary>
+		/// Gets or sets the offset of the signal.
+		/// </summary>
+		/// <value>The offset.</value>
 		public double Offset { get; set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.Services.SignalGenerator"/> class.
+		/// </summary>
 		public SignalGenerator ()
 		{
 			this.SignalType = SignalType.Sine;
@@ -25,7 +49,12 @@ namespace WFS210.Services
 			this.Offset = 5;
 		}
 
-		public void Generate (Oscilloscope oscilloscope, int channelIndex)
+		/// <summary>
+		/// Generates a signal for the specified channel.
+		/// </summary>
+		/// <param name="oscilloscope">Oscilloscope.</param>
+		/// <param name="channelIndex">Index of the channel to generate to.</param>
+		public void GenerateSignal (Oscilloscope oscilloscope, int channelIndex)
 		{
 			Channel channel = oscilloscope.Channels[channelIndex];
 
@@ -87,6 +116,20 @@ namespace WFS210.Services
 				int value = (int)Math.Round(channel.YPosition - gnd * (o + a * Math.Sin(2 * Math.PI * Frequency * t + Phase)));
 
 				channel.Samples [i] = (byte)value.LimitToRange (0, 255);
+			}
+
+			AddNoise (channel.Samples);
+		}
+
+		public void AddNoise (SampleBuffer buffer)
+		{
+			Random random = new Random ();
+
+			const int noiseLevel = 2;
+
+			for (int i = 0; i < buffer.Count; i++) {
+
+				buffer[i] += random.Next(-noiseLevel, noiseLevel);
 			}
 		}
 	}
