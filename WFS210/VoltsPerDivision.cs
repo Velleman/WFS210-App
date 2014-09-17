@@ -2,6 +2,9 @@
 
 namespace WFS210
 {
+	/// <summary>
+	/// Volts per division.
+	/// </summary>
 	public enum VoltsPerDivision
 	{
 		VdivNone,

@@ -2,6 +2,9 @@
 
 namespace WFS210
 {
+	/// <summary>
+	/// Trigger mode.
+	/// </summary>
 	public enum TriggerMode {
 
 		Normal,
