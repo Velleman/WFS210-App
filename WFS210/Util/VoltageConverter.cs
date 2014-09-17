@@ -2,7 +2,7 @@
 
 namespace WFS210
 {
-	public class VoltageConverter
+	public static class VoltageConverter
 	{
 		public static string ToString(double voltage)
 		{

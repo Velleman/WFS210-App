@@ -2,7 +2,7 @@
 
 namespace WFS210
 {
-	public class TimeBaseConverter
+	public static class TimeBaseConverter
 	{
 		/// <summary>
 		/// Time base lookup table. All values are in seconds (s).

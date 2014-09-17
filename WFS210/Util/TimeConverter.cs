@@ -2,7 +2,7 @@
 
 namespace WFS210
 {
-	public class TimeConverter
+	public static class TimeConverter
 	{
 		public static string ToString(double seconds)
 		{

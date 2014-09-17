@@ -2,7 +2,7 @@
 
 namespace WFS210
 {
-	public class UnitConverter
+	public static class UnitConverter
 	{
 		public static string ToString(double value, string[] units, double step)
 		{

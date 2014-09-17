@@ -2,7 +2,7 @@
 
 namespace WFS210
 {
-	public class VoltsPerDivisionConverter
+	public static class VoltsPerDivisionConverter
 	{
 		/// <summary>
 		/// Volts per division lookup table. All values are in volts (V).
