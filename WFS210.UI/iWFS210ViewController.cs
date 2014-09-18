@@ -403,10 +403,7 @@ namespace WFS210.UI
 
 		void UpdateVoltText1 ()
 		{
-			string text;
-			text = "Incorrect Value";
-			text = VoltsPerDivisionConverter.ToString (wfs210.Channels [0].VoltsPerDivision);
-			lblVolt1.Text = text;
+			lblVolt1.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [0].VoltsPerDivision);
 		}
 
 		void UpdateInputCoupling2 ()
