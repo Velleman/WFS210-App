@@ -62,66 +62,67 @@ namespace WFS210.Services
 
 			Random random = new Random ();
 			double randomPhase = random.Next (0, 628) / 100;
+			if (!oscilloscope.Hold) {
+				for (int i = 0; i < channel.Samples.Count; i++) {
 
-			for (int i = 0; i < channel.Samples.Count; i++) {
+					double gnd = 1, input = 0;
 
-				double gnd = 1, input = 0;
+					double tl = oscilloscope.Trigger.Level;
 
-				double tl = oscilloscope.Trigger.Level;
+					switch (channel.InputCoupling) {
+					case InputCoupling.AC:
+						gnd = 1;
+						input = 0;
+						break;
+					case InputCoupling.DC:
+						gnd = 1;
+						input = 1;
+						break;
+					case InputCoupling.GND:
+						gnd = 0;
+						input = 0;
+						break;
+					}
 
-				switch (channel.InputCoupling) {
-				case InputCoupling.AC:
-					gnd = 1;
-					input = 0;
-					break;
-				case InputCoupling.DC:
-					gnd = 1;
-					input = 1;
-					break;
-				case InputCoupling.GND:
-					gnd = 0;
-					input = 0;
-					break;
+					double samplesPerVolt = 25 / VoltsPerDivisionConverter.ToVolts (channel.VoltsPerDivision);
+
+					double a = Amplitude * samplesPerVolt;
+					double o = input * Offset * samplesPerVolt;
+
+					double samplesPerDiv;
+
+					switch (oscilloscope.TimeBase) {
+					case TimeBase.Tdiv1us:
+						samplesPerDiv = 10;
+						break;
+					case TimeBase.Tdiv2us:
+						samplesPerDiv = 20;
+						break;
+					default:
+						samplesPerDiv = 50;
+						break;
+					}
+
+					double t = i * TimeBaseConverter.ToSeconds (oscilloscope.TimeBase) / samplesPerDiv;
+
+					if ((Math.Floor (a) == 0) || (Math.Floor (gnd) == 0)) {
+						Phase = 0;
+					} else if ((tl < (channel.YPosition - (o + a))) || (tl > (channel.YPosition + (o + a)))) {
+						Phase = randomPhase;
+					} else if (oscilloscope.Trigger.Slope == TriggerSlope.Rising) {
+						Phase = Math.Asin ((tl - (channel.YPosition - o)) / a);
+					} else {
+						Phase = Math.PI - Math.Asin ((tl - (channel.YPosition - o)) / a);
+					}
+
+					int value = (int)Math.Round (channel.YPosition - gnd * (o + a * Math.Sin (2 * Math.PI * Frequency * t + Phase)));
+
+					channel.Samples [i] = (byte)value.LimitToRange (0, 255);
 				}
 
-				double samplesPerVolt = 25 / VoltsPerDivisionConverter.ToVolts (channel.VoltsPerDivision);
-
-				double a = Amplitude * samplesPerVolt;
-				double o = input * Offset * samplesPerVolt;
-
-				double samplesPerDiv;
-
-				switch (oscilloscope.TimeBase) {
-				case TimeBase.Tdiv1us:
-					samplesPerDiv = 10;
-					break;
-				case TimeBase.Tdiv2us:
-					samplesPerDiv = 20;
-					break;
-				default:
-					samplesPerDiv = 50;
-					break;
+				if (addNoise) {
+					GenerateNoise (channel);
 				}
-
-				double t = i * TimeBaseConverter.ToSeconds (oscilloscope.TimeBase) / samplesPerDiv;
-
-				if ((Math.Floor(a) == 0) || (Math.Floor(gnd) == 0)) {
-					Phase = 0;
-				} else if ((tl < (channel.YPosition - (o + a))) || (tl > (channel.YPosition + (o + a)))) {
-					Phase = randomPhase;
-				} else if (oscilloscope.Trigger.Slope == TriggerSlope.Rising) {
-					Phase = Math.Asin ((tl - (channel.YPosition - o)) / a);
-				} else {
-					Phase = Math.PI - Math.Asin ((tl - (channel.YPosition - o)) / a);
-				}
-
-				int value = (int)Math.Round(channel.YPosition - gnd * (o + a * Math.Sin(2 * Math.PI * Frequency * t + Phase)));
-
-				channel.Samples [i] = (byte)value.LimitToRange (0, 255);
-			}
-
-			if (addNoise) {
-				GenerateNoise (channel);
 			}
 		}
 
