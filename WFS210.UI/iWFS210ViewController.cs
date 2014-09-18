@@ -54,8 +54,8 @@ namespace WFS210.UI
 			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
 			markerMeasurements [0] = new MarkerMeasurement (){ Channel = 0,  SelectedUnit = MarkerUnit.dt };
 			markerMeasurements [1] = new MarkerMeasurement (){ Channel = 1,  SelectedUnit = MarkerUnit.dt };
-			ScopeView.Wfs210 = wfs210;
-			Timer timer = new Timer (500);
+			ScopeView.Initialize (wfs210);
+			Timer timer = new Timer (200);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				service.Update ();
 				InvokeOnMainThread ( () => {
@@ -588,7 +588,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV2 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value,wfs210.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";

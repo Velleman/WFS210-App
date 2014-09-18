@@ -106,9 +106,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="ScopeView.cs" />
-    <Compile Include="ScopeView.designer.cs">
-      <DependentUpon>ScopeView.cs</DependentUpon>
-    </Compile>
     <Compile Include="iWFS210ViewController.cs" />
     <Compile Include="iWFS210ViewController.designer.cs">
       <DependentUpon>iWFS210ViewController.cs</DependentUpon>
@@ -141,6 +138,9 @@
     </Compile>
     <Compile Include="WFS210Tools.cs" />
     <Compile Include="MarkerDataCalculator.cs" />
+    <Compile Include="ScopeView.designer.cs">
+      <DependentUpon>ScopeView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
