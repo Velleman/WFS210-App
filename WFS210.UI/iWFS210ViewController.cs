@@ -517,10 +517,7 @@ namespace WFS210.UI
 
 		void UpdateTimeBaseText ()
 		{
-			string text;
-			text = "Incorrect Value";
-			text = TimeBaseConverter.ToString (wfs210.TimeBase);
-			lblTime.Text = text;
+			lblTime.Text = TimeBaseConverter.ToString (wfs210.TimeBase);
 		}
 
 		void UpdateMarkerMeasurement1 ()
