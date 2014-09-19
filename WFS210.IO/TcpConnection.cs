@@ -15,17 +15,17 @@ namespace WFS210.IO
 		/// <summary>
 		/// The default gateway address.
 		/// </summary>
-		static readonly string DefaultAddress = "169.254.1.1";
+		const string DefaultAddress = "169.254.1.1";
 
 		/// <summary>
 		/// The default port on which the gateway is listening for connections.
 		/// </summary>
-		static readonly int DefaultPort = 2000;
+		const int DefaultPort = 2000;
 
 		/// <summary>
 		/// The welcome text.
 		/// </summary>
-		static readonly string WelcomeText = "*HELLO*";
+		const string WelcomeText = "*HELLO*";
 
 		/// <summary>
 		/// Underlying client used for TCP communication.
