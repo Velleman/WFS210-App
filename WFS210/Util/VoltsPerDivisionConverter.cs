@@ -23,7 +23,7 @@ namespace WFS210
 			string caption;
 
 			if (volts == 0) {
-				caption = "None"; // TODO: localize
+				caption = "Off"; // TODO: localize
 			} else {
 				caption = String.Format ("{0}/div", VoltageConverter.ToString (volts));
 			}
