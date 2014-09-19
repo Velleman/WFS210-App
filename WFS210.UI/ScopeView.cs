@@ -35,6 +35,7 @@ namespace WFS210.UI
 		CALayer gridLayer;
 		public List<Marker> Markers = new List<Marker> ();
 		CAShapeLayer[] signals;
+		CAShapeLayer maskLayer;
 		public VoltTimeIndicator vti;
 
 		UIPinchGestureRecognizer pinchGesture;
@@ -59,6 +60,7 @@ namespace WFS210.UI
 			LoadXMarkers ();
 
 			LoadYMarkers ();
+
 
 			RegisterLongPressRecognizer ();
 
@@ -140,7 +142,7 @@ namespace WFS210.UI
 
 		private int ScreenDataToScopeData (int value)
 		{
-			return (int)(value / sampleToPointRatio);
+			return (int)((value - ScopeBounds.Top) / sampleToPointRatio) ;
 		}
 
 		private int ScreenDataToScopeDataInverted (int value)
@@ -178,6 +180,25 @@ namespace WFS210.UI
 			Layer.AddSublayer (gridLayer);
 		}
 
+		CAShapeLayer GetSignalMask ()
+		{
+			RectangleF clippingRect = new RectangleF(ScopeBounds.Left,ScopeBounds.Top + 3,ScopeBounds.Width,ScopeBounds.Height - 7);
+			// Set clippingRect to the rectangle you wish to clip to
+
+			var maskPath = UIBezierPath.FromRect (clippingRect);
+
+			// Create a shape layer
+			maskLayer = new CAShapeLayer ();
+			maskLayer.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2+ ScopeBounds.Top);
+			maskLayer.Bounds = new RectangleF (ScopeBounds.X, ScopeBounds.Y, ScopeBounds.Width, ScopeBounds.Height);
+			//maskLayer.BorderColor = new CGColor (255, 0, 0 , 1f);
+			// Set the path of the mask layer to be the Bezier path we calculated earlier
+			maskLayer.Path = maskPath.CGPath;
+			//maskLayer.BorderWidth = 1f;
+			//Layer.AddSublayer (maskLayer);
+			return maskLayer;
+		}
+
 		void LoadSignals ()
 		{
 			for (int i = 0; i < wfs210.Channels.Count; i++) {
@@ -186,6 +207,7 @@ namespace WFS210.UI
 				signals [i].LineWidth = 1f;
 				signals [i].StrokeColor = new CGColor (0, 255, 0);
 				signals [i].FillColor = new CGColor (0, 0, 0, 0);
+				signals [i].Mask = GetSignalMask();
 				Layer.AddSublayer (signals [i]);
 			}
 
