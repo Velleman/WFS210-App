@@ -20,7 +20,7 @@ namespace WFS210.Services
 		/// <param name="oscilloscope">Oscilloscope.</param>
 		/// <param name="connection">Connection.</param>
 		public LiveService (Oscilloscope oscilloscope, TcpConnection connection)
-			: base(oscilloscope)
+			: base (oscilloscope)
 		{
 			this.Connection = connection;
 		}
@@ -54,6 +54,58 @@ namespace WFS210.Services
 		public override void Update ()
 		{
 			// read incoming IO
+			var message = Connection.Read ();
+			switch (message.Command) {
+
+			case Command.SampleData:
+				DecodeSamplePacket (message.Payload);
+				break;
+			case Command.Settings:
+				DecodeSettingsPacket (message.Payload);
+				break;
+			default:
+				break;
+			}
+		}
+
+		void DecodeSamplePacket (byte[] payload)
+		{
+			throw new System.NotImplementedException ();
+		}
+
+		void DecodeSettingsPacket (byte[] payload)
+		{
+			Oscilloscope.Channels [0].InputCoupling = (InputCoupling)payload [0];
+			Oscilloscope.Channels [0].VoltsPerDivision = (VoltsPerDivision)payload [1];
+			Oscilloscope.Channels [0].YPosition = payload [2];
+			Oscilloscope.Channels [1].InputCoupling = (InputCoupling)payload [3];
+			Oscilloscope.Channels [1].VoltsPerDivision = (VoltsPerDivision)payload [4];
+			Oscilloscope.Channels [1].YPosition = payload [5];
+			Oscilloscope.TimeBase = (TimeBase)payload [6];
+			Oscilloscope.Trigger.Level = payload [7];
+			DecodeTriggerSettings (payload [8]);
+			DecodeModuleStatus (payload [9]);
+		}
+
+		void DecodeTriggerSettings (byte triggerSettings)
+		{
+			Oscilloscope.Trigger.Mode = (TriggerMode)triggerSettings & 3;
+			Oscilloscope.Trigger.Slope = (TriggerSlope)((triggerSettings & 4) >> 2);
+			Oscilloscope.Trigger.Channel = Oscilloscope.Channels [((triggerSettings & 8) >> 3)];
+			Oscilloscope.Hold = (bool)((triggerSettings & 16) >> 4);
+			Oscilloscope.AutoRange = (bool)((triggerSettings & 128) >> 7);
+		}
+
+		void DecodeModuleStatus (byte b)
+		{
+			var batStatus = b & 7;
+			if (batStatus == 4)
+				Oscilloscope.BatteryStatus = BatteryStatus.Charging;
+			if (batStatus == 5)
+				Oscilloscope.BatteryStatus = BatteryStatus.Charged;
+			if (batStatus == 3)
+				Oscilloscope.BatteryStatus = BatteryStatus.BatteryLow;
+			Oscilloscope.Calibrating = (bool)((b & 16) >> 4);
 		}
 	}
 }
