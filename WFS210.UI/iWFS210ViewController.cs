@@ -34,7 +34,8 @@ namespace WFS210.UI
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
 			this.wfs210 = new Oscilloscope ();
-			this.service = new DemoService (wfs210);
+			//this.service = new DemoService (wfs210);
+			this.service = new LiveService (wfs210, new TcpConnection ());
 		}
 
 		void SettingsChanged (object sender, EventArgs e)
@@ -403,7 +404,10 @@ namespace WFS210.UI
 
 		void UpdateVoltText1 ()
 		{
-			lblVolt1.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [0].VoltsPerDivision);
+			string text;
+			text = "Incorrect Value";
+			text = VoltsPerDivisionConverter.ToString (wfs210.Channels [0].VoltsPerDivision);
+			lblVolt1.Text = text;
 		}
 
 		void UpdateInputCoupling2 ()
@@ -514,7 +518,10 @@ namespace WFS210.UI
 
 		void UpdateTimeBaseText ()
 		{
-			lblTime.Text = TimeBaseConverter.ToString (wfs210.TimeBase);
+			string text;
+			text = "Incorrect Value";
+			text = TimeBaseConverter.ToString (wfs210.TimeBase);
+			lblTime.Text = text;
 		}
 
 		void UpdateMarkerMeasurement1 ()

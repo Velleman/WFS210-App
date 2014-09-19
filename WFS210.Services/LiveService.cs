@@ -89,11 +89,19 @@ namespace WFS210.Services
 
 		void DecodeTriggerSettings (byte triggerSettings)
 		{
-			Oscilloscope.Trigger.Mode = (TriggerMode)triggerSettings & 3;
+			Oscilloscope.Trigger.Mode = (TriggerMode)(triggerSettings & 3);
 			Oscilloscope.Trigger.Slope = (TriggerSlope)((triggerSettings & 4) >> 2);
-			Oscilloscope.Trigger.Channel = Oscilloscope.Channels [((triggerSettings & 8) >> 3)];
-			Oscilloscope.Hold = (bool)((triggerSettings & 16) >> 4);
-			Oscilloscope.AutoRange = (bool)((triggerSettings & 128) >> 7);
+			Oscilloscope.Trigger.Channel = ((triggerSettings & 8) >> 3);
+			var hold = (triggerSettings & 16) >> 4;
+			if (hold == 1)
+				Oscilloscope.Hold = true;
+			else
+				Oscilloscope.Hold = false;
+			var autoRange = ((triggerSettings & 128) >> 7);
+			if (autoRange == 1)
+				Oscilloscope.AutoRange = true;
+			else
+				Oscilloscope.AutoRange = false;
 		}
 
 		void DecodeModuleStatus (byte b)
@@ -105,7 +113,11 @@ namespace WFS210.Services
 				Oscilloscope.BatteryStatus = BatteryStatus.Charged;
 			if (batStatus == 3)
 				Oscilloscope.BatteryStatus = BatteryStatus.BatteryLow;
-			Oscilloscope.Calibrating = (bool)((b & 16) >> 4);
+			var calibrating = ((b & 16) >> 4);
+			if (calibrating == 1)
+				Oscilloscope.Calibrating = true;
+			else
+				Oscilloscope.Calibrating = false;
 		}
 	}
 }
