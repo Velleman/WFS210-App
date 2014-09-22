@@ -30,7 +30,7 @@ namespace WFS210.Services
 		/// </summary>
 		public override void ApplySettings ()
 		{
-			Message message = new Message (Command.ModifySettings);
+			var message = new Message (Command.ModifySettings);
 
 			message.Payload = new byte[10];
 			message.Payload [0] = 0x00;
@@ -43,7 +43,7 @@ namespace WFS210.Services
 		/// </summary>
 		public override void RequestSettings ()
 		{
-			Message message = new Message (Command.RequestSettings);
+			var message = new Message (Command.RequestSettings);
 
 			Connection.Write (message);
 		}
@@ -53,10 +53,9 @@ namespace WFS210.Services
 		/// </summary>
 		public override void Update ()
 		{
-			// read incoming IO
 			var message = Connection.Read ();
-			switch (message.Command) {
 
+			switch (message.Command) {
 			case Command.SampleData:
 				DecodeSamplePacket (message.Payload);
 				break;
@@ -75,49 +74,49 @@ namespace WFS210.Services
 
 		void DecodeSettingsPacket (byte[] payload)
 		{
+			// Channel 1
 			Oscilloscope.Channels [0].InputCoupling = (InputCoupling)payload [0];
 			Oscilloscope.Channels [0].VoltsPerDivision = (VoltsPerDivision)payload [1];
 			Oscilloscope.Channels [0].YPosition = payload [2];
+
+			// Channel 2
 			Oscilloscope.Channels [1].InputCoupling = (InputCoupling)payload [3];
 			Oscilloscope.Channels [1].VoltsPerDivision = (VoltsPerDivision)payload [4];
 			Oscilloscope.Channels [1].YPosition = payload [5];
+
+			// Oscilloscope
 			Oscilloscope.TimeBase = (TimeBase)payload [6];
 			Oscilloscope.Trigger.Level = payload [7];
 			DecodeTriggerSettings (payload [8]);
 			DecodeModuleStatus (payload [9]);
 		}
 
-		void DecodeTriggerSettings (byte triggerSettings)
+		void DecodeTriggerSettings (byte flags)
 		{
-			Oscilloscope.Trigger.Mode = (TriggerMode)(triggerSettings & 3);
-			Oscilloscope.Trigger.Slope = (TriggerSlope)((triggerSettings & 4) >> 2);
-			Oscilloscope.Trigger.Channel = ((triggerSettings & 8) >> 3);
-			var hold = (triggerSettings & 16) >> 4;
-			if (hold == 1)
-				Oscilloscope.Hold = true;
-			else
-				Oscilloscope.Hold = false;
-			var autoRange = ((triggerSettings & 128) >> 7);
-			if (autoRange == 1)
-				Oscilloscope.AutoRange = true;
-			else
-				Oscilloscope.AutoRange = false;
+			Oscilloscope.Trigger.Mode = (TriggerMode)(flags & 3);
+			Oscilloscope.Trigger.Slope = (TriggerSlope)((flags & 4) >> 2);
+			Oscilloscope.Trigger.Channel = ((flags & 8) >> 3);
+			Oscilloscope.Hold = (((flags & 16) >> 4) == 1);
+			Oscilloscope.AutoRange = (((flags & 128) >> 7) == 1);
 		}
 
-		void DecodeModuleStatus (byte b)
+		public void DecodeModuleStatus (byte flags)
 		{
-			var batStatus = b & 7;
-			if (batStatus == 4)
+			int batteryStatus = (flags & 0x07);
+
+			switch (batteryStatus) {
+			case 0x04:
 				Oscilloscope.BatteryStatus = BatteryStatus.Charging;
-			if (batStatus == 5)
+				break;
+			case 0x05:
 				Oscilloscope.BatteryStatus = BatteryStatus.Charged;
-			if (batStatus == 3)
+				break;
+			case 0x03:
 				Oscilloscope.BatteryStatus = BatteryStatus.BatteryLow;
-			var calibrating = ((b & 16) >> 4);
-			if (calibrating == 1)
-				Oscilloscope.Calibrating = true;
-			else
-				Oscilloscope.Calibrating = false;
+				break;
+			}
+
+			Oscilloscope.Calibrating = (((flags & 16) >> 4) == 1);
 		}
 	}
 }
