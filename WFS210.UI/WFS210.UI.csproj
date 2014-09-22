@@ -141,10 +141,6 @@
     <Compile Include="ScopeView.designer.cs">
       <DependentUpon>ScopeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="SignalMeasurementViewController.cs" />
-    <Compile Include="SignalMeasurementViewController.designer.cs">
-      <DependentUpon>SignalMeasurementViewController.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
