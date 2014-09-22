@@ -57,38 +57,46 @@ namespace WFS210.Services
 
 			switch (message.Command) {
 			case Command.SampleData:
-				DecodeSamplePacket (message.Payload);
+				DecodeSamplesMessage (message);
 				break;
 			case Command.Settings:
-				DecodeSettingsPacket (message.Payload);
+				DecodeSettingsMessage (message);
 				break;
 			default:
 				break;
 			}
 		}
 
-		public void DecodeSamplePacket (byte[] payload)
+		/// <summary>
+		/// Decodes and stores the samples from a samples message.
+		/// </summary>
+		/// <param name="message">Samples message.</param>
+		public void DecodeSamplesMessage (Message message)
 		{
 			throw new System.NotImplementedException ();
 		}
 
-		public void DecodeSettingsPacket (byte[] payload)
+		/// <summary>
+		/// Decodes and applies the settings in a settings packet.
+		/// </summary>
+		/// <param name="message">Settings message.</param>
+		public void DecodeSettingsMessage (Message message)
 		{
 			// Channel 1
-			Oscilloscope.Channels [0].InputCoupling = (InputCoupling)payload [0];
-			Oscilloscope.Channels [0].VoltsPerDivision = (VoltsPerDivision)payload [1];
-			Oscilloscope.Channels [0].YPosition = payload [2];
+			Oscilloscope.Channels [0].InputCoupling = (InputCoupling)message.Payload [0];
+			Oscilloscope.Channels [0].VoltsPerDivision = (VoltsPerDivision)message.Payload [1];
+			Oscilloscope.Channels [0].YPosition = message.Payload [2];
 
 			// Channel 2
-			Oscilloscope.Channels [1].InputCoupling = (InputCoupling)payload [3];
-			Oscilloscope.Channels [1].VoltsPerDivision = (VoltsPerDivision)payload [4];
-			Oscilloscope.Channels [1].YPosition = payload [5];
+			Oscilloscope.Channels [1].InputCoupling = (InputCoupling)message.Payload [3];
+			Oscilloscope.Channels [1].VoltsPerDivision = (VoltsPerDivision)message.Payload [4];
+			Oscilloscope.Channels [1].YPosition = message.Payload [5];
 
 			// Oscilloscope
-			Oscilloscope.TimeBase = (TimeBase)payload [6];
-			Oscilloscope.Trigger.Level = payload [7];
-			DecodeTriggerSettings (payload [8]);
-			DecodeModuleStatus (payload [9]);
+			Oscilloscope.TimeBase = (TimeBase)message.Payload [6];
+			Oscilloscope.Trigger.Level = message.Payload [7];
+			DecodeTriggerSettings (message.Payload [8]);
+			DecodeModuleStatus (message.Payload [9]);
 		}
 
 		protected void DecodeTriggerSettings (byte flags)
