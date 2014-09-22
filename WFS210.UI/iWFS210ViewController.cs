@@ -42,6 +42,7 @@ namespace WFS210.UI
 
 		SettingsViewController settingsViewController;
 		MeasurementsViewController measurementsViewController;
+
 		SignalMeasurement[] signalMeasurements = new SignalMeasurement[2];
 		MarkerMeasurement[] markerMeasurements = new MarkerMeasurement[2];
 
@@ -146,7 +147,6 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
 		{
-			//throw new NotImplementedException();
 			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			// You need to specify the controller you are presenting 
 			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
@@ -159,7 +159,6 @@ namespace WFS210.UI
 
 		partial void btnSignalMeasurements_TouchUpInside (UIButton sender)
 		{
-			//throw new NotImplementedException();
 			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			// You need to specify the controller you are presenting 
 			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
@@ -271,7 +270,6 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements2_TouchUpInside (UIButton sender)
 		{
-
 			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
@@ -429,10 +427,7 @@ namespace WFS210.UI
 
 		void UpdateVoltText1 ()
 		{
-			string text;
-			text = "Incorrect Value";
-			text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision);
-			lblVolt1.Text = text;
+			lblVolt1.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision);
 		}
 
 		void UpdateInputCoupling2 ()
