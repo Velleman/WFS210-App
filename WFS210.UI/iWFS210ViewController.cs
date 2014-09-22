@@ -34,8 +34,8 @@ namespace WFS210.UI
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
 			this.wfs210 = new Oscilloscope ();
-			//this.service = new DemoService (wfs210);
-			this.service = new LiveService (wfs210, new TcpConnection ());
+			this.service = new DemoService (wfs210);
+			//this.service = new LiveService (wfs210, new TcpConnection ());
 		}
 
 		void SettingsChanged (object sender, EventArgs e)
@@ -46,9 +46,9 @@ namespace WFS210.UI
 
 		#region View lifecycle
 
-		public override void ViewWillAppear (bool animated)
+		public override void ViewDidLoad ()
 		{
-			base.ViewWillAppear (animated);
+			base.ViewDidLoad ();
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
 			service.SettingsChanged += SettingsChanged;
 			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
@@ -59,9 +59,7 @@ namespace WFS210.UI
 			Timer timer = new Timer (200);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				service.Update ();
-				InvokeOnMainThread ( () => {
-					ScopeView.UpdateScopeView();
-				});
+				InvokeOnMainThread (ScopeView.UpdateScopeView);
 
 			};
 			timer.AutoReset = true;
@@ -70,9 +68,14 @@ namespace WFS210.UI
 
 			ScopeView.SelectedChannel = wfs210.Channels [0];
 
-			ScopeView.NewData += (object sender, NewDataEventArgs e) => {
-				UpdateScopeControls ();
-			};
+			ScopeView.NewData += (object sender, NewDataEventArgs e) => UpdateScopeControls ();
+
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			base.ViewDidAppear (animated);
+			UpdateScopeControls ();
 		}
 
 		public override bool PrefersStatusBarHidden ()
@@ -87,37 +90,37 @@ namespace WFS210.UI
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
 			ScopeView.SelectedChannel = wfs210.Channels [0];
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnAC1_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new InputCouplingCommand(0, InputCoupling.AC));
+			service.Execute (new InputCouplingCommand (0, InputCoupling.AC));
 		}
 
 		partial void btnDC1_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new InputCouplingCommand(0, InputCoupling.DC));
+			service.Execute (new InputCouplingCommand (0, InputCoupling.DC));
 		}
 
 		partial void btnGND1_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new InputCouplingCommand(0, InputCoupling.GND));
+			service.Execute (new InputCouplingCommand (0, InputCoupling.GND));
 		}
 
 		partial void btnProbe1_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new FlipAttenuationFactorCommand(0));
+			service.Execute (new FlipAttenuationFactorCommand (0));
 		}
 
 		partial void btnVoltDown1_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new NextVoltsPerDivisionCommand(0));
+			service.Execute (new NextVoltsPerDivisionCommand (0));
 		}
 
 		partial void btnVoltUp1_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new PreviousVoltsPerDivisionCommand(0));
+			service.Execute (new PreviousVoltsPerDivisionCommand (0));
 		}
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
@@ -150,58 +153,58 @@ namespace WFS210.UI
 
 		partial void btnTriggerCH1_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new TriggerChannelCommand(0));
+			service.Execute (new TriggerChannelCommand (0));
 		}
 
 		partial void btnTriggerCH2_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new TriggerChannelCommand(1));
+			service.Execute (new TriggerChannelCommand (1));
 		}
 
 		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new TriggerSlopeCommand(TriggerSlope.Rising));
+			service.Execute (new TriggerSlopeCommand (TriggerSlope.Rising));
 		}
 
 		partial void btnTriggerSlopeDown_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new TriggerSlopeCommand(TriggerSlope.Falling)); 
+			service.Execute (new TriggerSlopeCommand (TriggerSlope.Falling)); 
 		}
 
 		partial void btnTriggerRun_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new TriggerModeCommand(TriggerMode.Run));
+			service.Execute (new TriggerModeCommand (TriggerMode.Run));
 		}
 
 		partial void btnTriggerNrml_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new TriggerModeCommand(TriggerMode.Normal));
+			service.Execute (new TriggerModeCommand (TriggerMode.Normal));
 		}
 
 		partial void btnTriggerOnce_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new TriggerModeCommand(TriggerMode.Once));
+			service.Execute (new TriggerModeCommand (TriggerMode.Once));
 		}
 
 		partial void btnTriggerHold_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new ToggleHoldCommand());
+			service.Execute (new ToggleHoldCommand ());
 		}
 
 		partial void btnTimeLeft_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new PreviousTimeBaseCommand());
+			service.Execute (new PreviousTimeBaseCommand ());
 		}
 
 		partial void btnTimeRight_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new NextTimeBaseCommand());
+			service.Execute (new NextTimeBaseCommand ());
 		}
 
 		partial void btnAutorange_TouchUpInside (UIButton sender)
 		{
 			wfs210.AutoRange = !wfs210.AutoRange;
-			service.ApplySettings();  
+			service.ApplySettings ();  
 		}
 
 		#endregion
@@ -211,37 +214,37 @@ namespace WFS210.UI
 		partial void btnSelectChannel2_TouchUpInside (UIButton sender)
 		{
 			ScopeView.SelectedChannel = wfs210.Channels [1];
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnAC2_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new InputCouplingCommand(1, InputCoupling.AC));
+			service.Execute (new InputCouplingCommand (1, InputCoupling.AC));
 		}
 
 		partial void btnDC2_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new InputCouplingCommand(1, InputCoupling.DC));
+			service.Execute (new InputCouplingCommand (1, InputCoupling.DC));
 		}
 
 		partial void btnGND2_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new InputCouplingCommand(1, InputCoupling.GND));
+			service.Execute (new InputCouplingCommand (1, InputCoupling.GND));
 		}
 
 		partial void btnProbe2_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new FlipAttenuationFactorCommand(1));
+			service.Execute (new FlipAttenuationFactorCommand (1));
 		}
 
 		partial void btnVoltDown2_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new NextVoltsPerDivisionCommand(1));
+			service.Execute (new NextVoltsPerDivisionCommand (1));
 		}
 
 		partial void btnVoltUp2_TouchUpInside (UIButton sender)
 		{
-			service.Execute(new PreviousVoltsPerDivisionCommand(1));
+			service.Execute (new PreviousVoltsPerDivisionCommand (1));
 		}
 
 
@@ -249,7 +252,7 @@ namespace WFS210.UI
 		{
 
 			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			MeasurementsViewController.isMarkerMeasurement = true;
 			MeasurementsViewController.SelectedChannel = 1;
@@ -302,6 +305,7 @@ namespace WFS210.UI
 				signalMeasurements [MeasurementsViewController.SelectedChannel].SelectedUnit = (SignalUnit)Enum.Parse (typeof(SignalUnit), MeasurementsViewController.SelectedMeasurement, true);
 
 			measurementsViewController.DismissViewController (true, null);
+			UpdateScopeControls ();
 		}
 
 		#endregion
@@ -589,7 +593,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV2 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value,wfs210.DeviceContext, ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";
@@ -600,7 +604,7 @@ namespace WFS210.UI
 
 		}
 
-		void EnableDisableMarkers()
+		void EnableDisableMarkers ()
 		{
 			ScopeView.ToggleMarkers ();
 		}
@@ -654,7 +658,7 @@ namespace WFS210.UI
 				SetSignalWithDtValue (1);
 				break;
 			case MarkerUnit.Frequency:
-				SetSignalWithFrequency(1);
+				SetSignalWithFrequency (1);
 				break;
 			case MarkerUnit.dV1:
 				SetSignalWithDV1 (1);
