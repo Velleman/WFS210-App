@@ -18,16 +18,6 @@ namespace WFS210.UI
 		protected readonly WFS210.Oscilloscope Oscilloscope;
 
 		/// <summary>
-		/// The demo service.
-		/// </summary>
-		protected readonly WFS210.Services.DemoService DemoService;
-
-		/// <summary>
-		/// The live service.
-		/// </summary>
-		protected readonly WFS210.Services.LiveService LiveService;
-
-		/// <summary>
 		/// The service manager.
 		/// </summary>
 		protected readonly WFS210.Services.ServiceManager ServiceManager;
@@ -53,11 +43,7 @@ namespace WFS210.UI
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
 			this.Oscilloscope = new Oscilloscope ();
-			this.DemoService = new DemoService (Oscilloscope);
-			this.LiveService = new LiveService (Oscilloscope);
-			this.ServiceManager = new ServiceManager (DemoService);
-
-			ServiceManager.ActiveService = DemoService;
+			this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
 		}
 
 		void SettingsChanged (object sender, EventArgs e)

@@ -56,6 +56,7 @@
     <Compile Include="Commands\TriggerChannelCommand.cs" />
     <Compile Include="Commands\FlipAttenuationFactorCommand.cs" />
     <Compile Include="ServiceManager.cs" />
+    <Compile Include="ServiceType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

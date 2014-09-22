@@ -1,24 +1,28 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace WFS210.Services
 {
 	public class ServiceManager
 	{
-		private Service activeService;
+		protected Dictionary<ServiceType, Service> Services = new Dictionary<ServiceType, Service> ();
+
+		public ServiceType ServiceType { get; set; }
 
 		public Service ActiveService {
-			get {
-				return activeService;
-			}
-			set {
-				activeService = value;
-				activeService.Activate ();
-			}
+			get { return GetService(ServiceType); }
 		}
 
-		public ServiceManager (Service activeService)
+		public Service GetService(ServiceType serviceType)
 		{
-			ActiveService = activeService;
+			return Services [serviceType];
+		}
+
+		public ServiceManager (Oscilloscope oscilloscope, ServiceType defaultType)
+		{
+			this.Services.Add (ServiceType.Demo, new DemoService (oscilloscope));
+			this.Services.Add (ServiceType.Live, new LiveService (oscilloscope));
+
+			this.ServiceType = defaultType;
 		}
 	}
 }
