@@ -67,12 +67,12 @@ namespace WFS210.Services
 			}
 		}
 
-		void DecodeSamplePacket (byte[] payload)
+		public void DecodeSamplePacket (byte[] payload)
 		{
 			throw new System.NotImplementedException ();
 		}
 
-		void DecodeSettingsPacket (byte[] payload)
+		public void DecodeSettingsPacket (byte[] payload)
 		{
 			// Channel 1
 			Oscilloscope.Channels [0].InputCoupling = (InputCoupling)payload [0];
@@ -91,7 +91,7 @@ namespace WFS210.Services
 			DecodeModuleStatus (payload [9]);
 		}
 
-		void DecodeTriggerSettings (byte flags)
+		protected void DecodeTriggerSettings (byte flags)
 		{
 			Oscilloscope.Trigger.Mode = (TriggerMode)(flags & 3);
 			Oscilloscope.Trigger.Slope = (TriggerSlope)((flags & 4) >> 2);
@@ -100,7 +100,7 @@ namespace WFS210.Services
 			Oscilloscope.AutoRange = (((flags & 128) >> 7) == 1);
 		}
 
-		public void DecodeModuleStatus (byte flags)
+		protected void DecodeModuleStatus (byte flags)
 		{
 			int batteryStatus = (flags & 0x07);
 
