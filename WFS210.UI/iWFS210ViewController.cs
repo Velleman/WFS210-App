@@ -622,46 +622,46 @@ namespace WFS210.UI
 			var text = "";
 			switch (signalMeasurements [0].SelectedUnit) {
 			case SignalUnit.DbGain:
-				text = wfs210.DBGain ().ToString();
+				text = Oscilloscope.DBGain ().ToString();
 				break;
 			case SignalUnit.Dbm1:
-				text = wfs210.Channels [0].DBm ().ToString();
+				text = Oscilloscope.Channels [0].DBm ().ToString();
 				break;
 			case SignalUnit.Dbm2:
-				text = wfs210.Channels [1].DBm ().ToString();
+				text = Oscilloscope.Channels [1].DBm ().ToString();
 				break;
 			case SignalUnit.RMS:
-				text = wfs210.Channels [0].Vrms().ToString();
+				text = Oscilloscope.Channels [0].Vrms().ToString();
 				break;
 			case SignalUnit.TRMS:
-				text = wfs210.Channels [0].VTrms().ToString();
+				text = Oscilloscope.Channels [0].VTrms().ToString();
 				break;
 			case SignalUnit.Vdc:
-				text = wfs210.Channels [0].Vdc().ToString();
+				text = Oscilloscope.Channels [0].Vdc().ToString();
 				break;
 			case SignalUnit.VMax:
-				text = wfs210.Channels [0].Vmax().ToString();
+				text = Oscilloscope.Channels [0].Vmax().ToString();
 				break;
 			case SignalUnit.VMin:
-				text = wfs210.Channels [0].Vmin().ToString();
+				text = Oscilloscope.Channels [0].Vmin().ToString();
 				break;
 			case SignalUnit.Vptp:
-				text = wfs210.Channels [0].Vptp().ToString();
+				text = Oscilloscope.Channels [0].Vptp().ToString();
 				break;
 			case SignalUnit.WRMS16:
-				text = wfs210.Channels [0].Wrms16().ToString();
+				text = Oscilloscope.Channels [0].Wrms16().ToString();
 				break;
 			case SignalUnit.WRMS2:
-				text = wfs210.Channels [0].Wrms2().ToString();
+				text = Oscilloscope.Channels [0].Wrms2().ToString();
 				break;
 			case SignalUnit.WRMS32:
-				text = wfs210.Channels [0].Wrms32().ToString();
+				text = Oscilloscope.Channels [0].Wrms32().ToString();
 				break;
 			case SignalUnit.WRMS4:
-				text = wfs210.Channels [0].Wrms4().ToString();
+				text = Oscilloscope.Channels [0].Wrms4().ToString();
 				break;
 			case SignalUnit.WRMS8:
-				text = wfs210.Channels [0].Wrms8().ToString();
+				text = Oscilloscope.Channels [0].Wrms8().ToString();
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
@@ -700,46 +700,46 @@ namespace WFS210.UI
 			var text = "";
 			switch (signalMeasurements [0].SelectedUnit) {
 			case SignalUnit.DbGain:
-				text = wfs210.DBGain ().ToString();
+				text = Oscilloscope.DBGain ().ToString();
 				break;
 			case SignalUnit.Dbm1:
-				text = wfs210.Channels [0].DBm ().ToString();
+				text = Oscilloscope.Channels [0].DBm ().ToString();
 				break;
 			case SignalUnit.Dbm2:
-				text = wfs210.Channels [1].DBm ().ToString();
+				text = Oscilloscope.Channels [1].DBm ().ToString();
 				break;
 			case SignalUnit.RMS:
-				text = wfs210.Channels [1].Vrms().ToString();
+				text = Oscilloscope.Channels [1].Vrms().ToString();
 				break;
 			case SignalUnit.TRMS:
-				text = wfs210.Channels [1].VTrms().ToString();
+				text = Oscilloscope.Channels [1].VTrms().ToString();
 				break;
 			case SignalUnit.Vdc:
-				text = wfs210.Channels [1].Vdc().ToString();
+				text = Oscilloscope.Channels [1].Vdc().ToString();
 				break;
 			case SignalUnit.VMax:
-				text = wfs210.Channels [1].Vmax().ToString();
+				text = Oscilloscope.Channels [1].Vmax().ToString();
 				break;
 			case SignalUnit.VMin:
-				text = wfs210.Channels [1].Vmin().ToString();
+				text = Oscilloscope.Channels [1].Vmin().ToString();
 				break;
 			case SignalUnit.Vptp:
-				text = wfs210.Channels [1].Vptp().ToString();
+				text = Oscilloscope.Channels [1].Vptp().ToString();
 				break;
 			case SignalUnit.WRMS16:
-				text = wfs210.Channels [1].Wrms16().ToString();
+				text = Oscilloscope.Channels [1].Wrms16().ToString();
 				break;
 			case SignalUnit.WRMS2:
-				text = wfs210.Channels [1].Wrms2().ToString();
+				text = Oscilloscope.Channels [1].Wrms2().ToString();
 				break;
 			case SignalUnit.WRMS32:
-				text = wfs210.Channels [1].Wrms32().ToString();
+				text = Oscilloscope.Channels [1].Wrms32().ToString();
 				break;
 			case SignalUnit.WRMS4:
-				text = wfs210.Channels [1].Wrms4().ToString();
+				text = Oscilloscope.Channels [1].Wrms4().ToString();
 				break;
 			case SignalUnit.WRMS8:
-				text = wfs210.Channels [1].Wrms8().ToString();
+				text = Oscilloscope.Channels [1].Wrms8().ToString();
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
