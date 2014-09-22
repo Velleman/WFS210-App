@@ -126,7 +126,7 @@ namespace WFS210
 				}
 			}
 
-			return Voltage(minValue);
+			return Voltage(minValue - YPosition);
 		}
 
 		/// <summary>
@@ -143,9 +143,116 @@ namespace WFS210
 					maxValue = Samples [i];
 				}
 			}
-
-			return Voltage(maxValue);
+			return Voltage (maxValue - YPosition);
 		}
+
+		/// <summary>
+		/// Calculates the peak to peak voltage of the signal
+		/// </summary>
+		public double Vptp()
+		{
+			return Vmax () - Vmin ();
+		}
+
+		/// <summary>
+		/// Calculate the Vrms of the signal
+		/// </summary>
+		public double Vrms()
+		{
+			var vpd = VoltsPerDivisionConverter.ToVolts (VoltsPerDivision);
+			var rms = 0d;
+			var average = 0d;
+			for (int i = 0; i < Samples.Count; i++) {
+				average += Samples [i];
+			}
+			average /= Samples.Count;
+			var buffer = 0d;
+			for (int i = 0; i < Samples.Count; i++) {
+				buffer += Math.Pow (Samples [i] - average, 2);
+			}
+			buffer /= Samples.Count;
+			var sqrt = Math.Sqrt (buffer);
+
+			return Voltage((int)sqrt);
+		}
+
+
+		/// <summary>
+		/// Calculate the VTrms of the signal
+		/// </summary>
+		public double VTrms()
+		{
+			var vpd = VoltsPerDivisionConverter.ToVolts (VoltsPerDivision);
+			var rms = 0d;
+			var average = 0d;
+			for (int i = 0; i < Samples.Count; i++) {
+				average += (Samples [i] - YPosition);
+			}
+			average /= Samples.Count;
+			var buffer = 0d;
+			for (int i = 0; i < Samples.Count; i++) {
+				buffer += Math.Pow (Samples [i] - average, 2);
+			}
+			buffer /= Samples.Count;
+			var sqrt = Math.Sqrt (buffer);
+
+			return Voltage((int)sqrt);
+		}
+
+		/// <summary>
+		/// Calculates the dBm Value of the signal
+		/// </summary>
+		/// <returns>dBm</returns>
+		public double DBm()
+		{
+			return Math.Log (Vrms () / 0.775);
+		}
+
+		/// <summary>
+		/// Calculates the Wrm2 Value of the signal
+		/// </summary>
+		public double Wrms2()
+		{
+			var vrms = Vrms ();
+			return vrms * (vrms / 2);
+		}
+
+		/// <summary>
+		/// Calculates the Wrm4 Value of the signal
+		/// </summary>
+		public double Wrms4()
+		{
+			var vrms = Vrms ();
+			return vrms * (vrms / 4);
+		}
+
+		/// <summary>
+		/// Calculates the Wrm8 Value of the signal
+		/// </summary>
+		public double Wrms8()
+		{
+			var vrms = Vrms ();
+			return vrms * (vrms / 8);
+		}
+
+		/// <summary>
+		/// Calculates the Wrm16 Value of the signal
+		/// </summary>
+		public double Wrms16()
+		{
+			var vrms = Vrms ();
+			return vrms * (vrms / 16);
+		}
+
+		/// <summary>
+		/// Calculates the Wrm32 Value of the signal
+		/// </summary>
+		public double Wrms32()
+		{
+			var vrms = Vrms ();
+			return vrms * (vrms / 32);
+		}
+
 	}
 }
 

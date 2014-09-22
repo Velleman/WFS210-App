@@ -2,6 +2,7 @@ using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
+using System.Drawing;
 
 namespace WFS210.UI
 {
@@ -11,14 +12,33 @@ namespace WFS210.UI
 		/// <summary>
 		/// The selected measurement.
 		/// </summary>
-		public static string SelectedMeasurement ="test";
+		public static string SelectedMeasurement = "test";
 		/// <summary>
 		/// The selected channel. 0 or 1
 		/// </summary>
 		public static int SelectedChannel = 0;
 		public static bool isMarkerMeasurement = true;
+
+		public UITapGestureRecognizer tapRecognizer;
+
 		public MeasurementsViewController (IntPtr handle) : base (handle)
 		{
+			tapRecognizer = new UITapGestureRecognizer ((sender) => {
+				if (sender.State == UIGestureRecognizerState.Ended) {
+					PointF location = sender.LocationInView(null); //Passing nil gives us coordinates in the window
+
+					//Then we convert the tap's location into the local view's coordinate system, and test to see if it's in or outside. If outside, dismiss the view.
+					if (!View.PointInside (View.ConvertPointFromView(location,this.View), null)) {
+						View.RemoveGestureRecognizer(sender);
+						using (var parent = PresentingViewController as iWFS210ViewController) {
+							parent.DismissMeasurementsViewController ();
+						}
+					}
+				}
+			});
+			tapRecognizer.NumberOfTapsRequired = 1;
+			tapRecognizer.CancelsTouchesInView = false;
+			View.AddGestureRecognizer (tapRecognizer);
 		}
 
 		public override void ViewDidLoad ()
@@ -28,14 +48,24 @@ namespace WFS210.UI
 				var parent = this.PresentingViewController as iWFS210ViewController;
 				parent.DismissMeasurementsViewController ();
 			};
-			if (isMarkerMeasurement)
-				pMeasurement.Model = new MarkerMeasurementsModel ();
-			else
-				pMeasurement.Model = new SignalMeasurementsModel ();
+
 		}
 
-		public class MarkerMeasurementsModel : UIPickerViewModel {
-			static string [] markerMeasurements = new string [] {
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (isMarkerMeasurement) {
+				pMeasurement.Model = new MarkerMeasurementsModel ();
+				SelectedMeasurement = MarkerMeasurementsModel.markerMeasurements [0];
+			} else {
+				pMeasurement.Model = new SignalMeasurementsModel ();
+				SelectedMeasurement = SignalMeasurementsModel.signalMeasurements [0];
+			}
+		}
+
+		public class MarkerMeasurementsModel : UIPickerViewModel
+		{
+			public static string[] markerMeasurements = new string [] {
 				"dt",
 				"Frequency",
 				"dV1",
@@ -45,7 +75,8 @@ namespace WFS210.UI
 
 
 
-			public MarkerMeasurementsModel () {
+			public MarkerMeasurementsModel ()
+			{
 
 			}
 
@@ -80,8 +111,9 @@ namespace WFS210.UI
 			}
 		}
 
-		public class SignalMeasurementsModel : UIPickerViewModel {
-			static string [] signalMeasurements = new string [] {
+		public class SignalMeasurementsModel : UIPickerViewModel
+		{
+			public static string[] signalMeasurements = new string [] {
 				"Vdc",
 				"RMS",
 				"TRMS",
@@ -97,8 +129,9 @@ namespace WFS210.UI
 				"Dbm2",
 				"DbGain",
 			};
-				
-			public SignalMeasurementsModel () {
+
+			public SignalMeasurementsModel ()
+			{
 
 			}
 

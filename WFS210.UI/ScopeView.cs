@@ -87,7 +87,7 @@ namespace WFS210.UI
 			signals [1].StrokeColor = new CGColor (255, 255, 0);
 
 			FillList ();
-		
+
 		}
 
 		public RectangleF ScopeBounds {
@@ -111,7 +111,7 @@ namespace WFS210.UI
 			set {
 
 				wfs210 = value;
-				sampleToPointRatio = (float)ScopeBounds.Height / 256;
+				sampleToPointRatio = (float)ScopeBounds.Height / (wfs210.DeviceContext.UnitsPerDivision * wfs210.DeviceContext.Divisions);
 				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase * 15;
 			}	
 		}
@@ -126,7 +126,7 @@ namespace WFS210.UI
 				SampleBuffer buffer = wfs210.Channels [i].Samples;
 				scopePoints = new PointF[TotalSamples];
 				for (int x = 0; x < TotalSamples; x++) {
-					scopePoints [x] = new PointF (MapXPosToScreen (x) + ScopeBounds.Left, MapSampleDataToScreen (255 - buffer [x]));
+					scopePoints [x] = new PointF (MapXPosToScreen (x) + ScopeBounds.Left, MapSampleDataToScreen (buffer [x]));
 				}
 				path [i].AddLines (scopePoints);
 				SetNeedsDisplay ();
@@ -186,7 +186,7 @@ namespace WFS210.UI
 			// Set clippingRect to the rectangle you wish to clip to
 
 			var maskPath = UIBezierPath.FromRect (clippingRect);
-
+	
 			// Create a shape layer
 			maskLayer = new CAShapeLayer ();
 			maskLayer.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2+ ScopeBounds.Top);
@@ -347,9 +347,9 @@ namespace WFS210.UI
 
 		private void ApplyMarkerValuesToScope ()
 		{
-			wfs210.Channels [0].YPosition = ScreenDataToScopeDataInverted (zeroLines [0].Value);
-			wfs210.Channels [1].YPosition = ScreenDataToScopeDataInverted (zeroLines [1].Value);
-			var result = ScreenDataToScopeData (trigMarker.Value);
+			wfs210.Channels [0].YPosition = ScreenDataToScopeData (zeroLines [0].Value);
+			wfs210.Channels [1].YPosition = ScreenDataToScopeData (zeroLines [1].Value);
+			var result = ScreenDataToScopeDataInverted (trigMarker.Value);
 			wfs210.Trigger.Level = result;
 		}
 

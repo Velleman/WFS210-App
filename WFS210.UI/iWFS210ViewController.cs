@@ -68,7 +68,8 @@ namespace WFS210.UI
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				Service.Update ();
 				InvokeOnMainThread (ScopeView.UpdateScopeView);
-
+				UpdateSignalMeasurement1();
+				UpdateSignalMeasurement2();
 			};
 			timer.AutoReset = true;
 			timer.Enabled = true;
@@ -134,12 +135,11 @@ namespace WFS210.UI
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
 		{
 			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
-			// You need to specify the controller you are presenting 
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			MeasurementsViewController.isMarkerMeasurement = true;
 			MeasurementsViewController.SelectedChannel = 0;
-			MeasurementsViewController.SelectedMeasurement = markerMeasurements [0].SelectedUnit.ToString ("G"); //gives the name back not the index
+			MeasurementsViewController.SelectedMeasurement = markerMeasurements [1].SelectedUnit.ToString ("G");
 			PresentViewController (measurementsViewController, true, null);
 		}
 
@@ -147,9 +147,11 @@ namespace WFS210.UI
 		{
 			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			// You need to specify the controller you are presenting 
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			MeasurementsViewController.isMarkerMeasurement = false;
+			MeasurementsViewController.SelectedChannel = 0;
+			MeasurementsViewController.SelectedMeasurement = signalMeasurements [1].SelectedUnit.ToString ("G");
 			PresentViewController (measurementsViewController, true, null);
 		}
 
@@ -269,10 +271,11 @@ namespace WFS210.UI
 		{
 			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			// You need to specify the controller you are presenting 
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			MeasurementsViewController.isMarkerMeasurement = false;
 			MeasurementsViewController.SelectedChannel = 1;
+			MeasurementsViewController.SelectedMeasurement = signalMeasurements [1].SelectedUnit.ToString ("G");
 			PresentViewController (measurementsViewController, true, null);
 		}
 
@@ -299,13 +302,16 @@ namespace WFS210.UI
 		public void DismissMeasurementsViewController ()
 		{
 			var test = MarkerUnit.dt;
-			if (MeasurementsViewController.SelectedMeasurement != "Enable/Disable Markers")
-				test = (MarkerUnit)Enum.Parse (typeof(MarkerUnit), MeasurementsViewController.SelectedMeasurement, true);
-			else
-				test = MarkerUnit.EnableDisableMarkers; 
 
-			if (MeasurementsViewController.isMarkerMeasurement)
+
+			if (MeasurementsViewController.isMarkerMeasurement) {
+				if (MeasurementsViewController.SelectedMeasurement != "Enable/Disable Markers")
+					test = (MarkerUnit)Enum.Parse (typeof(MarkerUnit), MeasurementsViewController.SelectedMeasurement, true);
+				else
+					test = MarkerUnit.EnableDisableMarkers; 
+
 				markerMeasurements [MeasurementsViewController.SelectedChannel].SelectedUnit = test;
+			}
 			else
 				signalMeasurements [MeasurementsViewController.SelectedChannel].SelectedUnit = (SignalUnit)Enum.Parse (typeof(SignalUnit), MeasurementsViewController.SelectedMeasurement, true);
 
@@ -613,44 +619,55 @@ namespace WFS210.UI
 
 		void UpdateSignalMeasurement1 ()
 		{
+			var text = "";
 			switch (signalMeasurements [0].SelectedUnit) {
 			case SignalUnit.DbGain:
-				SetSignalWithDtValue (0);
+				text = wfs210.DBGain ().ToString();
 				break;
 			case SignalUnit.Dbm1:
-				SetSignalWithFrequency (0);
+				text = wfs210.Channels [0].DBm ().ToString();
 				break;
 			case SignalUnit.Dbm2:
-				SetSignalWithDV1 (0);
+				text = wfs210.Channels [1].DBm ().ToString();
 				break;
 			case SignalUnit.RMS:
-				SetSignalWithDV2 (0);
+				text = wfs210.Channels [0].Vrms().ToString();
 				break;
 			case SignalUnit.TRMS:
-				//EnableDisableMarkers ();
+				text = wfs210.Channels [0].VTrms().ToString();
 				break;
 			case SignalUnit.Vdc:
+				text = wfs210.Channels [0].Vdc().ToString();
 				break;
 			case SignalUnit.VMax:
+				text = wfs210.Channels [0].Vmax().ToString();
 				break;
 			case SignalUnit.VMin:
+				text = wfs210.Channels [0].Vmin().ToString();
 				break;
 			case SignalUnit.Vptp:
+				text = wfs210.Channels [0].Vptp().ToString();
 				break;
 			case SignalUnit.WRMS16:
+				text = wfs210.Channels [0].Wrms16().ToString();
 				break;
 			case SignalUnit.WRMS2:
+				text = wfs210.Channels [0].Wrms2().ToString();
 				break;
 			case SignalUnit.WRMS32:
+				text = wfs210.Channels [0].Wrms32().ToString();
 				break;
 			case SignalUnit.WRMS4:
+				text = wfs210.Channels [0].Wrms4().ToString();
 				break;
 			case SignalUnit.WRMS8:
+				text = wfs210.Channels [0].Wrms8().ToString();
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
 				break;
 			}
+			btnSignalMeasurements.SetTitle (text, UIControlState.Normal);
 		}
 
 		void UpdateMarkerMeasurement2 ()
@@ -680,7 +697,55 @@ namespace WFS210.UI
 
 		void UpdateSignalMeasurement2 ()
 		{
-			//throw new NotImplementedException ();
+			var text = "";
+			switch (signalMeasurements [0].SelectedUnit) {
+			case SignalUnit.DbGain:
+				text = wfs210.DBGain ().ToString();
+				break;
+			case SignalUnit.Dbm1:
+				text = wfs210.Channels [0].DBm ().ToString();
+				break;
+			case SignalUnit.Dbm2:
+				text = wfs210.Channels [1].DBm ().ToString();
+				break;
+			case SignalUnit.RMS:
+				text = wfs210.Channels [1].Vrms().ToString();
+				break;
+			case SignalUnit.TRMS:
+				text = wfs210.Channels [1].VTrms().ToString();
+				break;
+			case SignalUnit.Vdc:
+				text = wfs210.Channels [1].Vdc().ToString();
+				break;
+			case SignalUnit.VMax:
+				text = wfs210.Channels [1].Vmax().ToString();
+				break;
+			case SignalUnit.VMin:
+				text = wfs210.Channels [1].Vmin().ToString();
+				break;
+			case SignalUnit.Vptp:
+				text = wfs210.Channels [1].Vptp().ToString();
+				break;
+			case SignalUnit.WRMS16:
+				text = wfs210.Channels [1].Wrms16().ToString();
+				break;
+			case SignalUnit.WRMS2:
+				text = wfs210.Channels [1].Wrms2().ToString();
+				break;
+			case SignalUnit.WRMS32:
+				text = wfs210.Channels [1].Wrms32().ToString();
+				break;
+			case SignalUnit.WRMS4:
+				text = wfs210.Channels [1].Wrms4().ToString();
+				break;
+			case SignalUnit.WRMS8:
+				text = wfs210.Channels [1].Wrms8().ToString();
+				break;
+			default:
+				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
+				break;
+			}
+			btnSignalMeasurements2.SetTitle (text, UIControlState.Normal);
 		}
 
 		private static string ToEngineeringNotation (double d)

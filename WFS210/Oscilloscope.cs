@@ -98,6 +98,14 @@ namespace WFS210
 			BatteryStatus = BatteryStatus.Charged;
 			Calibrating = false;
 		}
+		/// <summary>
+		/// Calculates the DBGain of the two signals
+		/// </summary>
+		/// <returns>The dBGain</returns>
+		public double DBGain()
+		{
+			return Channels [1].DBm () - Channels [0].DBm ();
+		}
 	}
 }
 
