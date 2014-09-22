@@ -92,19 +92,20 @@ namespace WFS210
 		/// Gets a sample's value in volts (V).
 		/// </summary>
 		/// <param name="sample">The sample's value in volts (V).</param>
-		public double Voltage(int sample)
+		public double Voltage (int sample)
 		{
-			return (sample * VoltsPerUnit());
+			return ((YPosition - sample) * VoltsPerUnit ());
 		}
 
 		/// <summary>
 		/// Calculates the average DC voltage of all samples.
 		/// </summary>
-		public double Vdc()
+		public double Vdc ()
 		{
 			double value = 0;
 
 			foreach(byte sample in Samples) {
+
 				value += Voltage (sample);
 			}
 
@@ -126,7 +127,7 @@ namespace WFS210
 				}
 			}
 
-			return Voltage(minValue - YPosition);
+			return Voltage(minValue);
 		}
 
 		/// <summary>
@@ -143,7 +144,7 @@ namespace WFS210
 					maxValue = Samples [i];
 				}
 			}
-			return Voltage (maxValue - YPosition);
+			return Voltage (maxValue);
 		}
 
 		/// <summary>
@@ -151,7 +152,7 @@ namespace WFS210
 		/// </summary>
 		public double Vptp()
 		{
-			return Vmax () - Vmin ();
+			return (Vmax () - Vmin ());
 		}
 
 		/// <summary>
@@ -159,21 +160,14 @@ namespace WFS210
 		/// </summary>
 		public double Vrms()
 		{
-			var vpd = VoltsPerDivisionConverter.ToVolts (VoltsPerDivision);
-			var rms = 0d;
-			var average = 0d;
-			for (int i = 0; i < Samples.Count; i++) {
-				average += Samples [i];
-			}
-			average /= Samples.Count;
-			var buffer = 0d;
-			for (int i = 0; i < Samples.Count; i++) {
-				buffer += Math.Pow (Samples [i] - average, 2);
-			}
-			buffer /= Samples.Count;
-			var sqrt = Math.Sqrt (buffer);
+			double value = 0, avg = Vdc ();
 
-			return Voltage((int)sqrt);
+			foreach (byte sample in Samples) {
+
+				value += Math.Pow (Voltage (sample) - avg, 2);
+			}
+
+			return Math.Sqrt (value / Samples.Count);
 		}
 
 
@@ -182,21 +176,14 @@ namespace WFS210
 		/// </summary>
 		public double VTrms()
 		{
-			var vpd = VoltsPerDivisionConverter.ToVolts (VoltsPerDivision);
-			var rms = 0d;
-			var average = 0d;
-			for (int i = 0; i < Samples.Count; i++) {
-				average += (Samples [i] - YPosition);
-			}
-			average /= Samples.Count;
-			var buffer = 0d;
-			for (int i = 0; i < Samples.Count; i++) {
-				buffer += Math.Pow (Samples [i] - average, 2);
-			}
-			buffer /= Samples.Count;
-			var sqrt = Math.Sqrt (buffer);
+			double value = 0;
 
-			return Voltage((int)sqrt);
+			foreach (byte sample in Samples) {
+
+				value += Math.Pow (Voltage (sample), 2);
+			}
+
+			return Math.Sqrt (value / Samples.Count);
 		}
 
 		/// <summary>
@@ -205,7 +192,7 @@ namespace WFS210
 		/// <returns>dBm</returns>
 		public double DBm()
 		{
-			return Math.Log (Vrms () / 0.775);
+			return (20 * Math.Log (Vrms () / 0.775));
 		}
 
 		/// <summary>
@@ -214,7 +201,7 @@ namespace WFS210
 		public double Wrms2()
 		{
 			var vrms = Vrms ();
-			return vrms * (vrms / 2);
+			return (vrms * vrms / 2;
 		}
 
 		/// <summary>
@@ -223,7 +210,7 @@ namespace WFS210
 		public double Wrms4()
 		{
 			var vrms = Vrms ();
-			return vrms * (vrms / 4);
+			return (vrms * vrms / 4);
 		}
 
 		/// <summary>
@@ -232,7 +219,7 @@ namespace WFS210
 		public double Wrms8()
 		{
 			var vrms = Vrms ();
-			return vrms * (vrms / 8);
+			return (vrms * vrms / 8);
 		}
 
 		/// <summary>
@@ -241,7 +228,7 @@ namespace WFS210
 		public double Wrms16()
 		{
 			var vrms = Vrms ();
-			return vrms * (vrms / 16);
+			return (vrms * vrms / 16);
 		}
 
 		/// <summary>
@@ -250,9 +237,8 @@ namespace WFS210
 		public double Wrms32()
 		{
 			var vrms = Vrms ();
-			return vrms * (vrms / 32);
+			return (vrms * vrms / 32);
 		}
-
 	}
 }
 
