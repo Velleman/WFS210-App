@@ -8,21 +8,32 @@ namespace WFS210.Services
 	/// </summary>
 	public class LiveService : Service
 	{
+		private readonly TcpConnection connection;
+
 		/// <summary>
 		/// Gets the tcp connection used to communicate with the remote oscilloscope.
 		/// </summary>
 		/// <value>The connection.</value>
-		public TcpConnection Connection { get; private set; }
+		public TcpConnection Connection {
+			get { return connection; }
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.Services.LiveService"/> class.
 		/// </summary>
 		/// <param name="oscilloscope">Oscilloscope.</param>
-		/// <param name="connection">Connection.</param>
-		public LiveService (Oscilloscope oscilloscope, TcpConnection connection)
+		public LiveService (Oscilloscope oscilloscope)
 			: base (oscilloscope)
 		{
-			this.Connection = connection;
+			this.connection = new TcpConnection ();
+		}
+
+		/// <summary>
+		/// Activate this service by establishing a connection to the device.
+		/// </summary>
+		public override void Activate ()
+		{
+			// Automatically connect
 		}
 
 		/// <summary>

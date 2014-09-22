@@ -55,6 +55,7 @@
     <Compile Include="Commands\PreviousVoltsPerDivisionCommand.cs" />
     <Compile Include="Commands\TriggerChannelCommand.cs" />
     <Compile Include="Commands\FlipAttenuationFactorCommand.cs" />
+    <Compile Include="ServiceManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

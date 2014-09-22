@@ -42,6 +42,8 @@ namespace WFS210.Services
 			this.oscilloscope = oscilloscope;
 		}
 
+		public abstract void Activate ();
+
 		/// <summary>
 		/// Applies the settings.
 		/// </summary>

@@ -27,6 +27,14 @@ namespace WFS210.Services
 		}
 
 		/// <summary>
+		/// Activates this service.
+		/// </summary>
+		public override void Activate ()
+		{
+			Update ();
+		}
+
+		/// <summary>
 		/// Applies the settings.
 		/// </summary>
 		public override void ApplySettings ()

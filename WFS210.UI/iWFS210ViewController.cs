@@ -15,12 +15,30 @@ namespace WFS210.UI
 		/// <summary>
 		/// Wfs210 oscilloscope.
 		/// </summary>
-		protected readonly WFS210.Oscilloscope wfs210;
+		protected readonly WFS210.Oscilloscope Oscilloscope;
 
 		/// <summary>
-		/// The service used to control the oscilloscope.
+		/// The demo service.
 		/// </summary>
-		protected readonly WFS210.Services.Service service;
+		protected readonly WFS210.Services.DemoService DemoService;
+
+		/// <summary>
+		/// The live service.
+		/// </summary>
+		protected readonly WFS210.Services.LiveService LiveService;
+
+		/// <summary>
+		/// The service manager.
+		/// </summary>
+		protected readonly WFS210.Services.ServiceManager ServiceManager;
+
+		/// <summary>
+		/// Gets the service.
+		/// </summary>
+		/// <value>The service.</value>
+		public Service Service {
+			get { return ServiceManager.ActiveService; }
+		}
 
 		SettingsViewController settingsViewController;
 		MeasurementsViewController measurementsViewController;
@@ -33,9 +51,12 @@ namespace WFS210.UI
 		/// <param name="handle">Handle.</param>
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
-			this.wfs210 = new Oscilloscope ();
-			this.service = new DemoService (wfs210);
-			//this.service = new LiveService (wfs210, new TcpConnection ());
+			this.Oscilloscope = new Oscilloscope ();
+			this.DemoService = new DemoService (Oscilloscope);
+			this.LiveService = new LiveService (Oscilloscope);
+			this.ServiceManager = new ServiceManager (DemoService);
+
+			ServiceManager.ActiveService = DemoService;
 		}
 
 		void SettingsChanged (object sender, EventArgs e)
@@ -50,15 +71,15 @@ namespace WFS210.UI
 		{
 			base.ViewDidLoad ();
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
-			service.SettingsChanged += SettingsChanged;
+			Service.SettingsChanged += SettingsChanged;
 			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
 			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
 			markerMeasurements [0] = new MarkerMeasurement (){ Channel = 0,  SelectedUnit = MarkerUnit.dt };
 			markerMeasurements [1] = new MarkerMeasurement (){ Channel = 1,  SelectedUnit = MarkerUnit.dt };
-			ScopeView.Initialize (wfs210);
+			ScopeView.Initialize (Oscilloscope);
 			Timer timer = new Timer (200);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
-				service.Update ();
+				Service.Update ();
 				InvokeOnMainThread (ScopeView.UpdateScopeView);
 
 			};
@@ -66,7 +87,7 @@ namespace WFS210.UI
 			timer.Enabled = true;
 			timer.Start ();
 
-			ScopeView.SelectedChannel = wfs210.Channels [0];
+			ScopeView.SelectedChannel = Oscilloscope.Channels [0];
 
 			ScopeView.NewData += (object sender, NewDataEventArgs e) => UpdateScopeControls ();
 
@@ -89,38 +110,38 @@ namespace WFS210.UI
 
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
-			ScopeView.SelectedChannel = wfs210.Channels [0];
+			ScopeView.SelectedChannel = Oscilloscope.Channels [0];
 			UpdateScopeControls ();
 		}
 
 		partial void btnAC1_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new InputCouplingCommand (0, InputCoupling.AC));
+			Service.Execute (new InputCouplingCommand (0, InputCoupling.AC));
 		}
 
 		partial void btnDC1_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new InputCouplingCommand (0, InputCoupling.DC));
+			Service.Execute (new InputCouplingCommand (0, InputCoupling.DC));
 		}
 
 		partial void btnGND1_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new InputCouplingCommand (0, InputCoupling.GND));
+			Service.Execute (new InputCouplingCommand (0, InputCoupling.GND));
 		}
 
 		partial void btnProbe1_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new FlipAttenuationFactorCommand (0));
+			Service.Execute (new FlipAttenuationFactorCommand (0));
 		}
 
 		partial void btnVoltDown1_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new NextVoltsPerDivisionCommand (0));
+			Service.Execute (new NextVoltsPerDivisionCommand (0));
 		}
 
 		partial void btnVoltUp1_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new PreviousVoltsPerDivisionCommand (0));
+			Service.Execute (new PreviousVoltsPerDivisionCommand (0));
 		}
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
@@ -153,58 +174,58 @@ namespace WFS210.UI
 
 		partial void btnTriggerCH1_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new TriggerChannelCommand (0));
+			Service.Execute (new TriggerChannelCommand (0));
 		}
 
 		partial void btnTriggerCH2_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new TriggerChannelCommand (1));
+			Service.Execute (new TriggerChannelCommand (1));
 		}
 
 		partial void btnTriggerSlopeUp_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new TriggerSlopeCommand (TriggerSlope.Rising));
+			Service.Execute (new TriggerSlopeCommand (TriggerSlope.Rising));
 		}
 
 		partial void btnTriggerSlopeDown_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new TriggerSlopeCommand (TriggerSlope.Falling)); 
+			Service.Execute (new TriggerSlopeCommand (TriggerSlope.Falling)); 
 		}
 
 		partial void btnTriggerRun_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new TriggerModeCommand (TriggerMode.Run));
+			Service.Execute (new TriggerModeCommand (TriggerMode.Run));
 		}
 
 		partial void btnTriggerNrml_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new TriggerModeCommand (TriggerMode.Normal));
+			Service.Execute (new TriggerModeCommand (TriggerMode.Normal));
 		}
 
 		partial void btnTriggerOnce_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new TriggerModeCommand (TriggerMode.Once));
+			Service.Execute (new TriggerModeCommand (TriggerMode.Once));
 		}
 
 		partial void btnTriggerHold_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new ToggleHoldCommand ());
+			Service.Execute (new ToggleHoldCommand ());
 		}
 
 		partial void btnTimeLeft_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new PreviousTimeBaseCommand ());
+			Service.Execute (new PreviousTimeBaseCommand ());
 		}
 
 		partial void btnTimeRight_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new NextTimeBaseCommand ());
+			Service.Execute (new NextTimeBaseCommand ());
 		}
 
 		partial void btnAutorange_TouchUpInside (UIButton sender)
 		{
-			wfs210.AutoRange = !wfs210.AutoRange;
-			service.ApplySettings ();  
+			Oscilloscope.AutoRange = !Oscilloscope.AutoRange;
+			Service.ApplySettings ();  
 		}
 
 		#endregion
@@ -213,38 +234,38 @@ namespace WFS210.UI
 
 		partial void btnSelectChannel2_TouchUpInside (UIButton sender)
 		{
-			ScopeView.SelectedChannel = wfs210.Channels [1];
+			ScopeView.SelectedChannel = Oscilloscope.Channels [1];
 			UpdateScopeControls ();
 		}
 
 		partial void btnAC2_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new InputCouplingCommand (1, InputCoupling.AC));
+			Service.Execute (new InputCouplingCommand (1, InputCoupling.AC));
 		}
 
 		partial void btnDC2_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new InputCouplingCommand (1, InputCoupling.DC));
+			Service.Execute (new InputCouplingCommand (1, InputCoupling.DC));
 		}
 
 		partial void btnGND2_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new InputCouplingCommand (1, InputCoupling.GND));
+			Service.Execute (new InputCouplingCommand (1, InputCoupling.GND));
 		}
 
 		partial void btnProbe2_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new FlipAttenuationFactorCommand (1));
+			Service.Execute (new FlipAttenuationFactorCommand (1));
 		}
 
 		partial void btnVoltDown2_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new NextVoltsPerDivisionCommand (1));
+			Service.Execute (new NextVoltsPerDivisionCommand (1));
 		}
 
 		partial void btnVoltUp2_TouchUpInside (UIButton sender)
 		{
-			service.Execute (new PreviousVoltsPerDivisionCommand (1));
+			Service.Execute (new PreviousVoltsPerDivisionCommand (1));
 		}
 
 
@@ -360,7 +381,7 @@ namespace WFS210.UI
 
 		void UpdateSelectedChannel ()
 		{
-			if (ScopeView.SelectedChannel == wfs210.Channels [0]) {
+			if (ScopeView.SelectedChannel == Oscilloscope.Channels [0]) {
 				btnSelectChannel1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-ON-6x6.png"), UIControlState.Normal);
 				btnSelectChannel2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-OFF-6x710.png"), UIControlState.Normal);
 			} else {
@@ -371,7 +392,7 @@ namespace WFS210.UI
 
 		void UpdateInputCoupling1 ()
 		{
-			switch (wfs210.Channels [0].InputCoupling) {
+			switch (Oscilloscope.Channels [0].InputCoupling) {
 			case InputCoupling.AC:
 				btnAC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-AC-ON-129x6.png"), UIControlState.Normal);
 				btnDC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6.png"), UIControlState.Normal);
@@ -394,7 +415,7 @@ namespace WFS210.UI
 
 		void UpdateAttenuationFactor1 ()
 		{
-			switch (wfs210.Channels [0].AttenuationFactor) {
+			switch (Oscilloscope.Channels [0].AttenuationFactor) {
 			case AttenuationFactor.X1:
 				btnProbe1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-1X-OFF-344x6.png"), UIControlState.Normal);
 				break;
@@ -410,13 +431,13 @@ namespace WFS210.UI
 		{
 			string text;
 			text = "Incorrect Value";
-			text = VoltsPerDivisionConverter.ToString (wfs210.Channels [0].VoltsPerDivision);
+			text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision);
 			lblVolt1.Text = text;
 		}
 
 		void UpdateInputCoupling2 ()
 		{
-			switch (wfs210.Channels [1].InputCoupling) {
+			switch (Oscilloscope.Channels [1].InputCoupling) {
 			case InputCoupling.AC:
 				btnAC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-AC-ON-129x710.png"), UIControlState.Normal);
 				btnDC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710.png"), UIControlState.Normal);
@@ -439,7 +460,7 @@ namespace WFS210.UI
 
 		void UpdateAttenuationFactor2 ()
 		{
-			switch (wfs210.Channels [1].AttenuationFactor) {
+			switch (Oscilloscope.Channels [1].AttenuationFactor) {
 			case AttenuationFactor.X1:
 				btnProbe2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-1X-OFF-344x710.png"), UIControlState.Normal);
 				break;
@@ -455,13 +476,13 @@ namespace WFS210.UI
 		{
 			string text;
 			text = "Incorrect Value";
-			text = VoltsPerDivisionConverter.ToString (wfs210.Channels [1].VoltsPerDivision);
+			text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision);
 			lblVolt2.Text = text;
 		}
 
 		void UpdateTriggerChannelUI ()
 		{
-			if (wfs210.Trigger.Channel == 0) {
+			if (Oscilloscope.Trigger.Channel == 0) {
 				btnTriggerCH1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN1-ON-6x96.png"), UIControlState.Normal);
 				btnTriggerCH2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN2-OFF-60x96.png"), UIControlState.Normal);
 			} else {
@@ -472,7 +493,7 @@ namespace WFS210.UI
 
 		void UpdateTriggerSlopeUI ()
 		{
-			if (wfs210.Trigger.Slope == TriggerSlope.Rising) {
+			if (Oscilloscope.Trigger.Slope == TriggerSlope.Rising) {
 				btnTriggerSlopeUp.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-UP-ON-6x156.png"), UIControlState.Normal);
 				btnTriggerSlopeDown.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-DOWN-OFF-60x156.png"), UIControlState.Normal);
 			} else {
@@ -483,7 +504,7 @@ namespace WFS210.UI
 
 		void UpdateTriggerModeUI ()
 		{
-			switch (wfs210.Trigger.Mode) {
+			switch (Oscilloscope.Trigger.Mode) {
 			case TriggerMode.Normal:
 				btnTriggerNrml.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-NRML-ON-6x276.png"), UIControlState.Normal);
 				btnTriggerOnce.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276.png"), UIControlState.Normal);
@@ -506,7 +527,7 @@ namespace WFS210.UI
 
 		void UpdateHoldUI ()
 		{
-			if (wfs210.Hold)
+			if (Oscilloscope.Hold)
 				btnTriggerHold.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-HOLD-ON-6x336.png"), UIControlState.Normal);
 			else
 				btnTriggerHold.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-HOLD-OFF-6x336.png"), UIControlState.Normal);
@@ -514,7 +535,7 @@ namespace WFS210.UI
 
 		void UpdateAutorangeUI ()
 		{
-			if (wfs210.AutoRange)
+			if (Oscilloscope.AutoRange)
 				btnAutorange.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/AUTO RANGE/AUTORANGE-ON-6x541.png"), UIControlState.Normal);
 			else
 				btnAutorange.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/AUTO RANGE/AUTORANGE-OFF-6x541.png"), UIControlState.Normal);
@@ -524,7 +545,7 @@ namespace WFS210.UI
 		{
 			string text;
 			text = "Incorrect Value";
-			text = TimeBaseConverter.ToString (wfs210.TimeBase);
+			text = TimeBaseConverter.ToString (Oscilloscope.TimeBase);
 			lblTime.Text = text;
 		}
 
@@ -555,7 +576,7 @@ namespace WFS210.UI
 
 		private void SetSignalWithDtValue (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateTime (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateTime (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 6);
 			var title = ToEngineeringNotation (value);
 			title += "s";
@@ -567,7 +588,7 @@ namespace WFS210.UI
 
 		void SetSignalWithFrequency (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateFrequency (wfs210.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateFrequency (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "Hz";
@@ -581,7 +602,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV1 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";
@@ -593,7 +614,7 @@ namespace WFS210.UI
 
 		void SetSignalWithDV2 (int channel)
 		{
-			var value = MarkerDataCalculator.CalculateDV (wfs210.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, wfs210.DeviceContext, ScopeView.Frame);
+			var value = MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
 			value = Math.Round (value, 2);
 			var title = ToEngineeringNotation (value);
 			title += "V";
