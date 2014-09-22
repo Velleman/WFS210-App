@@ -201,7 +201,7 @@ namespace WFS210
 		public double Wrms2()
 		{
 			var vrms = Vrms ();
-			return (vrms * vrms / 2;
+			return (vrms * vrms / 2);
 		}
 
 		/// <summary>
