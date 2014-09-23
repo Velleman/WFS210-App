@@ -8,13 +8,13 @@ namespace WFS210
 		{
 			int i = 0;
 
-			while ((value < 1) && (i < units.Length)) {
+			while ((Math.Abs(value) < 1) && (i < units.Length)) {
 
 				value *= step;
 				i++;
 			}
 
-			return String.Format("{0}{1}", value, units[i]);
+			return String.Format("{0:N2}{1}", value, units[i]);
 		}
 	}
 }
