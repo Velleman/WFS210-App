@@ -34,8 +34,10 @@ namespace WFS210.UI
 
 		SettingsViewController settingsViewController;
 
-		SignalMeasurement[] signalMeasurements = new SignalMeasurement[2];
-		MarkerMeasurement[] markerMeasurements = new MarkerMeasurement[2];
+		/// <summary>
+		/// The display settings.
+		/// </summary>
+		public readonly DisplaySettings DisplaySettings;
 
 		UIPopoverController DetailViewPopover;
 
@@ -48,6 +50,7 @@ namespace WFS210.UI
 		{
 			this.Oscilloscope = new Oscilloscope ();
 			this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
+			this.DisplaySettings = new DisplaySettings (MarkerUnit.dt, SignalUnit.Vdc);
 		}
 
 		void SettingsChanged (object sender, EventArgs e)
@@ -63,10 +66,6 @@ namespace WFS210.UI
 			base.ViewDidLoad ();
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
 			Service.SettingsChanged += SettingsChanged;
-			signalMeasurements [0] = new SignalMeasurement (){ Channel = 0, SelectedUnit = SignalUnit.Vdc };
-			signalMeasurements [1] = new SignalMeasurement (){ Channel = 1,  SelectedUnit = SignalUnit.Vdc };
-			markerMeasurements [0] = new MarkerMeasurement (){ Channel = 0,  SelectedUnit = MarkerUnit.dt };
-			markerMeasurements [1] = new MarkerMeasurement (){ Channel = 1,  SelectedUnit = MarkerUnit.dt };
 			ScopeView.Initialize (Oscilloscope);
 			var timer = new System.Timers.Timer (200);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
@@ -256,11 +255,11 @@ namespace WFS210.UI
 			ShowSignalUnitPopover (sender, 1);
 		}
 
-		private void ShowSignalUnitPopover (UIView view, int Channel)
+		private void ShowSignalUnitPopover (UIView view, int channel)
 		{
 			var content = new PopoverContentViewController<SignalUnit> ();
 			content.ValueChanged += (object s, EnumEventArgs<SignalUnit> e) => {
-				signalMeasurements [Channel].SelectedUnit = e.Value;
+				DisplaySettings.SignalUnits[channel] = e.Value;
 				UpdateMeasurements ();
 			};
 
@@ -270,11 +269,11 @@ namespace WFS210.UI
 			DetailViewPopover.PresentFromRect (view.Frame, View, UIPopoverArrowDirection.Any, true);
 		}
 
-		private void ShowMarkerUnitPopover (UIView view, int Channel)
+		private void ShowMarkerUnitPopover (UIView view, int channel)
 		{
 			var content = new PopoverContentViewController<MarkerUnit> ();
 			content.ValueChanged += (object s, EnumEventArgs<MarkerUnit> e) => {
-				markerMeasurements [Channel].SelectedUnit = e.Value;
+				DisplaySettings.MarkerUnits[channel] = e.Value;
 				UpdateMeasurements ();
 			};
 
@@ -386,11 +385,11 @@ namespace WFS210.UI
 		{
 			// Channel 1
 			UpdateMarkerMeasurement1 ();
-			btnSignalMeasurements.SetTitle (GetMeasurementString (signalMeasurements [0].SelectedUnit, 0), UIControlState.Normal);
+			btnSignalMeasurements.SetTitle (GetMeasurementString (DisplaySettings.SignalUnits [0], 0), UIControlState.Normal);
 
 			// Channel 2
 			UpdateMarkerMeasurement2 ();
-			btnSignalMeasurements2.SetTitle (GetMeasurementString (signalMeasurements [1].SelectedUnit, 1), UIControlState.Normal);
+			btnSignalMeasurements2.SetTitle (GetMeasurementString (DisplaySettings.SignalUnits [1], 1), UIControlState.Normal);
 		}
 
 		void UpdateSelectedChannel ()
@@ -612,7 +611,7 @@ namespace WFS210.UI
 
 		void UpdateMarkerMeasurement1 ()
 		{
-			switch (markerMeasurements [0].SelectedUnit) {
+			switch (DisplaySettings.MarkerUnits [0]) {
 			case MarkerUnit.dt:
 				SetSignalWithDtValue (0);
 				break;
@@ -627,7 +626,7 @@ namespace WFS210.UI
 				break;
 			case MarkerUnit.EnableDisableMarkers:
 				EnableDisableMarkers ();
-				markerMeasurements [0].SelectedUnit = MarkerUnit.dt;
+				DisplaySettings.MarkerUnits [0] = MarkerUnit.dt;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
@@ -637,7 +636,7 @@ namespace WFS210.UI
 
 		void UpdateMarkerMeasurement2 ()
 		{
-			switch (markerMeasurements [1].SelectedUnit) {
+			switch (DisplaySettings.MarkerUnits [1]) {
 			case MarkerUnit.dt:
 				SetSignalWithDtValue (1);
 				break;
@@ -652,7 +651,7 @@ namespace WFS210.UI
 				break;
 			case MarkerUnit.EnableDisableMarkers:
 				EnableDisableMarkers ();
-				markerMeasurements [1].SelectedUnit = MarkerUnit.dt;
+				DisplaySettings.MarkerUnits [1] = MarkerUnit.dt;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);

@@ -129,8 +129,6 @@
     <Compile Include="NewDataEventArgs.cs" />
     <Compile Include="MarkerUnit.cs" />
     <Compile Include="SignalUnit.cs" />
-    <Compile Include="SignalMeasurement.cs" />
-    <Compile Include="MarkerMeasurement.cs" />
     <Compile Include="Padding.cs" />
     <Compile Include="MainView.cs" />
     <Compile Include="MainView.designer.cs">
@@ -144,6 +142,7 @@
     <Compile Include="PopoverContentViewController.cs" />
     <Compile Include="UIEnumPickerViewModel.cs" />
     <Compile Include="EnumEventArgs.cs" />
+    <Compile Include="DisplaySettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
