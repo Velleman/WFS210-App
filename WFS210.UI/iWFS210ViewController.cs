@@ -290,12 +290,8 @@ namespace WFS210.UI
 
 		partial void btnSettings_TouchUpInside (UIButton sender)
 		{
-			//throw new NotImplementedException();
 			settingsViewController = this.Storyboard.InstantiateViewController ("SettingsViewController") as SettingsViewController;
-			// You need to specify the controller you are presenting 
 			settingsViewController.WifiSetting = Oscilloscope.WifiSetting;
-			settingsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
-			settingsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			PresentViewController (settingsViewController, true, null);
 		}
 
@@ -306,12 +302,12 @@ namespace WFS210.UI
 				var mainLayer = this.MainView.Layer;
 				mainLayer.RenderInContext (UIGraphics.GetCurrentContext ());
 				var img = UIScreen.MainScreen.Capture ();
-				var newImg = UIImage.FromImage (img.CGImage, 1f, UIImageOrientation.Right);
+				var newImg = UIImage.FromImage (img.CGImage, 1f, UIImageOrientation.Left);
 				newImg.SaveToPhotosAlbum ((iRef, status) => {
 					if (status != null) {
 						new UIAlertView ("Problem", status.ToString (), null, "OK", null).Show ();
 					} else {
-						new UIAlertView ("Saved", "Saved", null, "OK", null).Show ();
+						new UIAlertView ("Screenshot", "Screenshot is Saved", null, "OK", null).Show ();
 					}
 				});
 			} finally {

@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Resources\BUTTONS\SCREENSHOT\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -144,6 +145,7 @@
     <Compile Include="PopoverContentViewController.cs" />
     <Compile Include="UIEnumPickerViewModel.cs" />
     <Compile Include="EnumEventArgs.cs" />
+    <Compile Include="SettingsEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -244,6 +246,7 @@
     <BundleResource Include="Resources\Icon-Small-50%402x.png" />
     <BundleResource Include="Resources\MARKERS\MARKER 1 SLIDER-__x60.png" />
     <BundleResource Include="Resources\MARKERS\MARKER 2 SLIDER-__x60.png" />
+    <BundleResource Include="Resources\BUTTONS\SCREENSHOT\SCREENSHOT-6x614.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />

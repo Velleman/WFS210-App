@@ -7,6 +7,10 @@ namespace WFS210.UI
 {
 	partial class SettingsViewController : UIViewController
 	{
+		public event EventHandler<EventArgs> ValueChanged {
+			add { btnSave.TouchUpInside += value; }
+			remove { btnSave.TouchUpInside -= value; }
+		}
 		public WifiSettings WifiSetting{ get; set;}
 		public SettingsViewController (IntPtr handle) : base (handle)
 		{
@@ -16,8 +20,7 @@ namespace WFS210.UI
 		{
 			base.ViewDidLoad ();
 			btnDismiss.TouchUpInside += (object sender, EventArgs e) => {
-				var parent = this.PresentingViewController as iWFS210ViewController;
-				parent.DismissSettingsViewController();
+
 			};
 
 			txtWifiName.Text = WifiSetting.Name;

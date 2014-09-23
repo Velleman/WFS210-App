@@ -20,6 +20,10 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnSave { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UISwitch swDemo { get; set; }
 
 		[Outlet]
@@ -39,6 +43,10 @@ namespace WFS210.UI
 			if (btnDismiss != null) {
 				btnDismiss.Dispose ();
 				btnDismiss = null;
+			}
+			if (btnSave != null) {
+				btnSave.Dispose ();
+				btnSave = null;
 			}
 			if (swDemo != null) {
 				swDemo.Dispose ();
