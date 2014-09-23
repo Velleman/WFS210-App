@@ -640,33 +640,33 @@ namespace WFS210.UI
 		{
 			switch (unit) {
 			case SignalUnit.DbGain:
-				return Oscilloscope.DBGain ().ToString ();
+				return VoltageConverter.ToString (Oscilloscope.DBGain ());
 			case SignalUnit.Dbm1:
-				return Oscilloscope.Channels [channel].DBm ().ToString ();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].DBm ());
 			case SignalUnit.Dbm2:
-				return Oscilloscope.Channels [channel].DBm ().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].DBm ());
 			case SignalUnit.RMS:
-				return Oscilloscope.Channels [channel].Vrms().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vrms ());
 			case SignalUnit.TRMS:
-				return Oscilloscope.Channels [channel].VTrms().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].VTrms ());
 			case SignalUnit.Vdc:
-				return Oscilloscope.Channels [channel].Vdc().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vdc ());
 			case SignalUnit.VMax:
-				return Oscilloscope.Channels [channel].Vmax().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vmax ());
 			case SignalUnit.VMin:
-				return Oscilloscope.Channels [channel].Vmin().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vmin ());
 			case SignalUnit.Vptp:
-				return Oscilloscope.Channels [channel].Vptp().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vptp ());
 			case SignalUnit.WRMS16:
-				return Oscilloscope.Channels [channel].Wrms16().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms16 ());
 			case SignalUnit.WRMS2:
-				return Oscilloscope.Channels [channel].Wrms2().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms2 ());
 			case SignalUnit.WRMS32:
-				return Oscilloscope.Channels [channel].Wrms32().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms32 ());
 			case SignalUnit.WRMS4:
-				return Oscilloscope.Channels [channel].Wrms4().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms4 ());
 			case SignalUnit.WRMS8:
-				return Oscilloscope.Channels [channel].Wrms8().ToString();
+				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms8 ());
 			default:
 				return "?";
 			}
