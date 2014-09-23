@@ -297,9 +297,6 @@ namespace WFS210.UI
 			settingsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
 			settingsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			PresentViewController (settingsViewController, true, null);
-
-			
-			var i = 1;
 		}
 
 		partial void btnSnap_TouchUpInside (UIButton sender)

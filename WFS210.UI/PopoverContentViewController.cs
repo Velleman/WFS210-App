@@ -36,10 +36,5 @@ namespace WFS210.UI
 
 			View.AddSubview (pMeasurements);
 		}
-
-		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
-		{
-			return true;
-		}
 	}
 }
