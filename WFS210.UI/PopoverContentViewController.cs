@@ -12,8 +12,10 @@ namespace WFS210.UI
 	{
 		private UIEnumPickerViewModel<T> Model;
 
+		private UIPickerView Picker;
+
 		public RectangleF ContentBounds {
-			get { return new RectangleF (0, 0, 250, 150); }
+			get { return Picker.Bounds; }
 		}
 
 		public event EventHandler<EnumEventArgs<T>> ValueChanged {
@@ -30,10 +32,9 @@ namespace WFS210.UI
 		{
 			base.ViewDidLoad ();
 
-			var pMeasurements = new UIPickerView ();
-			pMeasurements.Frame = ContentBounds;
-			pMeasurements.Model = Model;
-			View.AddSubview (pMeasurements);
+			Picker = new UIPickerView ();
+			Picker.Model = Model;
+			View.AddSubview (Picker);
 		}
 	}
 }
