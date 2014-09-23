@@ -72,7 +72,7 @@ namespace WFS210.UI
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				Service.Update ();
 				InvokeOnMainThread (ScopeView.UpdateScopeView);
-				UpdateMeasurements();
+				UpdateMeasurements ();
 			};
 			timer.AutoReset = true;
 			timer.Enabled = true;
@@ -137,25 +137,12 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
 		{
-			var measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
-			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
-			MeasurementsViewController.isMarkerMeasurement = true;
-			MeasurementsViewController.SelectedChannel = 0;
-			MeasurementsViewController.SelectedMeasurement = markerMeasurements [1].SelectedUnit.ToString ("G");
-			PresentViewController (measurementsViewController, true, null);
+			ShowMarkerUnitPopover (sender, 0);
 		}
 
 		partial void btnSignalMeasurements_TouchUpInside (UIButton sender)
 		{
-			var measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
-			// You need to specify the controller you are presenting 
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
-			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
-			MeasurementsViewController.isMarkerMeasurement = false;
-			MeasurementsViewController.SelectedChannel = 0;
-			MeasurementsViewController.SelectedMeasurement = signalMeasurements [1].SelectedUnit.ToString ("G");
-			PresentViewController (measurementsViewController, true, null);
+			ShowSignalUnitPopover (sender, 0);
 		}
 
 		#endregion
@@ -261,27 +248,40 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements2_TouchUpInside (UIButton sender)
 		{
-			var measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
-			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
-			MeasurementsViewController.isMarkerMeasurement = true;
-			MeasurementsViewController.SelectedChannel = 1;
-			MeasurementsViewController.SelectedMeasurement = markerMeasurements [1].SelectedUnit.ToString ("G");
-			PresentViewController (measurementsViewController, true, null);
+			ShowMarkerUnitPopover (sender, 1);
 		}
 
 		partial void btnSignalMeasurements2_TouchUpInside (UIButton sender)
 		{
+			ShowSignalUnitPopover (sender, 1);
+		}
+
+		private void ShowSignalUnitPopover (UIView view, int Channel)
+		{
 			var content = new PopoverContentViewController<SignalUnit> ();
+			content.ValueChanged += (object s, EnumEventArgs<SignalUnit> e) => {
+				signalMeasurements [Channel].SelectedUnit = e.Value;
+				UpdateMeasurements ();
+			};
 
 			DetailViewPopover = new UIPopoverController (content);
-			DetailViewPopover.PopoverContentSize = content.pMeasurements.Frame.Size;
-			DetailViewPopover.DidDismiss += (o,s) => { 
-				var k = o;
-				var t = s;
+			DetailViewPopover.PopoverContentSize = content.ContentBounds.Size;
 
+			DetailViewPopover.PresentFromRect (view.Frame, View, UIPopoverArrowDirection.Any, true);
+		}
+
+		private void ShowMarkerUnitPopover (UIView view, int Channel)
+		{
+			var content = new PopoverContentViewController<MarkerUnit> ();
+			content.ValueChanged += (object s, EnumEventArgs<MarkerUnit> e) => {
+				markerMeasurements [Channel].SelectedUnit = e.Value;
+				UpdateMeasurements ();
 			};
-			DetailViewPopover.PresentFromRect (btnSignalMeasurements2.Frame, View, UIPopoverArrowDirection.Any, true);
+
+			DetailViewPopover = new UIPopoverController (content);
+			DetailViewPopover.PopoverContentSize = content.ContentBounds.Size;
+
+			DetailViewPopover.PresentFromRect (view.Frame, View, UIPopoverArrowDirection.Any, true);
 		}
 
 		#endregion
@@ -304,27 +304,21 @@ namespace WFS210.UI
 
 		partial void btnSnap_TouchUpInside (UIButton sender)
 		{
-			UIGraphics.BeginImageContext(UIScreen.MainScreen.ApplicationFrame.Size);
-			try{
+			UIGraphics.BeginImageContext (UIScreen.MainScreen.ApplicationFrame.Size);
+			try {
 				var mainLayer = this.MainView.Layer;
-				mainLayer.RenderInContext(UIGraphics.GetCurrentContext());
-				var img = UIScreen.MainScreen.Capture();
-				var newImg = UIImage.FromImage(img.CGImage,1f,UIImageOrientation.Right);
-				newImg.SaveToPhotosAlbum((iRef,status) => 
-					{
-						if(status != null)
-						{
-							new UIAlertView("Problem", status.ToString(), null, "OK", null).Show ();
-						}
-						else
-						{
-							new UIAlertView("Saved", "Saved", null, "OK", null).Show ();
-						}
-					});
-			}
-			finally
-			{
-				UIGraphics.EndImageContext();
+				mainLayer.RenderInContext (UIGraphics.GetCurrentContext ());
+				var img = UIScreen.MainScreen.Capture ();
+				var newImg = UIImage.FromImage (img.CGImage, 1f, UIImageOrientation.Right);
+				newImg.SaveToPhotosAlbum ((iRef, status) => {
+					if (status != null) {
+						new UIAlertView ("Problem", status.ToString (), null, "OK", null).Show ();
+					} else {
+						new UIAlertView ("Saved", "Saved", null, "OK", null).Show ();
+					}
+				});
+			} finally {
+				UIGraphics.EndImageContext ();
 			}
 		}
 
@@ -391,7 +385,7 @@ namespace WFS210.UI
 			UpdateTimeBaseText ();
 		}
 
-		protected void UpdateMeasurements()
+		protected void UpdateMeasurements ()
 		{
 			// Channel 1
 			UpdateMarkerMeasurement1 ();

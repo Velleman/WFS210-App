@@ -142,6 +142,8 @@
       <DependentUpon>ScopeView.cs</DependentUpon>
     </Compile>
     <Compile Include="PopoverContentViewController.cs" />
+    <Compile Include="UIEnumPickerViewModel.cs" />
+    <Compile Include="EnumEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

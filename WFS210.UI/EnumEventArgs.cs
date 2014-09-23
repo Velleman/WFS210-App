@@ -2,10 +2,13 @@
 
 namespace WFS210.UI
 {
-	public class EnumEventArgs
+	public class EnumEventArgs<T>
 	{
-		public EnumEventArgs ()
+		public T Value;
+
+		public EnumEventArgs (T value)
 		{
+			this.Value = value;
 		}
 	}
 }
