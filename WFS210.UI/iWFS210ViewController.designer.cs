@@ -80,6 +80,10 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnSnap { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnTimeLeft { get; set; }
 
 		[Outlet]
@@ -226,6 +230,10 @@ namespace WFS210.UI
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnSignalMeasurements2_TouchUpInside (UIButton sender);
 
+		[Action ("btnSnap_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void btnSnap_TouchUpInside (UIButton sender);
+
 		[Action ("btnTimeLeft_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void btnTimeLeft_TouchUpInside (UIButton sender);
@@ -347,6 +355,10 @@ namespace WFS210.UI
 			if (btnSignalMeasurements2 != null) {
 				btnSignalMeasurements2.Dispose ();
 				btnSignalMeasurements2 = null;
+			}
+			if (btnSnap != null) {
+				btnSnap.Dispose ();
+				btnSnap = null;
 			}
 			if (btnTimeLeft != null) {
 				btnTimeLeft.Dispose ();

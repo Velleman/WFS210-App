@@ -18,11 +18,43 @@ namespace WFS210.UI
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnDismiss { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UISwitch swDemo { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtWifiChannel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtWifiName { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField txtWifiPassword { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (btnDismiss != null) {
 				btnDismiss.Dispose ();
 				btnDismiss = null;
+			}
+			if (swDemo != null) {
+				swDemo.Dispose ();
+				swDemo = null;
+			}
+			if (txtWifiChannel != null) {
+				txtWifiChannel.Dispose ();
+				txtWifiChannel = null;
+			}
+			if (txtWifiName != null) {
+				txtWifiName.Dispose ();
+				txtWifiName = null;
+			}
+			if (txtWifiPassword != null) {
+				txtWifiPassword.Dispose ();
+				txtWifiPassword = null;
 			}
 		}
 	}

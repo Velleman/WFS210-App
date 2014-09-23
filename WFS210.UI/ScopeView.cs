@@ -53,6 +53,7 @@ namespace WFS210.UI
 			this.GrappleDistance = 60;
 
 			Padding = new Padding (18, 0, 18, 0);
+
 			MarkersAreVisible = true;
 
 			LoadGrid ();
@@ -61,7 +62,6 @@ namespace WFS210.UI
 
 			LoadYMarkers ();
 
-
 			RegisterLongPressRecognizer ();
 
 			LoadVoltTimeIndicator ();
@@ -69,7 +69,7 @@ namespace WFS210.UI
 			RegisterPinchRecognizer ();
 		}
 
-		public void Initialize(Oscilloscope scope)
+		public void Initialize (Oscilloscope scope)
 		{
 			this.Wfs210 = scope;
 
@@ -142,7 +142,7 @@ namespace WFS210.UI
 
 		private int ScreenDataToScopeData (int value)
 		{
-			return (int)((value - ScopeBounds.Top) / sampleToPointRatio) ;
+			return (int)((value - ScopeBounds.Top) / sampleToPointRatio);
 		}
 
 		private int ScreenDataToScopeDataInverted (int value)
@@ -182,14 +182,14 @@ namespace WFS210.UI
 
 		CAShapeLayer GetSignalMask ()
 		{
-			RectangleF clippingRect = new RectangleF(ScopeBounds.Left,ScopeBounds.Top + 3,ScopeBounds.Width,ScopeBounds.Height - 7);
+			RectangleF clippingRect = new RectangleF (ScopeBounds.Left, ScopeBounds.Top + 3, ScopeBounds.Width, ScopeBounds.Height - 7);
 			// Set clippingRect to the rectangle you wish to clip to
 
 			var maskPath = UIBezierPath.FromRect (clippingRect);
 	
 			// Create a shape layer
 			maskLayer = new CAShapeLayer ();
-			maskLayer.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2+ ScopeBounds.Top);
+			maskLayer.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
 			maskLayer.Bounds = new RectangleF (ScopeBounds.X, ScopeBounds.Y, ScopeBounds.Width, ScopeBounds.Height);
 			//maskLayer.BorderColor = new CGColor (255, 0, 0 , 1f);
 			// Set the path of the mask layer to be the Bezier path we calculated earlier
@@ -207,12 +207,12 @@ namespace WFS210.UI
 				signals [i].LineWidth = 1f;
 				signals [i].StrokeColor = new CGColor (0, 255, 0);
 				signals [i].FillColor = new CGColor (0, 0, 0, 0);
-				signals [i].Mask = GetSignalMask();
+				signals [i].Mask = GetSignalMask ();
 				Layer.AddSublayer (signals [i]);
 			}
 
 		}
-			
+
 		void LoadMarkers ()
 		{
 			if (MarkersAreVisible) {
@@ -262,14 +262,14 @@ namespace WFS210.UI
 		public void LoadZeroLines ()
 		{
 			//Makeing ZeroLines and adding it to the layers
-			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png", MapSampleDataToScreen(wfs210.Channels[0].YPosition), "ZEROLINE1", -18);
-			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", MapSampleDataToScreen(wfs210.Channels[0].YPosition), "ZEROLINE2", -18);
+			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png", MapSampleDataToScreen (wfs210.Channels [0].YPosition), "ZEROLINE1", -18);
+			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", MapSampleDataToScreen (wfs210.Channels [0].YPosition), "ZEROLINE2", -18);
 		}
 
 		public void LoadTriggerMarker ()
 		{
 			//Makeing TriggerMarkers and adding it to the layers
-			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", MapSampleDataToScreen(wfs210.Trigger.Level), "TRIGGERMARKER", -9);
+			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", MapSampleDataToScreen (wfs210.Trigger.Level), "TRIGGERMARKER", -9);
 		}
 
 		public void LoadVoltTimeIndicator ()
@@ -463,20 +463,17 @@ namespace WFS210.UI
 
 			// Here we will loop over all markers in an attempt
 			// to find the marker closest to the touch position.
-
 			for (int i = 0; i < Markers.Count; i++) {
 			
 				// First, we calculate the distance between the marker
 				// line and the touch position. If this distance is within
 				// grapple distance, then we have a hit.
-
 				distance = HitTest (pt, Markers [i]);
 				if (distance < GrappleDistance) {
 
 					// Check if this new hit is closer than the previous
 					// hit. If it is, the current marker will be the
 					// new closest marker.
-
 					if ((i == 0) || (distance < lastDistance)) {
 
 						closestMarker = Markers [i];

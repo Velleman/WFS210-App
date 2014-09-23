@@ -7,7 +7,7 @@ namespace WFS210.UI
 {
 	partial class SettingsViewController : UIViewController
 	{
-
+		public WifiSettings WifiSetting{ get; set;}
 		public SettingsViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -19,6 +19,10 @@ namespace WFS210.UI
 				var parent = this.PresentingViewController as iWFS210ViewController;
 				parent.DismissSettingsViewController();
 			};
+
+			txtWifiName.Text = WifiSetting.Name;
+			txtWifiChannel.Text = WifiSetting.Channel.ToString();
+
 		}
 
 

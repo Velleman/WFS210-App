@@ -141,6 +141,7 @@
     <Compile Include="ScopeView.designer.cs">
       <DependentUpon>ScopeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="PopoverContentViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

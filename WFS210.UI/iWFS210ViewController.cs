@@ -7,6 +7,8 @@ using WFS210.IO;
 using System.Timers;
 using WFS210.Services;
 using WFS210.Util;
+using System.Threading;
+using System.Drawing;
 
 namespace WFS210.UI
 {
@@ -31,10 +33,12 @@ namespace WFS210.UI
 		}
 
 		SettingsViewController settingsViewController;
-		MeasurementsViewController measurementsViewController;
 
 		SignalMeasurement[] signalMeasurements = new SignalMeasurement[2];
 		MarkerMeasurement[] markerMeasurements = new MarkerMeasurement[2];
+
+		UIPopoverController DetailViewPopover;
+
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.UI.iWFS210ViewController"/> class.
@@ -64,7 +68,7 @@ namespace WFS210.UI
 			markerMeasurements [0] = new MarkerMeasurement (){ Channel = 0,  SelectedUnit = MarkerUnit.dt };
 			markerMeasurements [1] = new MarkerMeasurement (){ Channel = 1,  SelectedUnit = MarkerUnit.dt };
 			ScopeView.Initialize (Oscilloscope);
-			Timer timer = new Timer (200);
+			var timer = new System.Timers.Timer (200);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				Service.Update ();
 				InvokeOnMainThread (ScopeView.UpdateScopeView);
@@ -133,7 +137,7 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
 		{
-			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
+			var measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			MeasurementsViewController.isMarkerMeasurement = true;
@@ -144,7 +148,7 @@ namespace WFS210.UI
 
 		partial void btnSignalMeasurements_TouchUpInside (UIButton sender)
 		{
-			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
+			var measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			// You need to specify the controller you are presenting 
 			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
@@ -257,7 +261,7 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements2_TouchUpInside (UIButton sender)
 		{
-			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
+			var measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
 			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
 			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			MeasurementsViewController.isMarkerMeasurement = true;
@@ -268,14 +272,16 @@ namespace WFS210.UI
 
 		partial void btnSignalMeasurements2_TouchUpInside (UIButton sender)
 		{
-			measurementsViewController = this.Storyboard.InstantiateViewController ("MeasurementsViewController") as MeasurementsViewController;
-			// You need to specify the controller you are presenting 
-			measurementsViewController.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
-			measurementsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
-			MeasurementsViewController.isMarkerMeasurement = false;
-			MeasurementsViewController.SelectedChannel = 1;
-			MeasurementsViewController.SelectedMeasurement = signalMeasurements [1].SelectedUnit.ToString ("G");
-			PresentViewController (measurementsViewController, true, null);
+			var content = new PopoverContentViewController<SignalUnit> ();
+
+			DetailViewPopover = new UIPopoverController (content);
+			DetailViewPopover.PopoverContentSize = content.pMeasurements.Frame.Size;
+			DetailViewPopover.DidDismiss += (o,s) => { 
+				var k = o;
+				var t = s;
+
+			};
+			DetailViewPopover.PresentFromRect (btnSignalMeasurements2.Frame, View, UIPopoverArrowDirection.Any, true);
 		}
 
 		#endregion
@@ -287,9 +293,39 @@ namespace WFS210.UI
 			//throw new NotImplementedException();
 			settingsViewController = this.Storyboard.InstantiateViewController ("SettingsViewController") as SettingsViewController;
 			// You need to specify the controller you are presenting 
+			settingsViewController.WifiSetting = Oscilloscope.WifiSetting;
 			settingsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
 			settingsViewController.ModalTransitionStyle = UIModalTransitionStyle.FlipHorizontal;
 			PresentViewController (settingsViewController, true, null);
+
+			
+			var i = 1;
+		}
+
+		partial void btnSnap_TouchUpInside (UIButton sender)
+		{
+			UIGraphics.BeginImageContext(UIScreen.MainScreen.ApplicationFrame.Size);
+			try{
+				var mainLayer = this.MainView.Layer;
+				mainLayer.RenderInContext(UIGraphics.GetCurrentContext());
+				var img = UIScreen.MainScreen.Capture();
+				var newImg = UIImage.FromImage(img.CGImage,1f,UIImageOrientation.Right);
+				newImg.SaveToPhotosAlbum((iRef,status) => 
+					{
+						if(status != null)
+						{
+							new UIAlertView("Problem", status.ToString(), null, "OK", null).Show ();
+						}
+						else
+						{
+							new UIAlertView("Saved", "Saved", null, "OK", null).Show ();
+						}
+					});
+			}
+			finally
+			{
+				UIGraphics.EndImageContext();
+			}
 		}
 
 		public void DismissSettingsViewController ()
@@ -300,7 +336,7 @@ namespace WFS210.UI
 
 		public void DismissMeasurementsViewController ()
 		{
-			var test = MarkerUnit.dt;
+			/*var test = MarkerUnit.dt;
 
 
 			if (MeasurementsViewController.isMarkerMeasurement) {
@@ -315,7 +351,7 @@ namespace WFS210.UI
 				signalMeasurements [MeasurementsViewController.SelectedChannel].SelectedUnit = (SignalUnit)Enum.Parse (typeof(SignalUnit), MeasurementsViewController.SelectedMeasurement, true);
 
 			measurementsViewController.DismissViewController (true, null);
-			UpdateScopeControls ();
+			UpdateScopeControls ();*/
 		}
 
 		#endregion

@@ -12,7 +12,7 @@ namespace WFS210
 		/// <summary>
 		/// The oscilloscope's channels. This list should only be modified internally.
 		/// </summary>
-		private List<Channel> channels = new List<Channel>();
+		private List<Channel> channels = new List<Channel> ();
 
 		/// <summary>
 		/// Gets the device context containing device-specific information.
@@ -67,10 +67,22 @@ namespace WFS210
 		/// <summary>
 		/// Adds a new channel that is fully configured for this type of oscilloscope.
 		/// </summary>
-		protected void AddChannel() {
+		protected void AddChannel ()
+		{
 
 			Channel channel = new Channel (4096, DeviceContext);
 			channels.Add (channel);
+		}
+
+		/// <summary>
+		/// Gets the firmware version.
+		/// </summary>
+		/// <value>The firmware version.</value>
+		public int FirmwareVersion{ get; private set; }
+
+		public WifiSettings WifiSetting {
+			get;
+			private set;
 		}
 
 		public Oscilloscope ()
@@ -88,9 +100,11 @@ namespace WFS210
 			AddChannel ();
 
 			InitDefaults ();
+
+			WifiSetting = new WifiSettings (){Name = "WFS210" , Password = "" ,Channel = 5, Version = "0.00"};
 		}
 
-		public void InitDefaults()
+		public void InitDefaults ()
 		{
 			AutoRange = false;
 			Hold = false;
@@ -98,11 +112,12 @@ namespace WFS210
 			BatteryStatus = BatteryStatus.Charged;
 			Calibrating = false;
 		}
+
 		/// <summary>
 		/// Calculates the DBGain of the two signals
 		/// </summary>
 		/// <returns>The dBGain</returns>
-		public double DBGain()
+		public double DBGain ()
 		{
 			return Channels [1].DBm () - Channels [0].DBm ();
 		}
