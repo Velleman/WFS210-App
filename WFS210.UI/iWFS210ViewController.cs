@@ -461,10 +461,7 @@ namespace WFS210.UI
 
 		void UpdateVoltText2 ()
 		{
-			string text;
-			text = "Incorrect Value";
-			text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision);
-			lblVolt2.Text = text;
+			lblVolt2.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision);
 		}
 
 		void UpdateTriggerChannelUI ()
@@ -530,35 +527,7 @@ namespace WFS210.UI
 
 		void UpdateTimeBaseText ()
 		{
-			string text;
-			text = "Incorrect Value";
-			text = TimeBaseConverter.ToString (Oscilloscope.TimeBase);
-			lblTime.Text = text;
-		}
-
-		void UpdateMarkerMeasurement1 ()
-		{
-			switch (markerMeasurements [0].SelectedUnit) {
-			case MarkerUnit.dt:
-				SetSignalWithDtValue (0);
-				break;
-			case MarkerUnit.Frequency:
-				SetSignalWithFrequency (0);
-				break;
-			case MarkerUnit.dV1:
-				SetSignalWithDV1 (0);
-				break;
-			case MarkerUnit.dV2:
-				SetSignalWithDV2 (0);
-				break;
-			case MarkerUnit.EnableDisableMarkers:
-				EnableDisableMarkers ();
-				markerMeasurements [0].SelectedUnit = MarkerUnit.dt;
-				break;
-			default:
-				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
-				break;
-			}
+			lblTime.Text = TimeBaseConverter.ToString (Oscilloscope.TimeBase);
 		}
 
 		private void SetSignalWithDtValue (int channel)
@@ -617,57 +586,29 @@ namespace WFS210.UI
 			ScopeView.ToggleMarkers ();
 		}
 
-		void UpdateSignalMeasurement1 ()
+		void UpdateMarkerMeasurement1 ()
 		{
-			var text = "";
-			switch (signalMeasurements [0].SelectedUnit) {
-			case SignalUnit.DbGain:
-				text = Oscilloscope.DBGain ().ToString();
+			switch (markerMeasurements [0].SelectedUnit) {
+			case MarkerUnit.dt:
+				SetSignalWithDtValue (0);
 				break;
-			case SignalUnit.Dbm1:
-				text = Oscilloscope.Channels [0].DBm ().ToString();
+			case MarkerUnit.Frequency:
+				SetSignalWithFrequency (0);
 				break;
-			case SignalUnit.Dbm2:
-				text = Oscilloscope.Channels [1].DBm ().ToString();
+			case MarkerUnit.dV1:
+				SetSignalWithDV1 (0);
 				break;
-			case SignalUnit.RMS:
-				text = Oscilloscope.Channels [0].Vrms().ToString();
+			case MarkerUnit.dV2:
+				SetSignalWithDV2 (0);
 				break;
-			case SignalUnit.TRMS:
-				text = Oscilloscope.Channels [0].VTrms().ToString();
-				break;
-			case SignalUnit.Vdc:
-				text = Oscilloscope.Channels [0].Vdc().ToString();
-				break;
-			case SignalUnit.VMax:
-				text = Oscilloscope.Channels [0].Vmax().ToString();
-				break;
-			case SignalUnit.VMin:
-				text = Oscilloscope.Channels [0].Vmin().ToString();
-				break;
-			case SignalUnit.Vptp:
-				text = Oscilloscope.Channels [0].Vptp().ToString();
-				break;
-			case SignalUnit.WRMS16:
-				text = Oscilloscope.Channels [0].Wrms16().ToString();
-				break;
-			case SignalUnit.WRMS2:
-				text = Oscilloscope.Channels [0].Wrms2().ToString();
-				break;
-			case SignalUnit.WRMS32:
-				text = Oscilloscope.Channels [0].Wrms32().ToString();
-				break;
-			case SignalUnit.WRMS4:
-				text = Oscilloscope.Channels [0].Wrms4().ToString();
-				break;
-			case SignalUnit.WRMS8:
-				text = Oscilloscope.Channels [0].Wrms8().ToString();
+			case MarkerUnit.EnableDisableMarkers:
+				EnableDisableMarkers ();
+				markerMeasurements [0].SelectedUnit = MarkerUnit.dt;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
 				break;
 			}
-			btnSignalMeasurements.SetTitle (text, UIControlState.Normal);
 		}
 
 		void UpdateMarkerMeasurement2 ()
@@ -695,57 +636,50 @@ namespace WFS210.UI
 			}
 		}
 
+		public string GetMeasurementString (SignalUnit unit, int channel)
+		{
+			switch (unit) {
+			case SignalUnit.DbGain:
+				return Oscilloscope.DBGain ().ToString ();
+			case SignalUnit.Dbm1:
+				return Oscilloscope.Channels [channel].DBm ().ToString ();
+			case SignalUnit.Dbm2:
+				return Oscilloscope.Channels [channel].DBm ().ToString();
+			case SignalUnit.RMS:
+				return Oscilloscope.Channels [channel].Vrms().ToString();
+			case SignalUnit.TRMS:
+				return Oscilloscope.Channels [channel].VTrms().ToString();
+			case SignalUnit.Vdc:
+				return Oscilloscope.Channels [channel].Vdc().ToString();
+			case SignalUnit.VMax:
+				return Oscilloscope.Channels [channel].Vmax().ToString();
+			case SignalUnit.VMin:
+				return Oscilloscope.Channels [channel].Vmin().ToString();
+			case SignalUnit.Vptp:
+				return Oscilloscope.Channels [channel].Vptp().ToString();
+			case SignalUnit.WRMS16:
+				return Oscilloscope.Channels [channel].Wrms16().ToString();
+			case SignalUnit.WRMS2:
+				return Oscilloscope.Channels [channel].Wrms2().ToString();
+			case SignalUnit.WRMS32:
+				return Oscilloscope.Channels [channel].Wrms32().ToString();
+			case SignalUnit.WRMS4:
+				return Oscilloscope.Channels [channel].Wrms4().ToString();
+			case SignalUnit.WRMS8:
+				return Oscilloscope.Channels [channel].Wrms8().ToString();
+			default:
+				return "?";
+			}
+		}
+
+		void UpdateSignalMeasurement1 ()
+		{
+			btnSignalMeasurements.SetTitle (GetMeasurementString (signalMeasurements [0].SelectedUnit, 0), UIControlState.Normal);
+		}
+
 		void UpdateSignalMeasurement2 ()
 		{
-			var text = "";
-			switch (signalMeasurements [0].SelectedUnit) {
-			case SignalUnit.DbGain:
-				text = Oscilloscope.DBGain ().ToString();
-				break;
-			case SignalUnit.Dbm1:
-				text = Oscilloscope.Channels [0].DBm ().ToString();
-				break;
-			case SignalUnit.Dbm2:
-				text = Oscilloscope.Channels [1].DBm ().ToString();
-				break;
-			case SignalUnit.RMS:
-				text = Oscilloscope.Channels [1].Vrms().ToString();
-				break;
-			case SignalUnit.TRMS:
-				text = Oscilloscope.Channels [1].VTrms().ToString();
-				break;
-			case SignalUnit.Vdc:
-				text = Oscilloscope.Channels [1].Vdc().ToString();
-				break;
-			case SignalUnit.VMax:
-				text = Oscilloscope.Channels [1].Vmax().ToString();
-				break;
-			case SignalUnit.VMin:
-				text = Oscilloscope.Channels [1].Vmin().ToString();
-				break;
-			case SignalUnit.Vptp:
-				text = Oscilloscope.Channels [1].Vptp().ToString();
-				break;
-			case SignalUnit.WRMS16:
-				text = Oscilloscope.Channels [1].Wrms16().ToString();
-				break;
-			case SignalUnit.WRMS2:
-				text = Oscilloscope.Channels [1].Wrms2().ToString();
-				break;
-			case SignalUnit.WRMS32:
-				text = Oscilloscope.Channels [1].Wrms32().ToString();
-				break;
-			case SignalUnit.WRMS4:
-				text = Oscilloscope.Channels [1].Wrms4().ToString();
-				break;
-			case SignalUnit.WRMS8:
-				text = Oscilloscope.Channels [1].Wrms8().ToString();
-				break;
-			default:
-				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
-				break;
-			}
-			btnSignalMeasurements2.SetTitle (text, UIControlState.Normal);
+			btnSignalMeasurements2.SetTitle (GetMeasurementString (signalMeasurements [0].SelectedUnit, 1), UIControlState.Normal);
 		}
 
 		private static string ToEngineeringNotation (double d)
