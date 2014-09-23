@@ -68,8 +68,7 @@ namespace WFS210.UI
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				Service.Update ();
 				InvokeOnMainThread (ScopeView.UpdateScopeView);
-				UpdateSignalMeasurement1();
-				UpdateSignalMeasurement2();
+				UpdateMeasurements();
 			};
 			timer.AutoReset = true;
 			timer.Enabled = true;
@@ -328,8 +327,7 @@ namespace WFS210.UI
 			UpdateChannel1UI ();
 			UpdateChannel2UI ();
 			UpdateTriggerUI ();
-			UpdateMeasurement1UI ();
-			UpdateMeasurement2UI ();
+			UpdateMeasurements ();
 		}
 
 
@@ -357,16 +355,15 @@ namespace WFS210.UI
 			UpdateTimeBaseText ();
 		}
 
-		void UpdateMeasurement1UI ()
+		protected void UpdateMeasurements()
 		{
+			// Channel 1
 			UpdateMarkerMeasurement1 ();
-			UpdateSignalMeasurement1 ();
-		}
+			btnSignalMeasurements.SetTitle (GetMeasurementString (signalMeasurements [0].SelectedUnit, 0), UIControlState.Normal);
 
-		void UpdateMeasurement2UI ()
-		{
+			// Channel 2
 			UpdateMarkerMeasurement2 ();
-			UpdateSignalMeasurement2 ();
+			btnSignalMeasurements2.SetTitle (GetMeasurementString (signalMeasurements [1].SelectedUnit, 1), UIControlState.Normal);
 		}
 
 		void UpdateSelectedChannel ()
@@ -670,16 +667,6 @@ namespace WFS210.UI
 			default:
 				return "?";
 			}
-		}
-
-		void UpdateSignalMeasurement1 ()
-		{
-			btnSignalMeasurements.SetTitle (GetMeasurementString (signalMeasurements [0].SelectedUnit, 0), UIControlState.Normal);
-		}
-
-		void UpdateSignalMeasurement2 ()
-		{
-			btnSignalMeasurements2.SetTitle (GetMeasurementString (signalMeasurements [0].SelectedUnit, 1), UIControlState.Normal);
 		}
 
 		private static string ToEngineeringNotation (double d)
