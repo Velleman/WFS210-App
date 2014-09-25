@@ -45,7 +45,25 @@ namespace WFS210.Services
 			var message = new Message (Command.ModifySettings);
 
 			message.Payload = new byte[12];
-			EncodeSettings (message.Payload);
+
+			//Channel 1
+			message.Payload [0] = 0;
+			message.Payload [1] = 0;
+			message.Payload [2] = (byte)Oscilloscope.Channels [0].InputCoupling;
+			message.Payload [3] = (byte)Oscilloscope.Channels [0].VoltsPerDivision;
+			message.Payload [4] = (byte)Oscilloscope.Channels [0].YPosition;
+
+			//Channel 2
+			message.Payload [5] = (byte)Oscilloscope.Channels [1].InputCoupling;
+			message.Payload [6] = (byte)Oscilloscope.Channels [1].VoltsPerDivision;
+			message.Payload [7] = (byte)Oscilloscope.Channels [1].YPosition;
+
+			//Oscilloscope
+			message.Payload [8] = (byte)Oscilloscope.TimeBase;
+			message.Payload [9] = (byte)Oscilloscope.Trigger.Level;
+			message.Payload [10] = EncodeTriggerSettings ();
+			message.Payload [11] = 0;
+
 			Connection.Write (message);
 		}
 
@@ -75,7 +93,7 @@ namespace WFS210.Services
 		public override void Update ()
 		{
 			var message = Connection.Read ();
-			//Console.WriteLine (DateTime.Now.Ticks.ToString());
+
 			while (message != null) {
 				switch (message.Command) {
 				case Command.SampleData:
@@ -90,7 +108,6 @@ namespace WFS210.Services
 				}
 				message = Connection.Read ();
 			}
-			//Console.WriteLine (DateTime.Now.Ticks.ToString());
 		}
 
 		/// <summary>
@@ -134,29 +151,6 @@ namespace WFS210.Services
 			Oscilloscope.Trigger.Level = message.Payload [9];
 			DecodeTriggerSettings (message.Payload [10]);
 			DecodeModuleStatus (message.Payload [11]);
-		}
-
-		public void EncodeSettings (byte[] payload)
-		{
-
-			//Channel 1
-			payload [0] = 0;
-			payload [1] = 0;
-			payload [2] = (byte)Oscilloscope.Channels [0].InputCoupling;
-			payload [3] = (byte)Oscilloscope.Channels [0].VoltsPerDivision;
-			payload [4] = (byte)Oscilloscope.Channels [0].YPosition;
-
-			//Channel 2
-			payload [5] = (byte)Oscilloscope.Channels [1].InputCoupling;
-			payload [6] = (byte)Oscilloscope.Channels [1].VoltsPerDivision;
-			payload [7] = (byte)Oscilloscope.Channels [1].YPosition;
-
-			//Oscilloscope
-			payload [8] = (byte)Oscilloscope.TimeBase;
-			payload [9] = (byte)Oscilloscope.Trigger.Level;
-			payload [10] = EncodeTriggerSettings ();
-			payload [11] = 0;
-
 		}
 
 		byte EncodeTriggerSettings ()
