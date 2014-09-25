@@ -36,6 +36,15 @@ namespace WFS210.Services
 		}
 
 		/// <summary>
+		/// Dectivate this instance.
+		/// </summary>
+		public override void Deactivate ()
+		{
+		}
+
+	
+
+		/// <summary>
 		/// Applies the settings.
 		/// </summary>
 		public override void ApplySettings ()
@@ -65,6 +74,13 @@ namespace WFS210.Services
 			foreach (Channel channel in Oscilloscope.Channels) {
 
 				SignalGenerator.GenerateSignal (channel, true);
+			}
+		}
+
+
+		public override bool Active {
+			get {
+				return true;
 			}
 		}
 	}

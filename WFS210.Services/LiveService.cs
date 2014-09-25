@@ -38,6 +38,20 @@ namespace WFS210.Services
 		}
 
 		/// <summary>
+		/// Deactivate this instance.
+		/// </summary>
+		public override void Deactivate ()
+		{
+			this.connection.Close();
+		}
+
+		public override bool Active {
+			get {
+				return this.connection.Connected;
+			}
+		}
+
+		/// <summary>
 		/// Applies the settings.
 		/// </summary>
 		public override void ApplySettings ()
