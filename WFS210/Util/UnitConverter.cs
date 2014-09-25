@@ -4,7 +4,7 @@ namespace WFS210
 {
 	public static class UnitConverter
 	{
-		public static string ToString(double value, string[] units, double step)
+		public static string ToString(double value, string[] units, double step, int precision)
 		{
 			int i = 0;
 
@@ -14,7 +14,7 @@ namespace WFS210
 				i++;
 			}
 
-			return String.Format("{0:N2}{1}", value, units[i]);
+			return String.Format("{0:N" + precision + "}{1}", value, units[i]);
 		}
 	}
 }
