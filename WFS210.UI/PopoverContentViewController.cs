@@ -34,6 +34,8 @@ namespace WFS210.UI
 
 			Picker = new UIPickerView ();
 			Picker.Model = Model;
+			Picker.ShowSelectionIndicator = true;
+			Picker.BackgroundColor = new UIColor (62f/255f,60f/255f,60f/255f,255f/255f);
 			View.AddSubview (Picker);
 		}
 	}
