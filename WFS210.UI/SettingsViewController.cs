@@ -20,7 +20,7 @@ namespace WFS210.UI
 			base.ViewDidLoad ();
 			btnDismiss.TouchUpInside += (object sender, EventArgs e) => {
 				WifiSetting.Channel = int.Parse(txtWifiChannel.Text);
-				WifiSetting.Name = txtWifiName.Text;
+				WifiSetting.SSID = txtWifiName.Text;
 				WifiSetting.Password = txtWifiPassword.Text;
 				if(RequestedDismiss !=null)
 					RequestedDismiss(this,null);
@@ -41,7 +41,7 @@ namespace WFS210.UI
 				}
 			};
 
-			txtWifiName.Text = WifiSetting.Name;
+			txtWifiName.Text = WifiSetting.SSID;
 			txtWifiChannel.Text = WifiSetting.Channel.ToString();
 			if (ServiceManager.ServiceType == ServiceType.Demo)
 				swDemo.On = true;
