@@ -6,19 +6,15 @@ namespace WFS210.Services
 	{
 		protected readonly int TriggerLevel;
 
-		public TriggerLevelCommand (int TriggerLevel)
+		public TriggerLevelCommand (int triggerLevel)
 		{
-			this.TriggerLevel = TriggerLevel;
+			this.TriggerLevel = triggerLevel;
 		}
-
-		#region implemented abstract members of ServiceCommand
 
 		public override void Execute (Service service)
 		{
 			service.Oscilloscope.Trigger.Level = TriggerLevel;
 		}
-
-		#endregion
 	}
 }
 
