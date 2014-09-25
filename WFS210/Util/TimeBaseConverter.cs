@@ -26,7 +26,7 @@ namespace WFS210
 		{
 			double seconds = TimeBaseConverter.ToSeconds (timeBase);
 
-			return String.Format ("{0}/div", TimeConverter.ToString (seconds));
+			return String.Format ("{0}/div", TimeConverter.ToString (seconds, 0));
 		}
 	}
 }

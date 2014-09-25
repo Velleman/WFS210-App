@@ -25,7 +25,7 @@ namespace WFS210
 			if (volts.Equals(0)) {
 				caption = "Off"; // TODO: localize
 			} else {
-				caption = String.Format ("{0}/div", VoltageConverter.ToString (volts));
+				caption = String.Format ("{0}/div", VoltageConverter.ToString (volts, 0));
 			}
 
 			return caption;
