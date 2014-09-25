@@ -20,7 +20,19 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnSave { get; set; }
+		UILabel lblChannel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblDemo { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblName { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblPassword { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -44,9 +56,21 @@ namespace WFS210.UI
 				btnDismiss.Dispose ();
 				btnDismiss = null;
 			}
-			if (btnSave != null) {
-				btnSave.Dispose ();
-				btnSave = null;
+			if (lblChannel != null) {
+				lblChannel.Dispose ();
+				lblChannel = null;
+			}
+			if (lblDemo != null) {
+				lblDemo.Dispose ();
+				lblDemo = null;
+			}
+			if (lblName != null) {
+				lblName.Dispose ();
+				lblName = null;
+			}
+			if (lblPassword != null) {
+				lblPassword.Dispose ();
+				lblPassword = null;
 			}
 			if (swDemo != null) {
 				swDemo.Dispose ();

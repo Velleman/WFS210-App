@@ -7,6 +7,7 @@ using WFS210;
 using WFS210.Util;
 using System.Collections.Generic;
 using MonoTouch.Foundation;
+using WFS210.Services;
 
 namespace WFS210.UI
 {
@@ -20,11 +21,13 @@ namespace WFS210.UI
 
 		CGPath[] path;
 		PointF initialPoint;
+		Service service;
 		Oscilloscope wfs210;
+
 		PointF[] scopePoints;
 		public float sampleToPointRatio;
 
-		public Channel SelectedChannel{ get; set; }
+		public int SelectedChannel{ get; set; }
 
 		public bool MarkersAreVisible { get; private set; }
 
@@ -69,9 +72,8 @@ namespace WFS210.UI
 			RegisterPinchRecognizer ();
 		}
 
-		public void Initialize (Oscilloscope scope)
+		public void Initialize ()
 		{
-			this.Wfs210 = scope;
 
 			LoadZeroLines ();
 
@@ -107,13 +109,17 @@ namespace WFS210.UI
 				NewData (this, e);
 		}
 
-		public Oscilloscope Wfs210 {
+		public Service Service {
 			set {
 
-				wfs210 = value;
+				this.service = value;
+				wfs210 = this.service.Oscilloscope;
 				sampleToPointRatio = (float)ScopeBounds.Height / (wfs210.DeviceContext.UnitsPerDivision * wfs210.DeviceContext.Divisions);
 				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase * 15;
 			}	
+			get {
+				return this.service;
+			}
 		}
 
 		/// <summary>
@@ -326,14 +332,12 @@ namespace WFS210.UI
 						} else {
 							if (distance > startDistance + 50) {
 								startDistance = distance;
-
-								SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision.Cycle (1);
+								Service.Execute (new NextVoltsPerDivisionCommand (SelectedChannel));
 							} else if (distance < startDistance - 50) {
 								startDistance = distance;
-
-								SelectedChannel.VoltsPerDivision = SelectedChannel.VoltsPerDivision.Cycle (-1);
+								Service.Execute (new PreviousVoltsPerDivisionCommand (SelectedChannel));
 							}
-							vti.Text = VoltsPerDivisionConverter.ToString (SelectedChannel.VoltsPerDivision);
+							vti.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [SelectedChannel].VoltsPerDivision);
 						}
 					}
 				} else if (pg.State == UIGestureRecognizerState.Ended) {
@@ -347,10 +351,11 @@ namespace WFS210.UI
 
 		private void ApplyMarkerValuesToScope ()
 		{
-			wfs210.Channels [0].YPosition = ScreenDataToScopeData (zeroLines [0].Value);
-			wfs210.Channels [1].YPosition = ScreenDataToScopeData (zeroLines [1].Value);
-			var result = ScreenDataToScopeDataInverted (trigMarker.Value);
-			wfs210.Trigger.Level = result;
+			Service.Execute (new YPositionCommand (0, ScreenDataToScopeData (zeroLines [0].Value)));
+			Service.Execute (new YPositionCommand (1, ScreenDataToScopeData (zeroLines [1].Value)));
+
+			var triggerLevel = ScreenDataToScopeDataInverted (trigMarker.Value);
+			Service.Execute(new TriggerLevelCommand(triggerLevel));
 		}
 
 		void RegisterPanGestureRecognizer ()

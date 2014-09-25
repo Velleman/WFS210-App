@@ -7,8 +7,6 @@ namespace WFS210.IO
 		public byte STX;
 		public byte Command;
 		public UInt16 Size;
-		public byte Reserved1;
-		public byte Reserved2;
 		public byte[] Data;
 		public byte Checksum;
 		public byte ETX;

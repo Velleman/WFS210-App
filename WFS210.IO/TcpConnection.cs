@@ -74,10 +74,24 @@ namespace WFS210.IO
 		/// <param name="port">Port.</param>
 		public bool Connect(string address, int port)
 		{
-			IPEndPoint remoteEP = new IPEndPoint(
-				IPAddress.Parse(address), port);
+			Client = new TcpClient ();
+			var result = Client.BeginConnect (address, port, null, null);
 
-			return Connect (remoteEP);
+			result.AsyncWaitHandle.WaitOne (TimeSpan.FromSeconds (2));
+			if (!Client.Connected) {
+				return false;
+			}
+
+			Client.EndConnect (result);
+			ReadWelcomeMessage ();
+
+			Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());
+			Reader = new MessageReader (Client.GetStream (), new PacketSerializer ());
+			return true;
+//			IPEndPoint remoteEP = new IPEndPoint(
+//				IPAddress.Parse(address), port);
+//
+//			return Connect (remoteEP);
 		}
 
 		/// <summary>

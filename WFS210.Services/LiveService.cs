@@ -1,5 +1,6 @@
 ﻿using WFS210;
 using WFS210.IO;
+using System;
 
 namespace WFS210.Services
 {
@@ -31,9 +32,9 @@ namespace WFS210.Services
 		/// <summary>
 		/// Activate this service by establishing a connection to the device.
 		/// </summary>
-		public override void Activate ()
+		public override bool Activate ()
 		{
-			// Automatically connect
+			return this.connection.Connect ();
 		}
 
 		/// <summary>
@@ -43,9 +44,8 @@ namespace WFS210.Services
 		{
 			var message = new Message (Command.ModifySettings);
 
-			message.Payload = new byte[10];
-			message.Payload [0] = 0x00;
-
+			message.Payload = new byte[12];
+			EncodeSettings (message.Payload);
 			Connection.Write (message);
 		}
 
@@ -55,7 +55,17 @@ namespace WFS210.Services
 		public override void RequestSettings ()
 		{
 			var message = new Message (Command.RequestSettings);
+			message.Payload = new byte[2];
+			Connection.Write (message);
+		}
 
+		/// <summary>
+		/// Requests the Samples.
+		/// </summary>
+		public override void RequestSamples ()
+		{
+			var message = new Message (Command.RequestSampleData);
+			message.Payload = new byte[2];
 			Connection.Write (message);
 		}
 
@@ -65,17 +75,22 @@ namespace WFS210.Services
 		public override void Update ()
 		{
 			var message = Connection.Read ();
-
-			switch (message.Command) {
-			case Command.SampleData:
-				DecodeSamplesMessage (message);
-				break;
-			case Command.Settings:
-				DecodeSettingsMessage (message);
-				break;
-			default:
-				break;
+			//Console.WriteLine (DateTime.Now.Ticks.ToString());
+			while (message != null) {
+				switch (message.Command) {
+				case Command.SampleData:
+					DecodeSamplesMessage (message);
+					break;
+				case Command.Settings:
+					DecodeSettingsMessage (message);
+					OnSettingsChanged (null);
+					break;
+				default:
+					break;
+				}
+				message = Connection.Read ();
 			}
+			//Console.WriteLine (DateTime.Now.Ticks.ToString());
 		}
 
 		/// <summary>
@@ -84,7 +99,18 @@ namespace WFS210.Services
 		/// <param name="message">Samples message.</param>
 		public void DecodeSamplesMessage (Message message)
 		{
-			throw new System.NotImplementedException ();
+			var payload = message.Payload;
+			int offSet = payload [1] * 256 + payload [0];
+			var bufferSize = (payload.Length - 12) / 2;
+
+
+			var position = 12;
+			for (int i = 0; i < bufferSize; i++) {
+				Oscilloscope.Channels [0].Samples [i + offSet/2] = payload [position];
+				position++;
+				Oscilloscope.Channels [1].Samples [i + offSet/2] = payload [position];
+				position++;
+			}
 		}
 
 		/// <summary>
@@ -94,20 +120,54 @@ namespace WFS210.Services
 		public void DecodeSettingsMessage (Message message)
 		{
 			// Channel 1
-			Oscilloscope.Channels [0].InputCoupling = (InputCoupling)message.Payload [0];
-			Oscilloscope.Channels [0].VoltsPerDivision = (VoltsPerDivision)message.Payload [1];
-			Oscilloscope.Channels [0].YPosition = message.Payload [2];
+			Oscilloscope.Channels [0].InputCoupling = (InputCoupling)message.Payload [2];
+			Oscilloscope.Channels [0].VoltsPerDivision = (VoltsPerDivision)message.Payload [3];
+			Oscilloscope.Channels [0].YPosition = message.Payload [4];
 
 			// Channel 2
-			Oscilloscope.Channels [1].InputCoupling = (InputCoupling)message.Payload [3];
-			Oscilloscope.Channels [1].VoltsPerDivision = (VoltsPerDivision)message.Payload [4];
-			Oscilloscope.Channels [1].YPosition = message.Payload [5];
+			Oscilloscope.Channels [1].InputCoupling = (InputCoupling)message.Payload [5];
+			Oscilloscope.Channels [1].VoltsPerDivision = (VoltsPerDivision)message.Payload [6];
+			Oscilloscope.Channels [1].YPosition = message.Payload [7];
 
 			// Oscilloscope
-			Oscilloscope.TimeBase = (TimeBase)message.Payload [6];
-			Oscilloscope.Trigger.Level = message.Payload [7];
-			DecodeTriggerSettings (message.Payload [8]);
-			DecodeModuleStatus (message.Payload [9]);
+			Oscilloscope.TimeBase = (TimeBase)message.Payload [8];
+			Oscilloscope.Trigger.Level = message.Payload [9];
+			DecodeTriggerSettings (message.Payload [10]);
+			DecodeModuleStatus (message.Payload [11]);
+		}
+
+		public void EncodeSettings (byte[] payload)
+		{
+
+			//Channel 1
+			payload [0] = 0;
+			payload [1] = 0;
+			payload [2] = (byte)Oscilloscope.Channels [0].InputCoupling;
+			payload [3] = (byte)Oscilloscope.Channels [0].VoltsPerDivision;
+			payload [4] = (byte)Oscilloscope.Channels [0].YPosition;
+
+			//Channel 2
+			payload [5] = (byte)Oscilloscope.Channels [1].InputCoupling;
+			payload [6] = (byte)Oscilloscope.Channels [1].VoltsPerDivision;
+			payload [7] = (byte)Oscilloscope.Channels [1].YPosition;
+
+			//Oscilloscope
+			payload [8] = (byte)Oscilloscope.TimeBase;
+			payload [9] = (byte)Oscilloscope.Trigger.Level;
+			payload [10] = EncodeTriggerSettings ();
+			payload [11] = 0;
+
+		}
+
+		byte EncodeTriggerSettings ()
+		{
+			byte flags = 0x00;
+			flags |= (byte)(Oscilloscope.AutoRange ? 1:0 << 7);
+			flags |= (byte)(Oscilloscope.Hold? 1:0 << 4);
+			flags |= (byte)(Oscilloscope.Trigger.Channel << 3);
+			flags |= (byte)((int)Oscilloscope.Trigger.Slope << 2);
+			flags |= (byte)Oscilloscope.Trigger.Mode;
+			return flags;
 		}
 
 		protected void DecodeTriggerSettings (byte flags)
@@ -117,6 +177,26 @@ namespace WFS210.Services
 			Oscilloscope.Trigger.Channel = ((flags & 8) >> 3);
 			Oscilloscope.Hold = (((flags & 16) >> 4) == 1);
 			Oscilloscope.AutoRange = (((flags & 128) >> 7) == 1);
+		}
+
+		byte EncodeModuleStatus ()
+		{
+			byte flags =0x00;
+			switch (Oscilloscope.BatteryStatus) {
+			case BatteryStatus.BatteryLow:
+				flags |= 0x03;
+				break;
+			case BatteryStatus.Charged:
+				flags |= 0x05;
+				break;
+			case BatteryStatus.Charging:
+				flags |= 0x04;
+				break;
+			default:
+				break;
+			}
+			flags |= (byte)(Oscilloscope.Calibrating ? 1:0 << 4);
+			return flags;
 		}
 
 		protected void DecodeModuleStatus (byte flags)

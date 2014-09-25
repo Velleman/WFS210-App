@@ -30,7 +30,7 @@ namespace WFS210.IO
 		/// <summary>
 		/// Modify device settings.
 		/// </summary>
-		public const byte ModifySettings = 0x0b;
+		public const byte ModifySettings = 0x11;
 
 		/// <summary>
 		/// Start the calibration process.

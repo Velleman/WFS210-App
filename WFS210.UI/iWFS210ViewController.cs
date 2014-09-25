@@ -1,14 +1,9 @@
 using System;
-using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using System.CodeDom.Compiler;
 using WFS210;
-using WFS210.IO;
 using System.Timers;
 using WFS210.Services;
-using WFS210.Util;
-using System.Threading;
-using System.Drawing;
+using MonoTouch.Foundation;
 
 namespace WFS210.UI
 {
@@ -17,12 +12,12 @@ namespace WFS210.UI
 		/// <summary>
 		/// Wfs210 oscilloscope.
 		/// </summary>
-		protected readonly WFS210.Oscilloscope Oscilloscope;
+		protected readonly Oscilloscope Oscilloscope;
 
 		/// <summary>
 		/// The service manager.
 		/// </summary>
-		protected readonly WFS210.Services.ServiceManager ServiceManager;
+		protected readonly ServiceManager ServiceManager;
 
 		/// <summary>
 		/// Gets the service.
@@ -49,14 +44,29 @@ namespace WFS210.UI
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
 			this.Oscilloscope = new Oscilloscope ();
-			this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
+			var demo = NSUserDefaults.StandardUserDefaults.BoolForKey ("demo");
+			if (demo)
+				this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
+			else {
+				this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Live);
+				if (!Service.Activate ()) {
+					this.ServiceManager.ServiceType = ServiceType.Demo;
+					new UIAlertView ("No Connection", "Demo mode is now running", null, "OK", null).Show ();
+				} else {
+					Service.RequestSettings ();
+					Service.RequestSamples ();
+				}
+			}
 			this.DisplaySettings = new DisplaySettings (MarkerUnit.dt, SignalUnit.Vdc);
 		}
 
 		void SettingsChanged (object sender, EventArgs e)
 		{
-			UpdateScopeControls ();
-			ScopeView.UpdateScopeView ();
+			InvokeOnMainThread (() => {
+				UpdateScopeControls ();
+				ScopeView.UpdateScopeView ();
+			});
+
 		}
 
 		#region View lifecycle
@@ -66,18 +76,18 @@ namespace WFS210.UI
 			base.ViewDidLoad ();
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
 			Service.SettingsChanged += SettingsChanged;
-			ScopeView.Initialize (Oscilloscope);
-			var timer = new System.Timers.Timer (200);
+			ScopeView.Service = Service;
+			ScopeView.Initialize ();
+			var timer = new System.Timers.Timer (500);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				Service.Update ();
 				InvokeOnMainThread (ScopeView.UpdateScopeView);
 				UpdateMeasurements ();
 			};
-			timer.AutoReset = true;
 			timer.Enabled = true;
 			timer.Start ();
 
-			ScopeView.SelectedChannel = Oscilloscope.Channels [0];
+			ScopeView.SelectedChannel = 0;
 
 			ScopeView.NewData += (object sender, NewDataEventArgs e) => UpdateScopeControls ();
 
@@ -100,7 +110,7 @@ namespace WFS210.UI
 
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
-			ScopeView.SelectedChannel = Oscilloscope.Channels [0];
+			ScopeView.SelectedChannel = 0;
 			UpdateScopeControls ();
 		}
 
@@ -210,7 +220,7 @@ namespace WFS210.UI
 
 		partial void btnSelectChannel2_TouchUpInside (UIButton sender)
 		{
-			ScopeView.SelectedChannel = Oscilloscope.Channels [1];
+			ScopeView.SelectedChannel = 1;
 			UpdateScopeControls ();
 		}
 
@@ -291,6 +301,8 @@ namespace WFS210.UI
 		{
 			settingsViewController = this.Storyboard.InstantiateViewController ("SettingsViewController") as SettingsViewController;
 			settingsViewController.WifiSetting = Oscilloscope.WifiSetting;
+			settingsViewController.ServiceManager = this.ServiceManager;
+			settingsViewController.RequestedDismiss += (object s, EventArgs e) => settingsViewController.DismissViewController(true,null);
 			PresentViewController (settingsViewController, true, null);
 		}
 
@@ -390,7 +402,7 @@ namespace WFS210.UI
 
 		void UpdateSelectedChannel ()
 		{
-			if (ScopeView.SelectedChannel == Oscilloscope.Channels [0]) {
+			if (ScopeView.SelectedChannel == 0) {
 				btnSelectChannel1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-ON-6x6.png"), UIControlState.Normal);
 				btnSelectChannel2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-OFF-6x710.png"), UIControlState.Normal);
 			} else {

@@ -42,7 +42,7 @@ namespace WFS210.Services
 			this.oscilloscope = oscilloscope;
 		}
 
-		public abstract void Activate ();
+		public abstract bool Activate ();
 
 		/// <summary>
 		/// Applies the settings.
@@ -53,6 +53,11 @@ namespace WFS210.Services
 		/// Requests the settings.
 		/// </summary>
 		public abstract void RequestSettings ();
+
+		/// <summary>
+		/// Requests Samples.
+		/// </summary>
+		public abstract void RequestSamples ();
 
 		/// <summary>
 		/// Update this instance. This function should be called regularly.

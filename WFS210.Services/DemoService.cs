@@ -29,9 +29,10 @@ namespace WFS210.Services
 		/// <summary>
 		/// Activates this service.
 		/// </summary>
-		public override void Activate ()
+		public override bool Activate ()
 		{
 			Update ();
+			return true;
 		}
 
 		/// <summary>
@@ -48,6 +49,11 @@ namespace WFS210.Services
 		public override void RequestSettings ()
 		{
 			OnSettingsChanged (new EventArgs ());
+		}
+
+		public override void RequestSamples ()
+		{
+			throw new NotImplementedException ();
 		}
 
 		/// <summary>
