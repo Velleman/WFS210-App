@@ -24,7 +24,6 @@ namespace WFS210.UI
 			btnDismiss.TouchUpInside += (object sender, EventArgs e) => {
 				WifiSetting.Channel = int.Parse(txtWifiChannel.Text);
 				WifiSetting.SSID = txtWifiName.Text;
-
 				WifiSetting.Password = txtWifiPassword.Text;
 				if (RequestedDismiss != null)
 					RequestedDismiss (this, null);
