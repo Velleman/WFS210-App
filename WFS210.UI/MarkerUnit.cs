@@ -8,7 +8,6 @@ namespace WFS210.UI
 		Frequency,
 		dV1,
 		dV2,
-		EnableDisableMarkers
 	}
 }
 

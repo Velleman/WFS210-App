@@ -31,7 +31,7 @@ namespace WFS210.UI
 
 		public int SelectedChannel{ get; set; }
 
-		public bool MarkersAreVisible { get; private set; }
+		public bool MarkersAreVisible { get; set; }
 
 		public XMarker[] xMarkers = new XMarker[2];
 		public YMarker[] yMarkers = new YMarker[2];
@@ -148,6 +148,15 @@ namespace WFS210.UI
 				}
 				path [i].AddLines (scopePoints);
 				SetNeedsDisplay ();
+			}
+			if (MarkersAreVisible) {
+				foreach (Marker m in Markers) {
+					m.Layer.Hidden = false;
+				}
+			} else {
+				foreach (Marker m in Markers) {
+					m.Layer.Hidden = true;
+				}
 			}
 		}
 

@@ -22,11 +22,11 @@ namespace WFS210.UI
 		{
 			base.ViewDidLoad ();
 			btnDismiss.TouchUpInside += (object sender, EventArgs e) => {
-				WifiSetting.Channel = int.Parse(txtWifiChannel.Text);
 				WifiSetting.SSID = txtWifiName.Text;
-				WifiSetting.Password = txtWifiPassword.Text;
 				if (RequestedDismiss != null)
-					RequestedDismiss (this, null);
+				{
+					RequestedDismiss (this, new EventArgs());
+				}
 			};
 
 			swDemo.ValueChanged += (object sender, EventArgs e) => {
@@ -43,8 +43,11 @@ namespace WFS210.UI
 				}
 			};
 
+			swMarker.ValueChanged += (object sender, EventArgs e) =>
+				NSUserDefaults.StandardUserDefaults.SetBool (swMarker.On,"markers");
+
 			txtWifiName.Text = WifiSetting.SSID;
-			txtWifiChannel.Text = WifiSetting.Channel.ToString();
+			swMarker.On = NSUserDefaults.StandardUserDefaults.BoolForKey ("markers");
 
 			if (ServiceManager.ServiceType == ServiceType.Demo)
 				swDemo.On = true;

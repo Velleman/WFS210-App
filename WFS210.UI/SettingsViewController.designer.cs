@@ -20,11 +20,11 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblChannel { get; set; }
+		UILabel lblDemo { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblDemo { get; set; }
+		UILabel lblMarkers { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -32,23 +32,15 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblPassword { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UISwitch swDemo { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField txtWifiChannel { get; set; }
+		UISwitch swMarker { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtWifiName { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField txtWifiPassword { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -56,37 +48,29 @@ namespace WFS210.UI
 				btnDismiss.Dispose ();
 				btnDismiss = null;
 			}
-			if (lblChannel != null) {
-				lblChannel.Dispose ();
-				lblChannel = null;
-			}
 			if (lblDemo != null) {
 				lblDemo.Dispose ();
 				lblDemo = null;
+			}
+			if (lblMarkers != null) {
+				lblMarkers.Dispose ();
+				lblMarkers = null;
 			}
 			if (lblName != null) {
 				lblName.Dispose ();
 				lblName = null;
 			}
-			if (lblPassword != null) {
-				lblPassword.Dispose ();
-				lblPassword = null;
-			}
 			if (swDemo != null) {
 				swDemo.Dispose ();
 				swDemo = null;
 			}
-			if (txtWifiChannel != null) {
-				txtWifiChannel.Dispose ();
-				txtWifiChannel = null;
+			if (swMarker != null) {
+				swMarker.Dispose ();
+				swMarker = null;
 			}
 			if (txtWifiName != null) {
 				txtWifiName.Dispose ();
 				txtWifiName = null;
-			}
-			if (txtWifiPassword != null) {
-				txtWifiPassword.Dispose ();
-				txtWifiPassword = null;
 			}
 		}
 	}

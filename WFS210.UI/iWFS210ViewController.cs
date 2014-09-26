@@ -302,7 +302,10 @@ namespace WFS210.UI
 			settingsViewController = this.Storyboard.InstantiateViewController ("SettingsViewController") as SettingsViewController;
 			settingsViewController.WifiSetting = Oscilloscope.WifiSetting;
 			settingsViewController.ServiceManager = this.ServiceManager;
-			settingsViewController.RequestedDismiss += (object s, EventArgs e) => settingsViewController.DismissViewController(true,null);
+			settingsViewController.RequestedDismiss += (object s, EventArgs e) => {
+				settingsViewController.DismissViewController(true,null);
+				ScopeView.MarkersAreVisible  = NSUserDefaults.StandardUserDefaults.BoolForKey("markers");
+			};
 			PresentViewController (settingsViewController, true, null);
 		}
 
@@ -614,7 +617,7 @@ namespace WFS210.UI
 
 		void EnableDisableMarkers ()
 		{
-			ScopeView.ToggleMarkers ();
+			//ScopeView.ToggleMarkers ();
 		}
 
 		void UpdateMarkerMeasurement1 ()
@@ -632,9 +635,6 @@ namespace WFS210.UI
 			case MarkerUnit.dV2:
 				SetSignalWithDV2 (0);
 				break;
-			case MarkerUnit.EnableDisableMarkers:
-				EnableDisableMarkers ();
-				DisplaySettings.MarkerUnits [0] = MarkerUnit.dt;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
@@ -656,10 +656,6 @@ namespace WFS210.UI
 				break;
 			case MarkerUnit.dV2:
 				SetSignalWithDV2 (1);
-				break;
-			case MarkerUnit.EnableDisableMarkers:
-				EnableDisableMarkers ();
-				DisplaySettings.MarkerUnits [1] = MarkerUnit.dt;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
