@@ -19,6 +19,8 @@ namespace WFS210.UI
 
 		public int GrappleDistance { get; set; }
 
+		public int ScrollPosition { get; set; }
+
 		CGPath[] path;
 		PointF initialPoint;
 		Service service;
@@ -40,6 +42,7 @@ namespace WFS210.UI
 		CAShapeLayer[] signals;
 		CAShapeLayer maskLayer;
 		public VoltTimeIndicator vti;
+		CAShapeLayer scroll;
 
 		UIPinchGestureRecognizer pinchGesture;
 		UILongPressGestureRecognizer longPressGesture;
@@ -65,11 +68,15 @@ namespace WFS210.UI
 
 			LoadYMarkers ();
 
+			RegisterPanGestureRecognizer ();
+
 			RegisterLongPressRecognizer ();
 
 			LoadVoltTimeIndicator ();
 
 			RegisterPinchRecognizer ();
+
+			LoadScrollIndicator ();
 		}
 
 		public void Initialize ()
@@ -128,11 +135,16 @@ namespace WFS210.UI
 		public void UpdateScopeView ()
 		{
 			for (int i = 0; i < wfs210.Channels.Count; i++) {
+
 				path [i] = new CGPath ();
+
 				SampleBuffer buffer = wfs210.Channels [i].Samples;
 				scopePoints = new PointF[TotalSamples];
-				for (int x = 0; x < TotalSamples; x++) {
-					scopePoints [x] = new PointF (MapXPosToScreen (x) + ScopeBounds.Left, MapSampleDataToScreen (buffer [x]));
+				var offset = 0;
+				offset = wfs210.Hold ? ScrollPosition : 0;
+
+				for (int j = offset; j < offset + TotalSamples; j++) {
+					scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left, MapSampleDataToScreen (buffer [j]));
 				}
 				path [i].AddLines (scopePoints);
 				SetNeedsDisplay ();
@@ -289,6 +301,39 @@ namespace WFS210.UI
 			Layer.AddSublayer (vti.Layer);
 		}
 
+		void LoadScrollIndicator ()
+		{
+			scroll = new CAShapeLayer ();
+			var path = new CGPath ();
+			var data = new PointF[2];
+			data [0].X = 0 + ScopeBounds.Left;
+			data [1].X = 100;
+			data [0].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
+			data [1].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
+			path.AddLines (data);
+			scroll.LineWidth = 1f;
+			scroll.StrokeColor = new CGColor (62, 64, 64);
+			scroll.FillColor = new CGColor (0, 0, 0, 0);
+			scroll.Path = path;
+			Layer.AddSublayer (scroll);
+		}
+
+		void UpdateScrollIndicator ()
+		{
+			if (wfs210.Hold) {
+				var path = new CGPath ();
+				var data = new PointF[2];
+				float ratio = (float)(ScrollPosition / (4096f - TotalSamples / 2));
+				float scrollRatio = (float)(TotalSamples * ratio);
+				data [0].X = (MapXPosToScreen ((int)scrollRatio)) + ScopeBounds.Left;
+				data [1].X = data [0].X + 100;
+				data [0].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
+				data [1].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
+				path.AddLines (data);
+				scroll.Path = path;
+			}
+		}
+
 		public void FillList ()
 		{
 			Markers.Add (xMarkers [0]);
@@ -355,20 +400,38 @@ namespace WFS210.UI
 			Service.Execute (new YPositionCommand (1, ScreenDataToScopeData (zeroLines [1].Value)));
 
 			var triggerLevel = ScreenDataToScopeDataInverted (trigMarker.Value);
-			Service.Execute(new TriggerLevelCommand(triggerLevel));
+			Service.Execute (new TriggerLevelCommand (triggerLevel));
 		}
 
 		void RegisterPanGestureRecognizer ()
 		{
+			float previousX = 0;
 			panGesture = new UIPanGestureRecognizer ((pg) => {
 				if (pg.State == UIGestureRecognizerState.Began) {
 					Console.WriteLine ("PAN BEGAN");
+					previousX = pg.LocationOfTouch (0, this).X;
 				} else if (pg.State == UIGestureRecognizerState.Changed) {
-					Console.WriteLine ("PAN CHANGE");
+
+					var touch = pg.LocationOfTouch (0, this);
+
+					var copy = ScrollPosition;
+					var delta = touch.X - previousX;
+					copy -= (int)delta;
+					copy = (int)Math.Min (Math.Max (copy, 0), 4096 - TotalSamples);
+					previousX = touch.X;
+					if (wfs210.Hold) {
+						ScrollPosition = copy;
+						UpdateScrollIndicator ();
+						UpdateScopeView ();
+					}
+
+
 				} else if (pg.State == UIGestureRecognizerState.Ended) {
 					Console.WriteLine ("PAN END");
 				}
 			});
+			panGesture.MaximumNumberOfTouches = 2;
+			panGesture.MinimumNumberOfTouches = 2;
 			this.AddGestureRecognizer (panGesture);
 		}
 
