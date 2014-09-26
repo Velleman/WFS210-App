@@ -3,6 +3,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 using WFS210.Services;
+using System.Drawing;
 
 namespace WFS210.UI
 {
@@ -14,6 +15,8 @@ namespace WFS210.UI
 
 		public ServiceManager ServiceManager{ get; set; }
 
+		private UITapGestureRecognizer dismissRecognizer;
+
 		public SettingsViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -21,14 +24,6 @@ namespace WFS210.UI
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			btnDismiss.TouchUpInside += (object sender, EventArgs e) => {
-				WifiSetting.SSID = txtWifiName.Text;
-				if (RequestedDismiss != null)
-				{
-					RequestedDismiss (this, new EventArgs());
-				}
-			};
-
 			swDemo.ValueChanged += (object sender, EventArgs e) => {
 				if (swDemo.On) {
 					NSUserDefaults.StandardUserDefaults.SetBool (true, "demo");
@@ -44,7 +39,7 @@ namespace WFS210.UI
 			};
 
 			swMarker.ValueChanged += (object sender, EventArgs e) =>
-				NSUserDefaults.StandardUserDefaults.SetBool (swMarker.On,"markers");
+				NSUserDefaults.StandardUserDefaults.SetBool (swMarker.On, "markers");
 
 			txtWifiName.Text = WifiSetting.SSID;
 			swMarker.On = NSUserDefaults.StandardUserDefaults.BoolForKey ("markers");
@@ -53,6 +48,32 @@ namespace WFS210.UI
 				swDemo.On = true;
 			else
 				swDemo.On = false;
+
+			dismissRecognizer = new UITapGestureRecognizer (OnTapOutside);
+			dismissRecognizer.NumberOfTapsRequired = 1u;
+			dismissRecognizer.CancelsTouchesInView = false;
+
+
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			base.ViewDidAppear (animated);
+			View.Window.AddGestureRecognizer (dismissRecognizer);
+		}
+
+		private void OnTapOutside (UITapGestureRecognizer recogniser)
+		{
+			if (recogniser.State == UIGestureRecognizerState.Ended) {
+				PointF location = recogniser.LocationInView (null);
+				if (!View.PointInside (View.ConvertPointFromView(location,View.Window), null)) {
+					var window = View.Window;
+					WifiSetting.SSID = txtWifiName.Text;
+					if (RequestedDismiss != null) {
+						RequestedDismiss (this, new EventArgs ());
+					}
+				}
+			}
 		}
 	}
 }

@@ -90,7 +90,7 @@
                                     <action selector="btnVoltUp1_TouchUpInside:" destination="BYZ-38-t0r" id="195" eventType="touchUpInside"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="63" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="63" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" enabled="YES" userInteractionEnabled="NO">
                                 <rect key="frame" x="984" y="5" width="28" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="    " backgroundImage="BATTERY/BATT-FULL-984x5.png">
@@ -424,6 +424,7 @@
                         <outlet property="btnSignalMeasurements2" destination="368" id="name-outlet-368"/>
                         <outlet property="MainView" destination="8bC-Xf-vdC" id="name-outlet-8bC-Xf-vdC"/>
                         <outlet property="btnSnap" destination="496" id="name-outlet-496"/>
+                        <outlet property="btnBattery" destination="63" id="name-outlet-63"/>
                     </connections>
                     <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
@@ -447,13 +448,6 @@
                                 <rect key="frame" x="173" y="685" width="739" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="490" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="210" y="499" width="109" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -498,7 +492,6 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="btnDismiss" destination="490" id="name-outlet-490"/>
                         <outlet property="txtWifiName" destination="504" id="name-outlet-504"/>
                         <outlet property="swDemo" destination="507" id="name-outlet-507"/>
                         <outlet property="lblDemo" destination="512" id="name-outlet-512"/>

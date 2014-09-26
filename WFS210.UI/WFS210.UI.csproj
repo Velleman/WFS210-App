@@ -123,10 +123,6 @@
       <DependentUpon>SettingsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="MarkerLayout.cs" />
-    <Compile Include="MeasurementsViewController.cs" />
-    <Compile Include="MeasurementsViewController.designer.cs">
-      <DependentUpon>MeasurementsViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="NewDataEventArgs.cs" />
     <Compile Include="MarkerUnit.cs" />
     <Compile Include="SignalUnit.cs" />
@@ -145,7 +141,6 @@
     <Compile Include="EnumEventArgs.cs" />
     <Compile Include="SettingsEventArgs.cs" />
     <Compile Include="DisplaySettings.cs" />
-
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

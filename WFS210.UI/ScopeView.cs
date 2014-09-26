@@ -408,7 +408,7 @@ namespace WFS210.UI
 			Service.Execute (new YPositionCommand (0, ScreenDataToScopeData (zeroLines [0].Value)));
 			Service.Execute (new YPositionCommand (1, ScreenDataToScopeData (zeroLines [1].Value)));
 
-			var triggerLevel = ScreenDataToScopeDataInverted (trigMarker.Value);
+			var triggerLevel = ScreenDataToScopeData(trigMarker.Value);
 			Service.Execute (new TriggerLevelCommand (triggerLevel));
 		}
 

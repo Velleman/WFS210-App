@@ -28,6 +28,10 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnBattery { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnDC1 { get; set; }
 
 		[Outlet]
@@ -303,6 +307,10 @@ namespace WFS210.UI
 			if (btnAutorange != null) {
 				btnAutorange.Dispose ();
 				btnAutorange = null;
+			}
+			if (btnBattery != null) {
+				btnBattery.Dispose ();
+				btnBattery = null;
 			}
 			if (btnDC1 != null) {
 				btnDC1.Dispose ();

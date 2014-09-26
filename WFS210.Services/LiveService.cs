@@ -170,10 +170,10 @@ namespace WFS210.Services
 		byte EncodeTriggerSettings ()
 		{
 			byte flags = 0x00;
-			flags |= (byte)(Oscilloscope.AutoRange ? 1:0 << 7);
-			flags |= (byte)(Oscilloscope.Hold? 1:0 << 4);
-			flags |= (byte)(Oscilloscope.Trigger.Channel << 3);
-			flags |= (byte)((int)Oscilloscope.Trigger.Slope << 2);
+			flags |= (byte)((Oscilloscope.AutoRange ? 1:0) << 7);
+			flags |= (byte)((Oscilloscope.Hold? 1:0) << 4);
+			flags |= (byte)((Oscilloscope.Trigger.Channel) << 3);
+			flags |= (byte)((int)(Oscilloscope.Trigger.Slope) << 2);
 			flags |= (byte)Oscilloscope.Trigger.Mode;
 			return flags;
 		}

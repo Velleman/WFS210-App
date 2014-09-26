@@ -4,6 +4,7 @@ using WFS210;
 using System.Timers;
 using WFS210.Services;
 using MonoTouch.Foundation;
+using System.Drawing;
 
 namespace WFS210.UI
 {
@@ -34,8 +35,11 @@ namespace WFS210.UI
 		/// </summary>
 		public readonly DisplaySettings DisplaySettings;
 
-		UIPopoverController DetailViewPopover;
 
+		/// <summary>
+		/// The detail view popover.
+		/// </summary>
+		UIPopoverController DetailViewPopover;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.UI.iWFS210ViewController"/> class.
@@ -97,6 +101,7 @@ namespace WFS210.UI
 		{
 			base.ViewDidAppear (animated);
 			UpdateScopeControls ();
+
 		}
 
 		public override bool PrefersStatusBarHidden ()
@@ -269,7 +274,7 @@ namespace WFS210.UI
 		{
 			var content = new PopoverContentViewController<SignalUnit> ();
 			content.ValueChanged += (object s, EnumEventArgs<SignalUnit> e) => {
-				DisplaySettings.SignalUnits[channel] = e.Value;
+				DisplaySettings.SignalUnits [channel] = e.Value;
 				UpdateMeasurements ();
 			};
 
@@ -283,7 +288,7 @@ namespace WFS210.UI
 		{
 			var content = new PopoverContentViewController<MarkerUnit> ();
 			content.ValueChanged += (object s, EnumEventArgs<MarkerUnit> e) => {
-				DisplaySettings.MarkerUnits[channel] = e.Value;
+				DisplaySettings.MarkerUnits [channel] = e.Value;
 				UpdateMeasurements ();
 			};
 
@@ -303,9 +308,10 @@ namespace WFS210.UI
 			settingsViewController.WifiSetting = Oscilloscope.WifiSetting;
 			settingsViewController.ServiceManager = this.ServiceManager;
 			settingsViewController.RequestedDismiss += (object s, EventArgs e) => {
-				settingsViewController.DismissViewController(true,null);
-				ScopeView.MarkersAreVisible  = NSUserDefaults.StandardUserDefaults.BoolForKey("markers");
+				settingsViewController.DismissViewController (true, null);
+				ScopeView.MarkersAreVisible = NSUserDefaults.StandardUserDefaults.BoolForKey ("markers");
 			};
+			settingsViewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
 			PresentViewController (settingsViewController, true, null);
 		}
 
@@ -331,28 +337,7 @@ namespace WFS210.UI
 
 		public void DismissSettingsViewController ()
 		{
-
 			settingsViewController.DismissViewController (true, null);
-		}
-
-		public void DismissMeasurementsViewController ()
-		{
-			/*var test = MarkerUnit.dt;
-
-
-			if (MeasurementsViewController.isMarkerMeasurement) {
-				if (MeasurementsViewController.SelectedMeasurement != "Enable/Disable Markers")
-					test = (MarkerUnit)Enum.Parse (typeof(MarkerUnit), MeasurementsViewController.SelectedMeasurement, true);
-				else
-					test = MarkerUnit.EnableDisableMarkers; 
-
-				markerMeasurements [MeasurementsViewController.SelectedChannel].SelectedUnit = test;
-			}
-			else
-				signalMeasurements [MeasurementsViewController.SelectedChannel].SelectedUnit = (SignalUnit)Enum.Parse (typeof(SignalUnit), MeasurementsViewController.SelectedMeasurement, true);
-
-			measurementsViewController.DismissViewController (true, null);
-			UpdateScopeControls ();*/
 		}
 
 		#endregion
@@ -365,6 +350,7 @@ namespace WFS210.UI
 			UpdateChannel2UI ();
 			UpdateTriggerUI ();
 			UpdateMeasurements ();
+			UpdateBatteryStatus ();
 		}
 
 
@@ -401,6 +387,23 @@ namespace WFS210.UI
 			// Channel 2
 			UpdateMarkerMeasurement2 ();
 			btnSignalMeasurements2.SetTitle (GetMeasurementString (DisplaySettings.SignalUnits [1], 1), UIControlState.Normal);
+		}
+
+		void UpdateBatteryStatus ()
+		{
+			switch (Oscilloscope.BatteryStatus) {
+			case BatteryStatus.BatteryLow:
+				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-LOW-984x5.png"), UIControlState.Normal);
+				break;
+			case BatteryStatus.Charging:
+				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-CHARGING-984x5.png"), UIControlState.Normal);
+				break;
+			case BatteryStatus.Charged:
+				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-FULL-984x5.png"), UIControlState.Normal);
+				break;
+			default:
+				break;
+			}
 		}
 
 		void UpdateSelectedChannel ()
@@ -634,7 +637,6 @@ namespace WFS210.UI
 				break;
 			case MarkerUnit.dV2:
 				SetSignalWithDV2 (0);
-				break;
 				break;
 			default:
 				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
