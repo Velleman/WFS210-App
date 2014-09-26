@@ -381,11 +381,11 @@ namespace WFS210.UI
 		protected void UpdateMeasurements ()
 		{
 			// Channel 1
-			UpdateMarkerMeasurement1 ();
+			btnMarkerMeasurements.SetTitle (GetMarkerMeasurementString (DisplaySettings.MarkerUnits [0]), UIControlState.Normal);
 			btnSignalMeasurements.SetTitle (GetMeasurementString (DisplaySettings.SignalUnits [0], 0), UIControlState.Normal);
 
 			// Channel 2
-			UpdateMarkerMeasurement2 ();
+			btnMarkerMeasurements2.SetTitle (GetMarkerMeasurementString (DisplaySettings.MarkerUnits [1]), UIControlState.Normal);
 			btnSignalMeasurements2.SetTitle (GetMeasurementString (DisplaySettings.SignalUnits [1], 1), UIControlState.Normal);
 		}
 
@@ -567,101 +567,19 @@ namespace WFS210.UI
 			lblTime.Text = TimeBaseConverter.ToString (Oscilloscope.TimeBase);
 		}
 
-		private void SetSignalWithDtValue (int channel)
+		public string GetMarkerMeasurementString (MarkerUnit unit)
 		{
-			var value = MarkerDataCalculator.CalculateTime (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
-			value = Math.Round (value, 6);
-			var title = ToEngineeringNotation (value);
-			title += "s";
-			if (channel == 0)
-				btnMarkerMeasurements.SetTitle (title, UIControlState.Normal);
-			else
-				btnMarkerMeasurements2.SetTitle (title, UIControlState.Normal);
-		}
-
-		void SetSignalWithFrequency (int channel)
-		{
-			var value = MarkerDataCalculator.CalculateFrequency (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
-			value = Math.Round (value, 2);
-			var title = ToEngineeringNotation (value);
-			title += "Hz";
-			if (channel == 0)
-				btnMarkerMeasurements.SetTitle (title, UIControlState.Normal);
-			else
-				btnMarkerMeasurements2.SetTitle (title, UIControlState.Normal);
-		}
-
-
-
-		void SetSignalWithDV1 (int channel)
-		{
-			var value = MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
-			value = Math.Round (value, 2);
-			var title = ToEngineeringNotation (value);
-			title += "V";
-			if (channel == 0)
-				btnMarkerMeasurements.SetTitle (title, UIControlState.Normal);
-			else
-				btnMarkerMeasurements2.SetTitle (title, UIControlState.Normal);
-		}
-
-		void SetSignalWithDV2 (int channel)
-		{
-			var value = MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame);
-			value = Math.Round (value, 2);
-			var title = ToEngineeringNotation (value);
-			title += "V";
-			if (channel == 0)
-				btnMarkerMeasurements.SetTitle (title, UIControlState.Normal);
-			else
-				btnMarkerMeasurements2.SetTitle (title, UIControlState.Normal);
-
-		}
-
-		void EnableDisableMarkers ()
-		{
-			//ScopeView.ToggleMarkers ();
-		}
-
-		void UpdateMarkerMeasurement1 ()
-		{
-			switch (DisplaySettings.MarkerUnits [0]) {
+			switch (unit) {
 			case MarkerUnit.dt:
-				SetSignalWithDtValue (0);
-				break;
+				return TimeConverter.ToString (MarkerDataCalculator.CalculateTime (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame),2);
 			case MarkerUnit.Frequency:
-				SetSignalWithFrequency (0);
-				break;
+				return FrequencyConverter.ToString (MarkerDataCalculator.CalculateFrequency (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame));
 			case MarkerUnit.dV1:
-				SetSignalWithDV1 (0);
-				break;
+				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame));
 			case MarkerUnit.dV2:
-				SetSignalWithDV2 (0);
-				break;
+				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame));
 			default:
-				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
-				break;
-			}
-		}
-
-		void UpdateMarkerMeasurement2 ()
-		{
-			switch (DisplaySettings.MarkerUnits [1]) {
-			case MarkerUnit.dt:
-				SetSignalWithDtValue (1);
-				break;
-			case MarkerUnit.Frequency:
-				SetSignalWithFrequency (1);
-				break;
-			case MarkerUnit.dV1:
-				SetSignalWithDV1 (1);
-				break;
-			case MarkerUnit.dV2:
-				SetSignalWithDV2 (1);
-				break;
-			default:
-				btnMarkerMeasurements.SetTitle ("Unsupported Measurement", UIControlState.Normal);
-				break;
+				return "?";
 			}
 		}
 
@@ -669,11 +587,11 @@ namespace WFS210.UI
 		{
 			switch (unit) {
 			case SignalUnit.DbGain:
-				return VoltageConverter.ToString (Oscilloscope.DBGain ());
+				return DecibelConverter.ToString (Oscilloscope.DBGain ());
 			case SignalUnit.Dbm1:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].DBm ());
+				return DecibelConverter.ToString (Oscilloscope.Channels [channel].DBm ());
 			case SignalUnit.Dbm2:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].DBm ());
+				return DecibelConverter.ToString (Oscilloscope.Channels [channel].DBm ());
 			case SignalUnit.RMS:
 				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vrms ());
 			case SignalUnit.TRMS:
@@ -687,15 +605,15 @@ namespace WFS210.UI
 			case SignalUnit.Vptp:
 				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vptp ());
 			case SignalUnit.WRMS16:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms16 ());
+				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms16 ());
 			case SignalUnit.WRMS2:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms2 ());
+				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms2 ());
 			case SignalUnit.WRMS32:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms32 ());
+				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms32 ());
 			case SignalUnit.WRMS4:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms4 ());
+				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms4 ());
 			case SignalUnit.WRMS8:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Wrms8 ());
+				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms8 ());
 			default:
 				return "?";
 			}

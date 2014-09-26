@@ -57,6 +57,9 @@
     <Compile Include="Util\VoltsPerDivisionConverter.cs" />
     <Compile Include="Util\UnitConverter.cs" />
     <Compile Include="WifiSettings.cs" />
+    <Compile Include="Util\WattConverter.cs" />
+    <Compile Include="Util\DecibelConverter.cs" />
+    <Compile Include="Util\FrequencyConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
