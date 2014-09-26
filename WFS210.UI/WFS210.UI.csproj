@@ -62,7 +62,10 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <AssemblyName>iWFS210_2</AssemblyName>
+    <AssemblyName>WFS210UI</AssemblyName>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>full</DebugType>
