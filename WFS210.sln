@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFS210.UI", "WFS210.UI\WFS210.UI.csproj", "{70236110-F85F-4A01-8AE8-53D6459AD1F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iWFS210", "WFS210.UI\iWFS210.csproj", "{70236110-F85F-4A01-8AE8-53D6459AD1F6}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WFS210.IO", "WFS210.IO\WFS210.IO.shproj", "{60F54F6C-7AD9-41C2-B6CE-5FE454189800}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WFS210.Services", "WFS210.Services\WFS210.Services.shproj", "{52267BC7-1B46-400E-9C5E-3FD2CDD00EA4}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WFS210", "WFS210\WFS210.shproj", "{A7943D95-7C8C-425D-B144-B2460F3B2CBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aWFS210", "aWFS210\aWFS210.csproj", "{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,8 +33,20 @@ Global
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhone.Build.0 = Release|iPhone
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Release|iPhone.Build.0 = Release|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = WFS210.UI\WFS210.UI.csproj
+		StartupItem = aWFS210\aWFS210.csproj
 	EndGlobalSection
 EndGlobal
