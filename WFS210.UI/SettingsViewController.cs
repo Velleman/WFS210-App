@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WFS210.UI
 {
-	partial class SettingsViewController : UIViewController
+	partial class SettingsViewController : UIViewController, IUIGestureRecognizerDelegate
 	{
 		public event EventHandler<EventArgs> RequestedDismiss;
 
@@ -51,9 +51,7 @@ namespace WFS210.UI
 
 			dismissRecognizer = new UITapGestureRecognizer (OnTapOutside);
 			dismissRecognizer.NumberOfTapsRequired = 1u;
-			dismissRecognizer.CancelsTouchesInView = false;
-
-
+			dismissRecognizer.Delegate = new DismissGestureRecognizerDelegate (this);
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -65,7 +63,13 @@ namespace WFS210.UI
 		private void OnTapOutside (UITapGestureRecognizer recogniser)
 		{
 			if (recogniser.State == UIGestureRecognizerState.Ended) {
+				UIView windowView = UIApplication.SharedApplication.KeyWindow.RootViewController.View;
 				PointF location = recogniser.LocationInView (null);
+				var version = new Version (MonoTouch.Constants.Version);
+				if (version > new Version (8,0)) 
+				{
+					location = new PointF (location.Y, location.X);
+				}
 				if (!View.PointInside (View.ConvertPointFromView(location,View.Window), null)) {
 					var window = View.Window;
 					WifiSetting.SSID = txtWifiName.Text;
@@ -74,6 +78,33 @@ namespace WFS210.UI
 					}
 				}
 			}
+		}
+
+		public class DismissGestureRecognizerDelegate : UIGestureRecognizerDelegate
+		{
+			SettingsViewController controller;
+
+			public DismissGestureRecognizerDelegate (SettingsViewController controller)
+			{
+				this.controller = controller;
+			}
+
+			public override bool ShouldBegin (UIGestureRecognizer recognizer)
+			{
+				return true;
+			}
+
+			public override bool ShouldReceiveTouch (UIGestureRecognizer recognizer, UITouch touch)
+			{
+				return true;
+			}
+
+			public override bool ShouldRecognizeSimultaneously (UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
+			{
+				return true;
+			}
+
+
 		}
 	}
 }
