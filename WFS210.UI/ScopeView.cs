@@ -27,21 +27,21 @@ namespace WFS210.UI
 		Oscilloscope wfs210;
 
 		PointF[] scopePoints;
-		public float sampleToPointRatio;
+		public float SampleToPointRatio;
 
 		public int SelectedChannel{ get; set; }
 
 		public bool MarkersAreVisible { get; set; }
 
-		public XMarker[] xMarkers = new XMarker[2];
-		public YMarker[] yMarkers = new YMarker[2];
+		public XMarker[] XMarkers = new XMarker[2];
+		public YMarker[] YMarkers = new YMarker[2];
 		ZeroLine[] zeroLines = new ZeroLine[2];
 		TriggerMarker trigMarker;
 		CALayer gridLayer;
 		public List<Marker> Markers = new List<Marker> ();
 		CAShapeLayer[] signals;
 		CAShapeLayer maskLayer;
-		public VoltTimeIndicator vti;
+		public VoltTimeIndicator VoltTimeIndicator;
 		CAShapeLayer scroll;
 
 		UIPinchGestureRecognizer pinchGesture;
@@ -81,9 +81,13 @@ namespace WFS210.UI
 			LoadSignals ();
 			signals [0].StrokeColor = new CGColor (0, 255, 0);
 			signals [1].StrokeColor = new CGColor (255, 255, 0);
-			FillList ();
+			FillMarkersList ();
+			LoadMarkers ();
 		}
-
+		/// <summary>
+		/// Gets the scope bounds.
+		/// </summary>
+		/// <value>The scope bounds.</value>
 		public RectangleF ScopeBounds {
 			get { 
 				return new RectangleF (
@@ -94,19 +98,26 @@ namespace WFS210.UI
 				);
 			}
 		}
-
+		/// <summary>
+		/// Raises the new data event.
+		/// </summary>
+		/// <param name="e">E.</param>
 		protected virtual void OnNewData (NewDataEventArgs e)
 		{
 			if (NewData != null)
 				NewData (this, e);
 		}
 
+		/// <summary>
+		/// Gets or sets the service.
+		/// </summary>
+		/// <value>The service.</value>
 		public Service Service {
 			set {
 
 				this.service = value;
 				wfs210 = this.service.Oscilloscope;
-				sampleToPointRatio = (float)ScopeBounds.Height / (wfs210.DeviceContext.UnitsPerDivision * wfs210.DeviceContext.Divisions);
+				SampleToPointRatio = (float)ScopeBounds.Height / (wfs210.DeviceContext.UnitsPerDivision * wfs210.DeviceContext.Divisions);
 				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase * 15;
 			}	
 			get {
@@ -132,7 +143,7 @@ namespace WFS210.UI
 						scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left, MapSampleDataToScreen (buffer [j]));
 					}
 					path [i].AddLines (scopePoints);
-					SetNeedsDisplay ();
+					signals [i].Path = path [i];
 				} else {
 					path [i] = new CGPath ();
 					scopePoints = new PointF[TotalSamples];
@@ -141,7 +152,7 @@ namespace WFS210.UI
 							scopePoints [j] = new PointF (MapXPosToScreen (j) + ScopeBounds.Left, 0);
 					}
 					path [i].AddLines (scopePoints);
-					SetNeedsDisplay ();
+					signals [i].Path = path [i];
 				}
 			}
 			if (MarkersAreVisible) {
@@ -155,23 +166,42 @@ namespace WFS210.UI
 			}
 		}
 
-
+		/// <summary>
+		/// Maps the sample data to screen.
+		/// </summary>
+		/// <returns>The sample data to screen.</returns>
+		/// <param name="sample">Sample.</param>
 		private int MapSampleDataToScreen (int sample)
 		{
-			var result = (int)((sample * sampleToPointRatio) + ScopeBounds.Top);
+			var result = (int)((sample * SampleToPointRatio) + ScopeBounds.Top);
 			return result;
 		}
 
-		private int ScreenDataToScopeData (int value)
+		/// <summary>
+		/// Maps the screen data to scope data.
+		/// </summary>
+		/// <returns>The screen data to scope data.</returns>
+		/// <param name="value">Value.</param>
+		private int MapScreenDataToScopeData (int value)
 		{
-			return (int)((value - ScopeBounds.Top) / sampleToPointRatio);
+			return (int)((value - ScopeBounds.Top) / SampleToPointRatio);
 		}
 
-		private int ScreenDataToScopeDataInverted (int value)
+		/// <summary>
+		/// Maps the screen data to scope data inverted.
+		/// </summary>
+		/// <returns>The screen data to scope data inverted.</returns>
+		/// <param name="value">Value.</param>
+		private int MapScreenDataToScopeDataInverted (int value)
 		{
-			return 255 - (int)(value / sampleToPointRatio);
+			return 255 - (int)(value / SampleToPointRatio);
 		}
 
+		/// <summary>
+		/// Maps the X position to screen.
+		/// </summary>
+		/// <returns>The X position to screen.</returns>
+		/// <param name="pos">Position.</param>
 		private int MapXPosToScreen (int pos)
 		{
 			var totalSamples = TotalSamples;
@@ -179,20 +209,9 @@ namespace WFS210.UI
 			return (int)(pos * ratio);
 		}
 
-		public override void Draw (RectangleF rect)
-		{
-			base.Draw (rect);
-
-			using (CGContext g = UIGraphics.GetCurrentContext ()) {
-				LoadMarkers ();
-				for (int i = 0; i < wfs210.Channels.Count; i++) {
-					signals [i].Path = path [i];
-				}
-
-			}
-		}
-
-
+		/// <summary>
+		/// Loads the grid.
+		/// </summary>
 		void LoadGrid ()
 		{
 			gridLayer = new CALayer ();
@@ -202,6 +221,10 @@ namespace WFS210.UI
 			Layer.AddSublayer (gridLayer);
 		}
 
+		/// <summary>
+		/// Gets the signal mask.
+		/// </summary>
+		/// <returns>The signal mask.</returns>
 		CAShapeLayer GetSignalMask ()
 		{
 			RectangleF clippingRect = new RectangleF (ScopeBounds.Left, ScopeBounds.Top + 3, ScopeBounds.Width, ScopeBounds.Height - 7);
@@ -221,6 +244,9 @@ namespace WFS210.UI
 			return maskLayer;
 		}
 
+		/// <summary>
+		/// Loads the signals.
+		/// </summary>
 		void LoadSignals ()
 		{
 			for (int i = 0; i < wfs210.Channels.Count; i++) {
@@ -235,6 +261,9 @@ namespace WFS210.UI
 
 		}
 
+		/// <summary>
+		/// Loads the markers.
+		/// </summary>
 		void LoadMarkers ()
 		{
 			if (MarkersAreVisible) {
@@ -246,6 +275,11 @@ namespace WFS210.UI
 			}
 		}
 
+		/// <summary>
+		/// Gets the marker rectangle.
+		/// </summary>
+		/// <returns>The marker rectangle.</returns>
+		/// <param name="marker">Marker.</param>
 		RectangleF GetMarkerRect (Marker marker)
 		{
 			if (marker.Layout == MarkerLayout.Vertical) {
@@ -260,27 +294,30 @@ namespace WFS210.UI
 					marker.Image.CGImage.Height);
 			}
 		}
-
-		public void ToggleMarkers ()
-		{
-			MarkersAreVisible = !MarkersAreVisible;
-		}
-
-
+			
+		/// <summary>
+		/// Loads the X markers.
+		/// </summary>
 		public void LoadXMarkers ()
 		{
 			//Makeing XMarkers and adding it to the layers
-			xMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png", Convert.ToInt32 (ScopeBounds.Width / 4), "XMARKER1", 9);
-			xMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png", Convert.ToInt32 (ScopeBounds.Width / 4) * 3, "XMARKER2", 9);
+			XMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png", Convert.ToInt32 (ScopeBounds.Width / 4), "XMARKER1", 9);
+			XMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png", Convert.ToInt32 (ScopeBounds.Width / 4) * 3, "XMARKER2", 9);
 		}
 
+		/// <summary>
+		/// Loads the Y markers.
+		/// </summary>
 		public void LoadYMarkers ()
 		{
 			//Makeing YMarkers and adding it to the layers
-			yMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png", Convert.ToInt32 (ScopeBounds.Height / 4), "YMARKER1", -9);
-			yMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png", Convert.ToInt32 (ScopeBounds.Height / 4) * 3, "YMARKER2", -9);
+			YMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png", Convert.ToInt32 (ScopeBounds.Height / 4), "YMARKER1", -9);
+			YMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png", Convert.ToInt32 (ScopeBounds.Height / 4) * 3, "YMARKER2", -9);
 		}
 
+		/// <summary>
+		/// Loads the zero lines.
+		/// </summary>
 		public void LoadZeroLines ()
 		{
 			//Makeing ZeroLines and adding it to the layers
@@ -288,23 +325,32 @@ namespace WFS210.UI
 			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", MapSampleDataToScreen (wfs210.Channels [0].YPosition), "ZEROLINE2", -18);
 		}
 
+		/// <summary>
+		/// Loads the trigger marker.
+		/// </summary>
 		public void LoadTriggerMarker ()
 		{
 			//Makeing TriggerMarkers and adding it to the layers
 			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", MapSampleDataToScreen (wfs210.Trigger.Level), "TRIGGERMARKER", -9);
 		}
 
+		/// <summary>
+		/// Loads the volt time indicator.
+		/// </summary>
 		public void LoadVoltTimeIndicator ()
 		{
-			vti = new VoltTimeIndicator ();
+			VoltTimeIndicator = new VoltTimeIndicator ();
 
-			vti.Hidden = true;
+			VoltTimeIndicator.Hidden = true;
 
-			vti.Layer.ZPosition = 100;
+			VoltTimeIndicator.Layer.ZPosition = 100;
 
-			Layer.AddSublayer (vti.Layer);
+			Layer.AddSublayer (VoltTimeIndicator.Layer);
 		}
 
+		/// <summary>
+		/// Loads the scroll indicator.
+		/// </summary>
 		void LoadScrollIndicator ()
 		{
 			scroll = new CAShapeLayer ();
@@ -322,6 +368,9 @@ namespace WFS210.UI
 			Layer.AddSublayer (scroll);
 		}
 
+		/// <summary>
+		/// Updates the scroll indicator.
+		/// </summary>
 		void UpdateScrollIndicator ()
 		{
 			if (wfs210.Hold) {
@@ -338,19 +387,23 @@ namespace WFS210.UI
 			}
 		}
 
-		public void FillList ()
+		/// <summary>
+		/// Fills the markerslist.
+		/// </summary>
+		public void FillMarkersList ()
 		{
-			Markers.Add (xMarkers [0]);
-			Markers.Add (xMarkers [1]);
-			Markers.Add (yMarkers [0]);
-			Markers.Add (yMarkers [1]);
+			Markers.Add (XMarkers [0]);
+			Markers.Add (XMarkers [1]);
+			Markers.Add (YMarkers [0]);
+			Markers.Add (YMarkers [1]);
 			Markers.Add (trigMarker);
 			Markers.Add (zeroLines [0]);
 			Markers.Add (zeroLines [1]);
 		}
-
-
-
+			
+		/// <summary>
+		/// Registers the pinch recognizer.
+		/// </summary>
 		private void RegisterPinchRecognizer ()
 		{
 			float startDistance;
@@ -362,14 +415,14 @@ namespace WFS210.UI
 						PointF secondPoint = pg.LocationOfTouch (1, this);
 						startDistance = CalculateDistance (firstPoint, secondPoint);
 					}
-					vti.Hidden = false;
+					VoltTimeIndicator.Hidden = false;
 				} else if (pg.State == UIGestureRecognizerState.Changed) {
 					float distance;
 					if (pg.NumberOfTouches == 2) {
 						PointF firstPoint = pg.LocationOfTouch (0, this);
 						PointF secondPoint = pg.LocationOfTouch (1, this);
 						distance = CalculateDistance (firstPoint, secondPoint);
-						if (isHorizontal (firstPoint, secondPoint)) {
+						if (PointsAreHorizontal (firstPoint, secondPoint)) {
 							if (distance > startDistance + 50) {
 								startDistance = distance;
 								wfs210.TimeBase = wfs210.TimeBase.Cycle (-1);
@@ -377,7 +430,7 @@ namespace WFS210.UI
 								startDistance = distance;
 								wfs210.TimeBase = wfs210.TimeBase.Cycle (1);
 							}
-							vti.Text = TimeBaseConverter.ToString (wfs210.TimeBase);
+							VoltTimeIndicator.Text = TimeBaseConverter.ToString (wfs210.TimeBase);
 						} else {
 							if (distance > startDistance + 50) {
 								startDistance = distance;
@@ -386,11 +439,11 @@ namespace WFS210.UI
 								startDistance = distance;
 								Service.Execute (new PreviousVoltsPerDivisionCommand (SelectedChannel));
 							}
-							vti.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [SelectedChannel].VoltsPerDivision);
+							VoltTimeIndicator.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [SelectedChannel].VoltsPerDivision);
 						}
 					}
 				} else if (pg.State == UIGestureRecognizerState.Ended) {
-					vti.Hidden = true;
+					VoltTimeIndicator.Hidden = true;
 					ApplyMarkerValuesToScope ();
 					OnNewData (null);
 					UpdateScopeView();
@@ -399,15 +452,21 @@ namespace WFS210.UI
 			this.AddGestureRecognizer (pinchGesture);
 		}
 
+		/// <summary>
+		/// Applies the marker values to scope object.
+		/// </summary>
 		private void ApplyMarkerValuesToScope ()
 		{
-			Service.Execute (new YPositionCommand (0, ScreenDataToScopeData (zeroLines [0].Value)));
-			Service.Execute (new YPositionCommand (1, ScreenDataToScopeData (zeroLines [1].Value)));
+			Service.Execute (new YPositionCommand (0, MapScreenDataToScopeData (zeroLines [0].Value)));
+			Service.Execute (new YPositionCommand (1, MapScreenDataToScopeData (zeroLines [1].Value)));
 
-			var triggerLevel = ScreenDataToScopeData(trigMarker.Value);
+			var triggerLevel = MapScreenDataToScopeData(trigMarker.Value);
 			Service.Execute (new TriggerLevelCommand (triggerLevel));
 		}
 
+		/// <summary>
+		/// Registers the pan gesture recognizer.
+		/// </summary>
 		void RegisterPanGestureRecognizer ()
 		{
 			float previousX = 0;
@@ -440,7 +499,13 @@ namespace WFS210.UI
 			this.AddGestureRecognizer (panGesture);
 		}
 
-		private bool isHorizontal (PointF firstPoint, PointF secondPoint)
+		/// <summary>
+		/// Checks if the Points making a horizontal line.
+		/// </summary>
+		/// <returns><c>true</c>, if horizontal, <c>false</c> otherwise.</returns>
+		/// <param name="firstPoint">First point.</param>
+		/// <param name="secondPoint">Second point.</param>
+		private static bool PointsAreHorizontal (PointF firstPoint, PointF secondPoint)
 		{
 			bool horizontal;
 			double angle = Math.Atan2 (secondPoint.Y - firstPoint.Y, secondPoint.X - firstPoint.X);
@@ -453,6 +518,12 @@ namespace WFS210.UI
 			return horizontal;
 		}
 
+		/// <summary>
+		/// Calculates the distance between 2 points.
+		/// </summary>
+		/// <returns>The distance.</returns>
+		/// <param name="firstPoint">First point.</param>
+		/// <param name="secondPoint">Second point.</param>
 		private float CalculateDistance (PointF firstPoint, PointF secondPoint)
 		{
 			float distance = (float)Math.Sqrt ((firstPoint.X - secondPoint.X) * (firstPoint.X - secondPoint.X) +
@@ -460,6 +531,9 @@ namespace WFS210.UI
 			return distance;
 		}
 
+		/// <summary>
+		/// Registers the long press recognizer.
+		/// </summary>
 		private void RegisterLongPressRecognizer ()
 		{
 			Marker closestMarker;

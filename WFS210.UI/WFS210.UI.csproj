@@ -134,7 +134,6 @@
     <Compile Include="MainView.designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
-    <Compile Include="WFS210Tools.cs" />
     <Compile Include="MarkerDataCalculator.cs" />
     <Compile Include="ScopeView.designer.cs">
       <DependentUpon>ScopeView.cs</DependentUpon>

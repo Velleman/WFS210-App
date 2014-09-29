@@ -7,6 +7,9 @@ namespace WFS210.UI
 {
 	public class VoltTimeIndicator : UITextField
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.UI.VoltTimeIndicator"/> class.
+		/// </summary>
 		public VoltTimeIndicator () : base ()
 		{
 			Layer.Bounds = new RectangleF (0, 00, 200, 100);

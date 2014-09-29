@@ -1,62 +1,59 @@
 ﻿using System;
 using System.Drawing;
 
-namespace WFS210
+namespace WFS210.UI
 {
-	public class MarkerDataCalculator
+	static class MarkerDataCalculator
 	{
-		public MarkerDataCalculator ()
-		{
-		}
-
-		public static double CalculateTime(TimeBase timebase,float position1,float position2,DeviceContext context,RectangleF frame)
+		/// <summary>
+		/// Calculates the time.
+		/// </summary>
+		/// <returns>The time.</returns>
+		/// <param name="timebase">Timebase.</param>
+		/// <param name="marker1">Marker1.</param>
+		/// <param name="marker2">Marker2.</param>
+		/// <param name="frame">Frame.</param>
+		public static double CalculateTime(TimeBase timebase,Marker marker1,Marker marker2,RectangleF frame)
 		{
 			var pixelsPerDiv = frame.Width / 15;
-			var distance = Math.Abs (position1 - position2);
+			var distance = Math.Abs (marker1.Value - marker2.Value);
 			var divs = distance / pixelsPerDiv;
 			var result = divs * TimeBaseConverter.ToSeconds(timebase);
 			return result;
 		}
 
-		public static double CalculateFrequency(TimeBase timebase,float position1,float position2,DeviceContext context,RectangleF frame)
+
+		/// <summary>
+		/// Calculates the frequency.
+		/// </summary>
+		/// <returns>The frequency.</returns>
+		/// <param name="timebase">Timebase.</param>
+		/// <param name="marker1">Marker1.</param>
+		/// <param name="marker2">Marker2.</param>
+		/// <param name="frame">Frame.</param>
+		public static double CalculateFrequency(TimeBase timebase,Marker marker1,Marker marker2,RectangleF frame)
 		{
-			var time =CalculateTime (timebase, position1, position2, context, frame);
+			var time =CalculateTime (timebase, marker1, marker2, frame);
 			var frequency = 1 / Math.Round(time,9);
 			return frequency;
 		}
 
-		public static double CalculateDV(VoltsPerDivision vpd,float position1, float position2,DeviceContext context,RectangleF frame)
+		/// <summary>
+		/// Calculates the voltage between 2 markers.
+		/// </summary>
+		/// <returns>The D.</returns>
+		/// <param name="vpd">Vpd.</param>
+		/// <param name="marker1">Marker1.</param>
+		/// <param name="marker2">Marker2.</param>
+		/// <param name="frame">Frame.</param>
+		public static double CalculateDV(VoltsPerDivision vpd,Marker marker1, Marker marker2,RectangleF frame)
 		{
+
 			var pixelsPerDiv = frame.Height / 10 ;
-			var distance = Math.Abs (position1 - position2);
+			var distance = Math.Abs (marker1.Value - marker2.Value);
 			var divs = distance / pixelsPerDiv;
 			var result = divs * VoltsPerDivisionConverter.ToVolts(vpd);
 			return result;
-		}
-
-		public static double CalculateVdc()
-		{
-			return 0;
-		}
-
-		public static double CalculateTrms()
-		{
-			return 0;
-		}
-
-		public static double CalculateRms()
-		{
-			return 0;
-		}
-
-		public static double CalculateVmax()
-		{
-			return 0;
-		}
-
-		public static double CalculateVmin()
-		{
-			return 0;
 		}
 	}
 }

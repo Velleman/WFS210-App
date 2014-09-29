@@ -20,6 +20,13 @@ namespace WFS210.UI
 
 		public int Inlay { get; set;}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.UI.Marker"/> class.
+		/// </summary>
+		/// <param name="resourceUrl">Resource URL.</param>
+		/// <param name="name">Name.</param>
+		/// <param name="layout">Layout.</param>
+		/// <param name="inlay">Inlay.</param>
 		public Marker (string resourceUrl, string name, MarkerLayout layout, int inlay)
 		{
 			this.Layout = layout;
@@ -36,6 +43,10 @@ namespace WFS210.UI
 
 		}
 
+		/// <summary>
+		/// Gets or sets the value.
+		/// </summary>
+		/// <value>The value.</value>
 		public int Value
 		{
 			get{ return value; }
@@ -48,6 +59,10 @@ namespace WFS210.UI
 			}
 		}
 
+		/// <summary>
+		/// Sets the position.
+		/// </summary>
+		/// <value>The position.</value>
 		public PointF Position
 		{
 			set{ 

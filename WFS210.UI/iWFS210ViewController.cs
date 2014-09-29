@@ -64,6 +64,11 @@ namespace WFS210.UI
 			this.DisplaySettings = new DisplaySettings (MarkerUnit.dt, SignalUnit.Vdc);
 		}
 
+		/// <summary>
+		/// When Settings are changed update the controls and the signal;
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		void SettingsChanged (object sender, EventArgs e)
 		{
 			InvokeOnMainThread (() => {
@@ -74,7 +79,9 @@ namespace WFS210.UI
 		}
 
 		#region View lifecycle
-
+		/// <summary>
+		/// Views did load.
+		/// </summary>
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -96,7 +103,10 @@ namespace WFS210.UI
 			ScopeView.NewData += (object sender, NewDataEventArgs e) => UpdateScopeControls ();
 
 		}
-
+		/// <summary>
+		/// Views did appear.
+		/// </summary>
+		/// <param name="animated">If set to <c>true</c> animated.</param>
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
@@ -104,6 +114,12 @@ namespace WFS210.UI
 
 		}
 
+		/// <Docs>Whether this UIViewController prefers the status bar to be hidden.</Docs>
+		/// <remarks>To be added.</remarks>
+		/// <summary>
+		/// Preferses the status bar hidden.
+		/// </summary>
+		/// <returns><c>true</c>, if status bar hidden was prefersed, <c>false</c> otherwise.</returns>
 		public override bool PrefersStatusBarHidden ()
 		{
 			return true;
@@ -112,7 +128,6 @@ namespace WFS210.UI
 		#endregion
 
 		#region Events Channel1
-
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
 			ScopeView.SelectedChannel = 0;
@@ -333,11 +348,6 @@ namespace WFS210.UI
 			} finally {
 				UIGraphics.EndImageContext ();
 			}
-		}
-
-		public void DismissSettingsViewController ()
-		{
-			settingsViewController.DismissViewController (true, null);
 		}
 
 		#endregion
@@ -571,13 +581,13 @@ namespace WFS210.UI
 		{
 			switch (unit) {
 			case MarkerUnit.dt:
-				return TimeConverter.ToString (MarkerDataCalculator.CalculateTime (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame),2);
+				return TimeConverter.ToString (MarkerDataCalculator.CalculateTime (Oscilloscope.TimeBase, ScopeView.XMarkers [0], ScopeView.XMarkers [1], ScopeView.Frame),2);
 			case MarkerUnit.Frequency:
-				return FrequencyConverter.ToString (MarkerDataCalculator.CalculateFrequency (Oscilloscope.TimeBase, ScopeView.xMarkers [0].Value, ScopeView.xMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame));
+				return FrequencyConverter.ToString (MarkerDataCalculator.CalculateFrequency (Oscilloscope.TimeBase, ScopeView.XMarkers [0], ScopeView.XMarkers [1], ScopeView.Frame));
 			case MarkerUnit.dV1:
-				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame));
+				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision, ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
 			case MarkerUnit.dV2:
-				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision, ScopeView.yMarkers [0].Value, ScopeView.yMarkers [1].Value, Oscilloscope.DeviceContext, ScopeView.Frame));
+				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision, ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
 			default:
 				return "?";
 			}

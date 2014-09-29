@@ -60,6 +60,10 @@ namespace WFS210.UI
 			View.Window.AddGestureRecognizer (dismissRecognizer);
 		}
 
+		/// <summary>
+		/// If the tap is outside the current view controller then dismiss it
+		/// </summary>
+		/// <param name="recogniser">Recogniser.</param>
 		private void OnTapOutside (UITapGestureRecognizer recogniser)
 		{
 			if (recogniser.State == UIGestureRecognizerState.Ended) {
