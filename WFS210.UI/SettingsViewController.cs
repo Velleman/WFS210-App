@@ -86,11 +86,8 @@ namespace WFS210.UI
 
 		public class DismissGestureRecognizerDelegate : UIGestureRecognizerDelegate
 		{
-			SettingsViewController controller;
-
 			public DismissGestureRecognizerDelegate (SettingsViewController controller)
 			{
-				this.controller = controller;
 			}
 
 			public override bool ShouldBegin (UIGestureRecognizer recognizer)

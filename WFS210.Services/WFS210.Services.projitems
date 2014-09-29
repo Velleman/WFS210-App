@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{52267BC7-1B46-400E-9C5E-3FD2CDD00EA4}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>WFS210.Services</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DemoService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LiveService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SignalGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SignalType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ChannelCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\FlipAttenuationFactorCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\InputCouplingCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\NextTimeBaseCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\NextVoltsPerDivisionCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\PreviousTimeBaseCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\PreviousVoltsPerDivisionCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ServiceCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ToggleHoldCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TriggerChannelCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TriggerLevelCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TriggerModeCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\TriggerSlopeCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\YPositionCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Commands\" />
+  </ItemGroup>
+</Project>

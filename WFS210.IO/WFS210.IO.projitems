@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{60F54F6C-7AD9-41C2-B6CE-5FE454189800}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>WFS210.IO</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CheckedStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Checksum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Command.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComplementChecksum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Packet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PacketSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TcpConnection.cs" />
+  </ItemGroup>
+</Project>

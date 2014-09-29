@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle ("WFS210")]
-[assembly: AssemblyDescription ("WFS210 Library")]
+[assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("Velleman nv")]
-[assembly: AssemblyProduct ("WFS210")]
-[assembly: AssemblyCopyright ("2014 Velleman nv")]
+[assembly: AssemblyCompany ("")]
+[assembly: AssemblyProduct ("")]
+[assembly: AssemblyCopyright ("Administrator")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
