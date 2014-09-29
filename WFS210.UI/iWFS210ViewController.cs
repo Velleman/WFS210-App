@@ -78,7 +78,7 @@ namespace WFS210.UI
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0.png"));
+			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0"));
 			Service.SettingsChanged += SettingsChanged;
 			ScopeView.Service = Service;
 			ScopeView.Initialize ();
@@ -393,13 +393,13 @@ namespace WFS210.UI
 		{
 			switch (Oscilloscope.BatteryStatus) {
 			case BatteryStatus.BatteryLow:
-				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-LOW-984x5.png"), UIControlState.Normal);
+				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-LOW-984x5"), UIControlState.Normal);
 				break;
 			case BatteryStatus.Charging:
-				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-CHARGING-984x5.png"), UIControlState.Normal);
+				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-CHARGING-984x5"), UIControlState.Normal);
 				break;
 			case BatteryStatus.Charged:
-				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-FULL-984x5.png"), UIControlState.Normal);
+				btnBattery.SetBackgroundImage (UIImage.FromBundle ("BATTERY/BATT-FULL-984x5"), UIControlState.Normal);
 				break;
 			default:
 				break;
@@ -409,11 +409,11 @@ namespace WFS210.UI
 		void UpdateSelectedChannel ()
 		{
 			if (ScopeView.SelectedChannel == 0) {
-				btnSelectChannel1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-ON-6x6.png"), UIControlState.Normal);
-				btnSelectChannel2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-OFF-6x710.png"), UIControlState.Normal);
+				btnSelectChannel1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-ON-6x6"), UIControlState.Normal);
+				btnSelectChannel2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-OFF-6x710"), UIControlState.Normal);
 			} else {
-				btnSelectChannel1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-OFF-6x6.png"), UIControlState.Normal);
-				btnSelectChannel2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-ON-6x710.png"), UIControlState.Normal);
+				btnSelectChannel1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-OFF-6x6"), UIControlState.Normal);
+				btnSelectChannel2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-ON-6x710"), UIControlState.Normal);
 			}
 		}
 
@@ -421,19 +421,19 @@ namespace WFS210.UI
 		{
 			switch (Oscilloscope.Channels [0].InputCoupling) {
 			case InputCoupling.AC:
-				btnAC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-AC-ON-129x6.png"), UIControlState.Normal);
-				btnDC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6.png"), UIControlState.Normal);
-				btnGND1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-GND-OFF-263x6.png"), UIControlState.Normal);
+				btnAC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-AC-ON-129x6"), UIControlState.Normal);
+				btnDC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6"), UIControlState.Normal);
+				btnGND1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-GND-OFF-263x6"), UIControlState.Normal);
 				break;
 			case InputCoupling.DC:
-				btnAC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-AC-OFF-129x6.png"), UIControlState.Normal);
-				btnDC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-DC-ON-196x6.png"), UIControlState.Normal);
-				btnGND1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-GND-OFF-263x6.png"), UIControlState.Normal);
+				btnAC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-AC-OFF-129x6"), UIControlState.Normal);
+				btnDC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-DC-ON-196x6"), UIControlState.Normal);
+				btnGND1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-GND-OFF-263x6"), UIControlState.Normal);
 				break;
 			case InputCoupling.GND:
-				btnAC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-AC-OFF-129x6.png"), UIControlState.Normal);
-				btnDC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6.png"), UIControlState.Normal);
-				btnGND1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-GND-ON-263x6.png"), UIControlState.Normal);
+				btnAC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-AC-OFF-129x6"), UIControlState.Normal);
+				btnDC1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6"), UIControlState.Normal);
+				btnGND1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-GND-ON-263x6"), UIControlState.Normal);
 				break;
 			default:
 				break;
@@ -444,10 +444,10 @@ namespace WFS210.UI
 		{
 			switch (Oscilloscope.Channels [0].AttenuationFactor) {
 			case AttenuationFactor.X1:
-				btnProbe1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-1X-OFF-344x6.png"), UIControlState.Normal);
+				btnProbe1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-1X-OFF-344x6"), UIControlState.Normal);
 				break;
 			case AttenuationFactor.X10:
-				btnProbe1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-10X-ON-344x6.png"), UIControlState.Normal);
+				btnProbe1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 1/CHAN1-10X-ON-344x6"), UIControlState.Normal);
 				break;
 			default:
 				break;
@@ -463,19 +463,19 @@ namespace WFS210.UI
 		{
 			switch (Oscilloscope.Channels [1].InputCoupling) {
 			case InputCoupling.AC:
-				btnAC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-AC-ON-129x710.png"), UIControlState.Normal);
-				btnDC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710.png"), UIControlState.Normal);
-				btnGND2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-GND-OFF-263x710.png"), UIControlState.Normal);
+				btnAC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-AC-ON-129x710"), UIControlState.Normal);
+				btnDC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710"), UIControlState.Normal);
+				btnGND2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-GND-OFF-263x710"), UIControlState.Normal);
 				break;
 			case InputCoupling.DC:
-				btnAC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-AC-OFF-129x710.png"), UIControlState.Normal);
-				btnDC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-DC-ON-196x710.png"), UIControlState.Normal);
-				btnGND2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-GND-OFF-263x710.png"), UIControlState.Normal);
+				btnAC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-AC-OFF-129x710"), UIControlState.Normal);
+				btnDC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-DC-ON-196x710"), UIControlState.Normal);
+				btnGND2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-GND-OFF-263x710"), UIControlState.Normal);
 				break;
 			case InputCoupling.GND:
-				btnAC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-AC-OFF-129x710.png"), UIControlState.Normal);
-				btnDC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710.png"), UIControlState.Normal);
-				btnGND2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-GND-ON-263x710.png"), UIControlState.Normal);
+				btnAC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-AC-OFF-129x710"), UIControlState.Normal);
+				btnDC2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710"), UIControlState.Normal);
+				btnGND2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-GND-ON-263x710"), UIControlState.Normal);
 				break;
 			default:
 				break;
@@ -486,10 +486,10 @@ namespace WFS210.UI
 		{
 			switch (Oscilloscope.Channels [1].AttenuationFactor) {
 			case AttenuationFactor.X1:
-				btnProbe2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-1X-OFF-344x710.png"), UIControlState.Normal);
+				btnProbe2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-1X-OFF-344x710"), UIControlState.Normal);
 				break;
 			case AttenuationFactor.X10:
-				btnProbe2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-10X-ON-344x710.png"), UIControlState.Normal);
+				btnProbe2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/CHANNEL 2/CHAN2-10X-ON-344x710"), UIControlState.Normal);
 				break;
 			default:
 				break;
@@ -504,22 +504,22 @@ namespace WFS210.UI
 		void UpdateTriggerChannelUI ()
 		{
 			if (Oscilloscope.Trigger.Channel == 0) {
-				btnTriggerCH1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN1-ON-6x96.png"), UIControlState.Normal);
-				btnTriggerCH2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN2-OFF-60x96.png"), UIControlState.Normal);
+				btnTriggerCH1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN1-ON-6x96"), UIControlState.Normal);
+				btnTriggerCH2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN2-OFF-60x96"), UIControlState.Normal);
 			} else {
-				btnTriggerCH1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN1-OFF-6x96.png"), UIControlState.Normal);
-				btnTriggerCH2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN2-ON-60x96.png"), UIControlState.Normal);
+				btnTriggerCH1.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN1-OFF-6x96"), UIControlState.Normal);
+				btnTriggerCH2.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-CHAN2-ON-60x96"), UIControlState.Normal);
 			}
 		}
 
 		void UpdateTriggerSlopeUI ()
 		{
 			if (Oscilloscope.Trigger.Slope == TriggerSlope.Rising) {
-				btnTriggerSlopeUp.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-UP-ON-6x156.png"), UIControlState.Normal);
-				btnTriggerSlopeDown.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-DOWN-OFF-60x156.png"), UIControlState.Normal);
+				btnTriggerSlopeUp.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-UP-ON-6x156"), UIControlState.Normal);
+				btnTriggerSlopeDown.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-DOWN-OFF-60x156"), UIControlState.Normal);
 			} else {
-				btnTriggerSlopeUp.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-UP-OFF-6x156.png"), UIControlState.Normal);
-				btnTriggerSlopeDown.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-DOWN-ON-60x156.png"), UIControlState.Normal);
+				btnTriggerSlopeUp.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-UP-OFF-6x156"), UIControlState.Normal);
+				btnTriggerSlopeDown.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-DOWN-ON-60x156"), UIControlState.Normal);
 			}
 		}
 
@@ -527,19 +527,19 @@ namespace WFS210.UI
 		{
 			switch (Oscilloscope.Trigger.Mode) {
 			case TriggerMode.Normal:
-				btnTriggerNrml.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-NRML-ON-6x276.png"), UIControlState.Normal);
-				btnTriggerOnce.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276.png"), UIControlState.Normal);
-				btnTriggerRun.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-RUN-OFF-6x216.png"), UIControlState.Normal);
+				btnTriggerNrml.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-NRML-ON-6x276"), UIControlState.Normal);
+				btnTriggerOnce.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276"), UIControlState.Normal);
+				btnTriggerRun.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-RUN-OFF-6x216"), UIControlState.Normal);
 				break;
 			case TriggerMode.Once:
-				btnTriggerNrml.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-NRML-OFF-6x276.png"), UIControlState.Normal);
-				btnTriggerOnce.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-ONCE-ON-60x276.png"), UIControlState.Normal);
-				btnTriggerRun.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-RUN-OFF-6x216.png"), UIControlState.Normal);
+				btnTriggerNrml.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-NRML-OFF-6x276"), UIControlState.Normal);
+				btnTriggerOnce.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-ONCE-ON-60x276"), UIControlState.Normal);
+				btnTriggerRun.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-RUN-OFF-6x216"), UIControlState.Normal);
 				break;
 			case TriggerMode.Run:
-				btnTriggerNrml.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-NRML-OFF-6x276.png"), UIControlState.Normal);
-				btnTriggerOnce.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276.png"), UIControlState.Normal);
-				btnTriggerRun.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-RUN-ON-6x216.png"), UIControlState.Normal);
+				btnTriggerNrml.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-NRML-OFF-6x276"), UIControlState.Normal);
+				btnTriggerOnce.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276"), UIControlState.Normal);
+				btnTriggerRun.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-RUN-ON-6x216"), UIControlState.Normal);
 				break;
 			default:
 				break;
@@ -549,17 +549,17 @@ namespace WFS210.UI
 		void UpdateHoldUI ()
 		{
 			if (Oscilloscope.Hold)
-				btnTriggerHold.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-HOLD-ON-6x336.png"), UIControlState.Normal);
+				btnTriggerHold.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-HOLD-ON-6x336"), UIControlState.Normal);
 			else
-				btnTriggerHold.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-HOLD-OFF-6x336.png"), UIControlState.Normal);
+				btnTriggerHold.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/TRIGGER/TRIG-HOLD-OFF-6x336"), UIControlState.Normal);
 		}
 
 		void UpdateAutorangeUI ()
 		{
 			if (Oscilloscope.AutoRange)
-				btnAutorange.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/AUTO RANGE/AUTORANGE-ON-6x541.png"), UIControlState.Normal);
+				btnAutorange.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/AUTO RANGE/AUTORANGE-ON-6x541"), UIControlState.Normal);
 			else
-				btnAutorange.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/AUTO RANGE/AUTORANGE-OFF-6x541.png"), UIControlState.Normal);
+				btnAutorange.SetBackgroundImage (UIImage.FromBundle ("BUTTONS/AUTO RANGE/AUTORANGE-OFF-6x541"), UIControlState.Normal);
 		}
 
 		void UpdateTimeBaseText ()
@@ -616,51 +616,6 @@ namespace WFS210.UI
 				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms8 ());
 			default:
 				return "?";
-			}
-		}
-
-		private static string ToEngineeringNotation (double d)
-		{
-			double exponent = Math.Log10 (Math.Abs (d));
-			if (Math.Abs (d) >= 1) {
-				switch ((int)Math.Floor (exponent)) {
-				case 0:
-				case 1:
-				case 2:
-					return d.ToString ();
-				case 3:
-				case 4:
-				case 5:
-					return (d / 1e3).ToString () + "k";
-				case 6:
-				case 7:
-				case 8:
-					return (d / 1e6).ToString () + "M";
-				case 9:
-				case 10:
-				case 11:
-				default:
-					return (d / 1e24).ToString () + "Y";
-				}
-			} else if (Math.Abs (d) > 0) {
-				switch ((int)Math.Floor (exponent)) {
-				case -1:
-				case -2:
-				case -3:
-					return (d * 1e3).ToString () + "m";
-				case -4:
-				case -5:
-				case -6:
-					return (d * 1e6).ToString () + "μ";
-				case -7:
-				case -8:
-				case -9:
-					return (d * 1e9).ToString () + "n";
-				default:
-					return (d * 1e15).ToString () + "y";
-				}
-			} else {
-				return "0";
 			}
 		}
 	}
