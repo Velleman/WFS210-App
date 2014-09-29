@@ -57,46 +57,31 @@ namespace WFS210.UI
 		public ScopeView (IntPtr handle) : base (handle)
 		{
 			this.GrappleDistance = 60;
-
 			Padding = new Padding (18, 0, 18, 0);
-
 			MarkersAreVisible = true;
-
 			LoadGrid ();
-
 			LoadXMarkers ();
-
 			LoadYMarkers ();
-
 			RegisterPanGestureRecognizer ();
-
 			RegisterLongPressRecognizer ();
-
 			LoadVoltTimeIndicator ();
-
 			RegisterPinchRecognizer ();
-
 			LoadScrollIndicator ();
 		}
 
+		/// <summary>
+		/// Initialize's scopeview.
+		/// </summary>
 		public void Initialize ()
 		{
-
 			LoadZeroLines ();
-
 			LoadTriggerMarker ();
-
 			path = new CGPath[wfs210.Channels.Count];
-
 			signals = new CAShapeLayer[wfs210.Channels.Count];
-
 			LoadSignals ();
-
 			signals [0].StrokeColor = new CGColor (0, 255, 0);
 			signals [1].StrokeColor = new CGColor (255, 255, 0);
-
 			FillList ();
-
 		}
 
 		public RectangleF ScopeBounds {
@@ -135,19 +120,29 @@ namespace WFS210.UI
 		public void UpdateScopeView ()
 		{
 			for (int i = 0; i < wfs210.Channels.Count; i++) {
+				if (wfs210.Channels [i].VoltsPerDivision != VoltsPerDivision.VdivNone) {
+					path [i] = new CGPath ();
 
-				path [i] = new CGPath ();
+					SampleBuffer buffer = wfs210.Channels [i].Samples;
+					scopePoints = new PointF[TotalSamples];
+					var offset = 0;
+					offset = wfs210.Hold ? ScrollPosition : 0;
 
-				SampleBuffer buffer = wfs210.Channels [i].Samples;
-				scopePoints = new PointF[TotalSamples];
-				var offset = 0;
-				offset = wfs210.Hold ? ScrollPosition : 0;
-
-				for (int j = offset; j < offset + TotalSamples; j++) {
-					scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left, MapSampleDataToScreen (buffer [j]));
+					for (int j = offset; j < offset + TotalSamples; j++) {
+						scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left, MapSampleDataToScreen (buffer [j]));
+					}
+					path [i].AddLines (scopePoints);
+					SetNeedsDisplay ();
+				} else {
+					path [i] = new CGPath ();
+					scopePoints = new PointF[TotalSamples];
+					for (int j =0; j < scopePoints.Length; j++)
+					{	
+							scopePoints [j] = new PointF (MapXPosToScreen (j) + ScopeBounds.Left, 0);
+					}
+					path [i].AddLines (scopePoints);
+					SetNeedsDisplay ();
 				}
-				path [i].AddLines (scopePoints);
-				SetNeedsDisplay ();
 			}
 			if (MarkersAreVisible) {
 				foreach (Marker m in Markers) {
@@ -398,6 +393,7 @@ namespace WFS210.UI
 					vti.Hidden = true;
 					ApplyMarkerValuesToScope ();
 					OnNewData (null);
+					UpdateScopeView();
 				}
 			});
 			this.AddGestureRecognizer (pinchGesture);
