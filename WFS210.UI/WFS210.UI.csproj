@@ -147,9 +147,9 @@
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
   </ItemGroup>
-  <Import Project="..\test\WFS210.projitems" Label="Shared" Condition="Exists('..\test\WFS210.projitems')" />
   <Import Project="..\WFS210.IO\WFS210.IO.projitems" Label="Shared" Condition="Exists('..\WFS210.IO\WFS210.IO.projitems')" />
   <Import Project="..\WFS210.Services\WFS210.Services.projitems" Label="Shared" Condition="Exists('..\WFS210.Services\WFS210.Services.projitems')" />
+  <Import Project="..\WFS210\WFS210.projitems" Label="Shared" Condition="Exists('..\WFS210\WFS210.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <BundleResource Include="Resources\CHAN1-SINE-LARGE.png" />

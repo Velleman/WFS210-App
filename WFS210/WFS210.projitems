@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{A7943D95-7C8C-425D-B144-B2460F3B2CBE}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>WFS210</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AttenuationFactor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BatteryStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Channel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputCoupling.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Oscilloscope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimeBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Trigger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TriggerMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TriggerSlope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VoltsPerDivision.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WifiSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\DecibelConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\FrequencyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\RangeExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\TimeBaseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\TimeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\UnitConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\VoltageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\VoltsPerDivisionConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\WattConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Util\" />
+  </ItemGroup>
+</Project>
