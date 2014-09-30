@@ -92,8 +92,11 @@ namespace WFS210.UI
 			var timer = new System.Timers.Timer (500);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				Service.Update ();
-				InvokeOnMainThread (ScopeView.UpdateScopeView);
-				UpdateMeasurements ();
+				InvokeOnMainThread (()=>{
+					ScopeView.UpdateScopeView();
+					UpdateMeasurements ();
+				});
+
 			};
 			timer.Enabled = true;
 			timer.Start ();
@@ -391,12 +394,14 @@ namespace WFS210.UI
 		protected void UpdateMeasurements ()
 		{
 			// Channel 1
-			btnMarkerMeasurements.SetTitle (GetMarkerMeasurementString (DisplaySettings.MarkerUnits [0]), UIControlState.Normal);
 			btnSignalMeasurements.SetTitle (GetMeasurementString (DisplaySettings.SignalUnits [0], 0), UIControlState.Normal);
+			btnMarkerMeasurements.SetTitle (GetMarkerMeasurementString (DisplaySettings.MarkerUnits [0]), UIControlState.Normal);
+
 
 			// Channel 2
-			btnMarkerMeasurements2.SetTitle (GetMarkerMeasurementString (DisplaySettings.MarkerUnits [1]), UIControlState.Normal);
 			btnSignalMeasurements2.SetTitle (GetMeasurementString (DisplaySettings.SignalUnits [1], 1), UIControlState.Normal);
+			btnMarkerMeasurements2.SetTitle (GetMarkerMeasurementString (DisplaySettings.MarkerUnits [1]), UIControlState.Normal);
+
 		}
 
 		void UpdateBatteryStatus ()
