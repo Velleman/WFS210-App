@@ -233,6 +233,8 @@
     <BundleResource Include="Resources\MARKERS\MARKER 1 SLIDER-__x60.png" />
     <BundleResource Include="Resources\MARKERS\MARKER 2 SLIDER-__x60.png" />
     <BundleResource Include="Resources\BUTTONS\SCREENSHOT\SCREENSHOT-6x614.png" />
+    <BundleResource Include="Resources\Default-Landscape.png" />
+    <BundleResource Include="Resources\Default-Landscape%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />

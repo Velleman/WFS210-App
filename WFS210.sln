@@ -47,6 +47,6 @@ Global
 		{CAD2FA4B-149B-4F0E-86FA-C0E4EB7A05D7}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = aWFS210\aWFS210.csproj
+		StartupItem = WFS210.UI\iWFS210.csproj
 	EndGlobalSection
 EndGlobal
