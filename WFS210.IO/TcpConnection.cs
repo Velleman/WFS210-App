@@ -74,6 +74,8 @@ namespace WFS210.IO
 		/// <param name="port">Port.</param>
 		public bool Connect(string address, int port)
 		{
+			try
+			{
 			Client = new TcpClient ();
 			var result = Client.BeginConnect (address, port, null, null);
 
@@ -88,10 +90,10 @@ namespace WFS210.IO
 			Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());
 			Reader = new MessageReader (Client.GetStream (), new PacketSerializer ());
 			return true;
-//			IPEndPoint remoteEP = new IPEndPoint(
-//				IPAddress.Parse(address), port);
-//
-//			return Connect (remoteEP);
+			}
+			catch(Exception e) {
+				return false;
+			}
 		}
 
 		/// <summary>
