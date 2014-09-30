@@ -489,6 +489,13 @@
                                 <rect key="frame" x="276" y="262" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="526" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="214" y="353" width="177" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Calibrate the scope">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -498,6 +505,7 @@
                         <outlet property="lblName" destination="515" id="name-outlet-515"/>
                         <outlet property="lblMarkers" destination="520" id="name-outlet-520"/>
                         <outlet property="swMarker" destination="521" id="name-outlet-521"/>
+                        <outlet property="btnCalibrate" destination="526" id="name-outlet-526"/>
                     </connections>
                     <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
@@ -588,5 +596,6 @@
         <image name="Icon-Small-50.png" width="50" height="50"/>
         <image name="Icon-Small-40.png" width="40" height="40"/>
         <image name="BUTTONS/SCREENSHOT/SCREENSHOT-6x614.png" width="102" height="52"/>
+        <image name="Default-Landscape.png" width="1024" height="748"/>
     </resources>
 </document>

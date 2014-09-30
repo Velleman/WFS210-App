@@ -325,7 +325,7 @@ namespace WFS210.UI
 			settingsViewController = this.Storyboard.InstantiateViewController ("SettingsViewController") as SettingsViewController;
 			settingsViewController.WifiSetting = Oscilloscope.WifiSetting;
 			settingsViewController.ServiceManager = this.ServiceManager;
-			settingsViewController.RequestedDismiss += (object s, EventArgs e) => {
+			settingsViewController.RequestedDismiss += (object s, EventArgs de) => {
 				settingsViewController.DismissViewController (true, null);
 				ScopeView.MarkersAreVisible = NSUserDefaults.StandardUserDefaults.BoolForKey ("markers");
 			};

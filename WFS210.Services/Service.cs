@@ -73,6 +73,8 @@ namespace WFS210.Services
 		/// </summary>
 		public abstract void RequestSamples ();
 
+		public abstract void RequestCalibration ();
+
 		/// <summary>
 		/// Update this instance. This function should be called regularly.
 		/// </summary>

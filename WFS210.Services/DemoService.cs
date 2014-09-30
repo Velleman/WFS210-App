@@ -65,6 +65,11 @@ namespace WFS210.Services
 			throw new NotImplementedException ();
 		}
 
+		public override void RequestCalibration ()
+		{
+
+		}
+
 		/// <summary>
 		/// Updates both signals with the current oscilloscope settings. Should be
 		/// called whenever you want to update the signals.

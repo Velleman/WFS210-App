@@ -102,6 +102,16 @@ namespace WFS210.Services
 		}
 
 		/// <summary>
+		/// Requests the calibration.
+		/// </summary>
+		public override void RequestCalibration ()
+		{
+			var message = new Message (Command.StartCalibration);
+			message.Payload = new byte[2];
+			Connection.Write (message);
+		}
+
+		/// <summary>
 		/// Performs basic IO. Should be called often.
 		/// </summary>
 		public override void Update ()

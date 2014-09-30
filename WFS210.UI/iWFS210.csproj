@@ -143,6 +143,7 @@
     <Compile Include="EnumEventArgs.cs" />
     <Compile Include="SettingsEventArgs.cs" />
     <Compile Include="DisplaySettings.cs" />
+    <Compile Include="CalibrationIndicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

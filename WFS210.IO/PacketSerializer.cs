@@ -64,6 +64,8 @@ namespace WFS210.IO
 			packet.Checksum = reader.ReadByte ();
 			if (packet.Checksum != expectedChecksum) {
 				Console.WriteLine ("Invalid Packet");
+				packet.ETX = reader.ReadByte ();
+				return null;
 			} else
 				packet.ETX = reader.ReadByte ();
 

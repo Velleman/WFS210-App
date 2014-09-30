@@ -42,6 +42,7 @@ namespace WFS210.UI
 		CAShapeLayer[] signals;
 		CAShapeLayer maskLayer;
 		public VoltTimeIndicator VoltTimeIndicator;
+		CalibrationIndicator CalibrationIndicator;
 		CAShapeLayer scroll;
 
 		UIPinchGestureRecognizer pinchGesture;
@@ -65,6 +66,7 @@ namespace WFS210.UI
 			RegisterPanGestureRecognizer ();
 			RegisterLongPressRecognizer ();
 			LoadVoltTimeIndicator ();
+			LoadCalibrationIndicator ();
 			RegisterPinchRecognizer ();
 			LoadScrollIndicator ();
 		}
@@ -84,6 +86,7 @@ namespace WFS210.UI
 			FillMarkersList ();
 			LoadMarkers ();
 		}
+
 		/// <summary>
 		/// Gets the scope bounds.
 		/// </summary>
@@ -98,6 +101,7 @@ namespace WFS210.UI
 				);
 			}
 		}
+
 		/// <summary>
 		/// Raises the new data event.
 		/// </summary>
@@ -147,9 +151,8 @@ namespace WFS210.UI
 				} else {
 					path [i] = new CGPath ();
 					scopePoints = new PointF[TotalSamples];
-					for (int j =0; j < scopePoints.Length; j++)
-					{	
-							scopePoints [j] = new PointF (MapXPosToScreen (j) + ScopeBounds.Left, 0);
+					for (int j = 0; j < scopePoints.Length; j++) {	
+						scopePoints [j] = new PointF (MapXPosToScreen (j) + ScopeBounds.Left, 0);
 					}
 					path [i].AddLines (scopePoints);
 					signals [i].Path = path [i];
@@ -164,6 +167,7 @@ namespace WFS210.UI
 					m.Layer.Hidden = true;
 				}
 			}
+			CalibrationIndicator.Hidden = !wfs210.Calibrating;
 		}
 
 		/// <summary>
@@ -294,7 +298,7 @@ namespace WFS210.UI
 					marker.Image.CGImage.Height);
 			}
 		}
-			
+
 		/// <summary>
 		/// Loads the X markers.
 		/// </summary>
@@ -349,6 +353,20 @@ namespace WFS210.UI
 		}
 
 		/// <summary>
+		/// Loads the calibration indicator.
+		/// </summary>
+		public void LoadCalibrationIndicator ()
+		{
+			CalibrationIndicator = new CalibrationIndicator ();
+
+			CalibrationIndicator.Hidden = true;
+
+			CalibrationIndicator.Layer.ZPosition = 100;
+
+			Layer.AddSublayer (CalibrationIndicator.Layer);
+		}
+
+		/// <summary>
 		/// Loads the scroll indicator.
 		/// </summary>
 		void LoadScrollIndicator ()
@@ -400,7 +418,7 @@ namespace WFS210.UI
 			Markers.Add (zeroLines [0]);
 			Markers.Add (zeroLines [1]);
 		}
-			
+
 		/// <summary>
 		/// Registers the pinch recognizer.
 		/// </summary>
@@ -446,7 +464,7 @@ namespace WFS210.UI
 					VoltTimeIndicator.Hidden = true;
 					ApplyMarkerValuesToScope ();
 					OnNewData (null);
-					UpdateScopeView();
+					UpdateScopeView ();
 				}
 			});
 			this.AddGestureRecognizer (pinchGesture);
@@ -460,7 +478,7 @@ namespace WFS210.UI
 			Service.Execute (new YPositionCommand (0, MapScreenDataToScopeData (zeroLines [0].Value)));
 			Service.Execute (new YPositionCommand (1, MapScreenDataToScopeData (zeroLines [1].Value)));
 
-			var triggerLevel = MapScreenDataToScopeData(trigMarker.Value);
+			var triggerLevel = MapScreenDataToScopeData (trigMarker.Value);
 			Service.Execute (new TriggerLevelCommand (triggerLevel));
 		}
 

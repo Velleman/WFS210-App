@@ -52,6 +52,14 @@ namespace WFS210.UI
 			dismissRecognizer = new UITapGestureRecognizer (OnTapOutside);
 			dismissRecognizer.NumberOfTapsRequired = 1u;
 			dismissRecognizer.Delegate = new DismissGestureRecognizerDelegate (this);
+
+			btnCalibrate.TouchUpInside += (object sender, EventArgs e) => {
+				ServiceManager.ActiveService.RequestCalibration();
+				if(RequestedDismiss != null)
+				{
+					RequestedDismiss(this,new EventArgs());
+				}
+			};
 		}
 
 		public override void ViewDidAppear (bool animated)
