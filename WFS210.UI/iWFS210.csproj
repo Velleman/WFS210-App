@@ -153,7 +153,6 @@
   <Import Project="..\WFS210\WFS210.projitems" Label="Shared" Condition="Exists('..\WFS210\WFS210.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="Resources\CHAN1-SINE-LARGE.png" />
     <BundleResource Include="Resources\BACKGROUND\BG-0x0.png" />
     <BundleResource Include="Resources\BATTERY\BATT-CHARGING-984x5.png" />
     <BundleResource Include="Resources\BATTERY\BATT-FULL-984x5.png" />
