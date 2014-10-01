@@ -339,9 +339,19 @@ namespace WFS210.UI
 			try {
 				var mainLayer = this.MainView.Layer;
 				mainLayer.RenderInContext (UIGraphics.GetCurrentContext ());
+				var orientation = UIApplication.SharedApplication.StatusBarOrientation;
 				var img = UIScreen.MainScreen.Capture ();
-				var newImg = UIImage.FromImage (img.CGImage, 1f, UIImageOrientation.Left);
-				newImg.SaveToPhotosAlbum ((iRef, status) => {
+				UIImage screenshot = null;
+				if(orientation == UIInterfaceOrientation.LandscapeLeft)
+				{
+					screenshot = UIImage.FromImage(img.CGImage,1f, UIImageOrientation.Right);
+				}
+				else if(orientation == UIInterfaceOrientation.LandscapeRight)
+				{
+					screenshot = UIImage.FromImage(img.CGImage,1f, UIImageOrientation.Left);
+				}
+				
+				screenshot.SaveToPhotosAlbum ((iRef, status) => {
 					if (status != null) {
 						new UIAlertView ("Problem", status.ToString (), null, "OK", null).Show ();
 					} else {
