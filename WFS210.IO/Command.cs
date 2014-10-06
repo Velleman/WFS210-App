@@ -13,7 +13,12 @@ namespace WFS210.IO
 		public const byte RequestWifiSettings = 0x0a;
 
 		/// <summary>
-		/// Wifi settings.
+		/// Send Wifi settings.
+		/// </summary>
+		public const byte SendWifiSettings = 0x0b;
+
+		/// <summary>
+		/// Received wifi settings.
 		/// </summary>
 		public const byte WifiSettings = 0x22;
 

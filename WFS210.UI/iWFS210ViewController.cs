@@ -87,8 +87,8 @@ namespace WFS210.UI
 		{
 			base.ViewDidLoad ();
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0"));
-			Service.SettingsChanged += SettingsChanged;
-			ScopeView.Service = Service;
+			ServiceManager.SettingsChanged += SettingsChanged;
+			ScopeView.ServiceManager = ServiceManager;
 			ScopeView.Initialize ();
 			var timer = new System.Timers.Timer (500);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {

@@ -42,7 +42,21 @@ namespace WFS210.Services
 		{
 		}
 
-	
+		/// <summary>
+		/// Sends the wifi settings.
+		/// </summary>
+		public override void SendWifiSettings ()
+		{
+
+		}
+
+		/// <summary>
+		/// Request the wifi settings.
+		/// </summary>
+		public override void RequestWifiSettings ()
+		{
+
+		}
 
 		/// <summary>
 		/// Applies the settings.

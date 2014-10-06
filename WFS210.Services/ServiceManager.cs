@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace WFS210.Services
 {
@@ -24,15 +25,20 @@ namespace WFS210.Services
 		/// </summary>
 		/// <value>The active service.</value>
 		public Service ActiveService {
-			get { return GetService(ServiceType); }
+			get { return GetService (ServiceType); }
 		}
+
+		/// <summary>
+		/// Occurs when settings have changed.
+		/// </summary>
+		public event EventHandler SettingsChanged;
 
 		/// <summary>
 		/// Gets the service object for the specified service type.
 		/// </summary>
 		/// <returns>The service.</returns>
 		/// <param name="serviceType">Service type.</param>
-		public Service GetService(ServiceType serviceType)
+		public Service GetService (ServiceType serviceType)
 		{
 			return Services [serviceType];
 		}
@@ -44,10 +50,23 @@ namespace WFS210.Services
 		/// <param name="defaultType">The default service type.</param>
 		public ServiceManager (Oscilloscope oscilloscope, ServiceType defaultType)
 		{
-			this.Services.Add (ServiceType.Demo, new DemoService (oscilloscope));
-			this.Services.Add (ServiceType.Live, new LiveService (oscilloscope));
+
+			AddService(ServiceType.Demo, new DemoService(oscilloscope));
+			AddService(ServiceType.Live, new LiveService(oscilloscope));
 
 			this.ServiceType = defaultType;
+		}
+
+		public void AddService (ServiceType type, Service service)
+		{
+			this.Services.Add (type, service);
+			GetService (type).SettingsChanged += HandleSettingsChanged;
+		}
+
+		void HandleSettingsChanged (object sender, System.EventArgs e)
+		{
+			if (SettingsChanged != null)
+				SettingsChanged (this, null);
 		}
 	}
 }

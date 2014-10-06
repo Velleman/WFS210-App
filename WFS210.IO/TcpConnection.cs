@@ -53,7 +53,7 @@ namespace WFS210.IO
 		/// <summary>
 		/// Connects using the default address and port.
 		/// </summary>
-		public bool Connect()
+		public bool Connect ()
 		{
 			return Connect (DefaultAddress);
 		}
@@ -62,7 +62,7 @@ namespace WFS210.IO
 		/// Connect to the specified address using the default port.
 		/// </summary>
 		/// <param name="address">Address.</param>
-		public bool Connect(string address)
+		public bool Connect (string address)
 		{
 			return Connect (address, DefaultPort);
 		}
@@ -72,26 +72,25 @@ namespace WFS210.IO
 		/// </summary>
 		/// <param name="address">Address.</param>
 		/// <param name="port">Port.</param>
-		public bool Connect(string address, int port)
+		public bool Connect (string address, int port)
 		{
-			try
-			{
-			Client = new TcpClient ();
-			var result = Client.BeginConnect (address, port, null, null);
+			try {
+				Client = new TcpClient ();
+				var result = Client.BeginConnect (address, port, null, null);
 
-			result.AsyncWaitHandle.WaitOne (TimeSpan.FromSeconds (2));
-			if (!Client.Connected) {
-				return false;
-			}
+				result.AsyncWaitHandle.WaitOne (TimeSpan.FromSeconds (2));
+				if (!Client.Connected) {
+					return false;
+				}
 
-			Client.EndConnect (result);
-			ReadWelcomeMessage ();
+				Client.EndConnect (result);
+				ReadWelcomeMessage ();
 
-			Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());
-			Reader = new MessageReader (Client.GetStream (), new PacketSerializer ());
-			return true;
-			}
-			catch(Exception e) {
+				Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());
+				Reader = new MessageReader (Client.GetStream (), new PacketSerializer ());
+				return true;
+			} catch (Exception e) {
+				Console.WriteLine (e.Message);
 				return false;
 			}
 		}
@@ -100,7 +99,7 @@ namespace WFS210.IO
 		/// Connects to a custom remote network endpoint.
 		/// </summary>
 		/// <param name="remoteEP">Remote network endpoint</param>
-		public bool Connect(IPEndPoint remoteEP)
+		public bool Connect (IPEndPoint remoteEP)
 		{
 			Client = new TcpClient ();
 			Client.Connect (remoteEP);
@@ -127,7 +126,7 @@ namespace WFS210.IO
 		/// <summary>
 		/// Close the active connection.
 		/// </summary>
-		public void Close()
+		public void Close ()
 		{
 			if (Connected) {
 
@@ -142,7 +141,11 @@ namespace WFS210.IO
 		/// <param name="message">Message.</param>
 		public void Write (Message message)
 		{
-			Writer.Write (message);
+			try {
+				Writer.Write (message);
+			} catch (Exception e) {
+				Console.WriteLine (e.Message);
+			}
 		}
 
 		/// <summary>

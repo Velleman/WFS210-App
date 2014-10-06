@@ -16,7 +16,15 @@ namespace WFS210.UI
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnApply { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnCalibrate { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnDismiss { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -44,9 +52,17 @@ namespace WFS210.UI
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnApply != null) {
+				btnApply.Dispose ();
+				btnApply = null;
+			}
 			if (btnCalibrate != null) {
 				btnCalibrate.Dispose ();
 				btnCalibrate = null;
+			}
+			if (btnDismiss != null) {
+				btnDismiss.Dispose ();
+				btnDismiss = null;
 			}
 			if (lblDemo != null) {
 				lblDemo.Dispose ();

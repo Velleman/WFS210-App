@@ -48,6 +48,12 @@ namespace WFS210.UI
 		UIPinchGestureRecognizer pinchGesture;
 		UILongPressGestureRecognizer longPressGesture;
 		UIPanGestureRecognizer panGesture;
+		ServiceManager _ServiceManager;
+		public ServiceManager ServiceManager{ get{ return this._ServiceManager;} set{ this._ServiceManager = value;
+				wfs210 = _ServiceManager.ActiveService.Oscilloscope;
+				SampleToPointRatio = (float)ScopeBounds.Height / (wfs210.DeviceContext.UnitsPerDivision * wfs210.DeviceContext.Divisions);
+				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase * 15;
+			}}
 
 		public event EventHandler<NewDataEventArgs> NewData;
 
@@ -116,16 +122,9 @@ namespace WFS210.UI
 		/// Gets or sets the service.
 		/// </summary>
 		/// <value>The service.</value>
-		public Service Service {
-			set {
-
-				this.service = value;
-				wfs210 = this.service.Oscilloscope;
-				SampleToPointRatio = (float)ScopeBounds.Height / (wfs210.DeviceContext.UnitsPerDivision * wfs210.DeviceContext.Divisions);
-				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase * 15;
-			}	
+		Service Service {
 			get {
-				return this.service;
+				return ServiceManager.ActiveService;
 			}
 		}
 

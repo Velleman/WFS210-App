@@ -101,7 +101,9 @@ namespace WFS210
 
 			InitDefaults ();
 
-			WifiSetting = new WifiSettings (){SSID = "WFS210" , Password = "" ,Channel = 5, Version = "0.00"};
+			WifiSetting = new WifiSettings ();
+			WifiSetting.SSID = "";
+			WifiSetting.Password = "";
 		}
 
 		public void InitDefaults ()

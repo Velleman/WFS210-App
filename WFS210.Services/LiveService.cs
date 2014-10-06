@@ -42,7 +42,7 @@ namespace WFS210.Services
 		/// </summary>
 		public override void Deactivate ()
 		{
-			this.connection.Close();
+			this.connection.Close ();
 		}
 
 		public override bool Active {
@@ -111,6 +111,24 @@ namespace WFS210.Services
 			Connection.Write (message);
 		}
 
+		public override void RequestWifiSettings ()
+		{
+			var message = new Message (Command.RequestWifiSettings);
+			message.Payload = new byte[2];
+			connection.Write (message);
+		}
+
+		/// <summary>
+		/// Sends the wifi settings.
+		/// </summary>
+		public override void SendWifiSettings ()
+		{
+			var message = new Message (Command.SendWifiSettings);
+			message.Payload = new byte[68];
+			EncodeWifiSettings (message);
+			Connection.Write (message);
+		}
+
 		/// <summary>
 		/// Performs basic IO. Should be called often.
 		/// </summary>
@@ -126,6 +144,9 @@ namespace WFS210.Services
 				case Command.Settings:
 					DecodeSettingsMessage (message);
 					OnSettingsChanged (null);
+					break;
+				case Command.WifiSettings:
+					DecodeWifiSettingsMessage (message);
 					break;
 				default:
 					break;
@@ -147,11 +168,72 @@ namespace WFS210.Services
 
 			var position = 12;
 			for (int i = 0; i < bufferSize; i++) {
-				Oscilloscope.Channels [0].Samples [i + offSet/2] = payload [position];
+				Oscilloscope.Channels [0].Samples [i + offSet / 2] = payload [position];
 				position++;
-				Oscilloscope.Channels [1].Samples [i + offSet/2] = payload [position];
+				Oscilloscope.Channels [1].Samples [i + offSet / 2] = payload [position];
 				position++;
 			}
+		}
+
+		/// <summary>
+		/// Encodes the wifi settings.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		void EncodeWifiSettings (Message message)
+		{
+			var payload = message.Payload;
+			payload [0] = 0;
+			payload [1] = 0;
+			var channel = BitConverter.GetBytes (Oscilloscope.WifiSetting.Channel);
+			payload [2] = channel [0];
+			payload [3] = channel [1];
+
+			var data = new char[32];
+			var wifiname = Oscilloscope.WifiSetting.SSID.ToCharArray ();
+			wifiname.CopyTo (data, 0);
+			for (int i = 4; i < 36; i++) {
+				payload [i] = (byte)data [i - 4];
+			}
+
+			var password = Oscilloscope.WifiSetting.Password.ToCharArray ();
+			wifiname.CopyTo (data, 0);
+			for (int i = 37; i < 68; i++) {
+				payload [i] = (byte)data [i - 37];
+			}
+		}
+
+		/// <summary>
+		/// Decodes the wifi settings message.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		void DecodeWifiSettingsMessage (Message message)
+		{
+			var payload = message.Payload;
+			var channel = new byte[]{ payload [2], payload [3] };
+			Oscilloscope.WifiSetting.Channel = (int)BitConverter.ToInt16 (channel, 0);
+
+			var SSID = new char[32];
+			int i = 4;
+			do {
+				SSID [i - 4] = (char)payload [i];
+				i++;
+			} while(payload [i] != 0);
+			var SSIDString = new string (SSID);
+			var SSIDtrimmed = SSIDString.Split (new char[1]{ '\0' }, 2) [0];
+			Oscilloscope.WifiSetting.SSID = SSIDtrimmed;
+
+			var Password = new char[32];
+			i = 37;
+			do {
+				Password [i - 37] = (char)payload [i];
+				i++;
+			} while(payload [i] != 0);
+			var PasswordString = new string (Password);
+			var Passwordtrimmed = PasswordString.Split (new char[1]{ '\0' }, 2) [0];
+			Oscilloscope.WifiSetting.Password = Passwordtrimmed;
+
+			//TODO recover Build number and Version
+
 		}
 
 		/// <summary>
@@ -180,8 +262,8 @@ namespace WFS210.Services
 		byte EncodeTriggerSettings ()
 		{
 			byte flags = 0x00;
-			flags |= (byte)((Oscilloscope.AutoRange ? 1:0) << 7);
-			flags |= (byte)((Oscilloscope.Hold? 1:0) << 4);
+			flags |= (byte)((Oscilloscope.AutoRange ? 1 : 0) << 7);
+			flags |= (byte)((Oscilloscope.Hold ? 1 : 0) << 4);
 			flags |= (byte)((Oscilloscope.Trigger.Channel) << 3);
 			flags |= (byte)((int)(Oscilloscope.Trigger.Slope) << 2);
 			flags |= (byte)Oscilloscope.Trigger.Mode;
@@ -199,7 +281,7 @@ namespace WFS210.Services
 
 		byte EncodeModuleStatus ()
 		{
-			byte flags =0x00;
+			byte flags = 0x00;
 			switch (Oscilloscope.BatteryStatus) {
 			case BatteryStatus.BatteryLow:
 				flags |= 0x03;
@@ -213,7 +295,7 @@ namespace WFS210.Services
 			default:
 				break;
 			}
-			flags |= (byte)(Oscilloscope.Calibrating ? 1:0 << 4);
+			flags |= (byte)(Oscilloscope.Calibrating ? 1 : 0 << 4);
 			return flags;
 		}
 

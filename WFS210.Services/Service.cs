@@ -73,7 +73,20 @@ namespace WFS210.Services
 		/// </summary>
 		public abstract void RequestSamples ();
 
+		/// <summary>
+		/// Requests the calibration.
+		/// </summary>
 		public abstract void RequestCalibration ();
+
+		/// <summary>
+		/// Sends the wifi settings.
+		/// </summary>
+		public abstract void SendWifiSettings();
+
+		/// <summary>
+		/// b
+		/// </summary>
+		public abstract void RequestWifiSettings ();
 
 		/// <summary>
 		/// Update this instance. This function should be called regularly.
