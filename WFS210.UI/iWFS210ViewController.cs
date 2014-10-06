@@ -58,6 +58,7 @@ namespace WFS210.UI
 					new UIAlertView ("No Connection", "Demo mode is now running", null, "OK", null).Show ();
 				} else {
 					Service.RequestSettings ();
+					Service.RequestWifiSettings ();
 					Service.RequestSamples ();
 				}
 			}

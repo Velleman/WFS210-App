@@ -31,11 +31,13 @@ namespace WFS210.UI
 		{
 			this.Layout = layout;
 
-			Image = UIImage.FromFile (resourceUrl);
+			Image = UIImage.FromBundle (resourceUrl);
 
 			Layer = new CALayer ();
 			Layer.Contents = Image.CGImage;
-			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width, Image.CGImage.Height);
+			var scale = Image.CurrentScale;
+			Console.WriteLine (scale);
+			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width/scale, Image.CGImage.Height/scale);
 
 			Name = name;
 

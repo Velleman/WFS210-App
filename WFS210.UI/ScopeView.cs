@@ -43,8 +43,8 @@ namespace WFS210.UI
 		CAShapeLayer maskLayer;
 		public VoltTimeIndicator VoltTimeIndicator;
 		CalibrationIndicator CalibrationIndicator;
-		CAShapeLayer scroll;
-
+		CALayer scroll;
+		CAShapeLayer scrollBar;
 		UIPinchGestureRecognizer pinchGesture;
 		UILongPressGestureRecognizer longPressGesture;
 		UIPanGestureRecognizer panGesture;
@@ -58,7 +58,7 @@ namespace WFS210.UI
 		public ScopeView (IntPtr handle) : base (handle)
 		{
 			this.GrappleDistance = 60;
-			Padding = new Padding (18, 0, 18, 0);
+			Padding = new Padding (17, 0, 18, 0);
 			MarkersAreVisible = true;
 			LoadGrid ();
 			LoadXMarkers ();
@@ -219,9 +219,10 @@ namespace WFS210.UI
 		void LoadGrid ()
 		{
 			gridLayer = new CALayer ();
-			gridLayer.Bounds = new RectangleF (0, 0, ScopeBounds.Width, ScopeBounds.Height);
-			gridLayer.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
-			gridLayer.Contents = UIImage.FromFile ("VIEWPORT/VIEWPORT-130x78.png").CGImage;
+			gridLayer.Position = new PointF ((ScopeBounds.Width / 2) + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
+			var image = UIImage.FromBundle ("VIEWPORT/VIEWPORT-130x78");
+			gridLayer.Contents = image.CGImage;
+			gridLayer.Bounds = new RectangleF (0, 0, image.CGImage.Width/image.CurrentScale, image.CGImage.Height/image.CurrentScale);
 			Layer.AddSublayer (gridLayer);
 		}
 
@@ -305,8 +306,8 @@ namespace WFS210.UI
 		public void LoadXMarkers ()
 		{
 			//Makeing XMarkers and adding it to the layers
-			XMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60.png", Convert.ToInt32 (ScopeBounds.Width / 4), "XMARKER1", 9);
-			XMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60.png", Convert.ToInt32 (ScopeBounds.Width / 4) * 3, "XMARKER2", 9);
+			XMarkers [0] = new XMarker ("MARKERS/MARKER 1 SLIDER-__x60", Convert.ToInt32 (ScopeBounds.Width / 4), "XMARKER1", 9);
+			XMarkers [1] = new XMarker ("MARKERS/MARKER 2 SLIDER-__x60", Convert.ToInt32 (ScopeBounds.Width / 4) * 3, "XMARKER2", 9);
 		}
 
 		/// <summary>
@@ -315,8 +316,8 @@ namespace WFS210.UI
 		public void LoadYMarkers ()
 		{
 			//Makeing YMarkers and adding it to the layers
-			YMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__.png", Convert.ToInt32 (ScopeBounds.Height / 4), "YMARKER1", -9);
-			YMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__.png", Convert.ToInt32 (ScopeBounds.Height / 4) * 3, "YMARKER2", -9);
+			YMarkers [0] = new YMarker ("MARKERS/MARKER A SLIDER-112x__", Convert.ToInt32 (ScopeBounds.Height / 4), "YMARKER1", -9);
+			YMarkers [1] = new YMarker ("MARKERS/MARKER B SLIDER-112x__", Convert.ToInt32 (ScopeBounds.Height / 4) * 3, "YMARKER2", -9);
 		}
 
 		/// <summary>
@@ -325,8 +326,8 @@ namespace WFS210.UI
 		public void LoadZeroLines ()
 		{
 			//Makeing ZeroLines and adding it to the layers
-			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__.png", MapSampleDataToScreen (wfs210.Channels [0].YPosition), "ZEROLINE1", -18);
-			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__.png", MapSampleDataToScreen (wfs210.Channels [0].YPosition), "ZEROLINE2", -18);
+			zeroLines [0] = new ZeroLine ("ZEROLINE/ZERO-CHAN1-131x__", MapSampleDataToScreen (wfs210.Channels [0].YPosition), "ZEROLINE1", -17);
+			zeroLines [1] = new ZeroLine ("ZEROLINE/ZERO-CHAN2-131x__", MapSampleDataToScreen (wfs210.Channels [0].YPosition), "ZEROLINE2", -17);
 		}
 
 		/// <summary>
@@ -335,7 +336,7 @@ namespace WFS210.UI
 		public void LoadTriggerMarker ()
 		{
 			//Makeing TriggerMarkers and adding it to the layers
-			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png", MapSampleDataToScreen (wfs210.Trigger.Level), "TRIGGERMARKER", -9);
+			trigMarker = new TriggerMarker ("TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__", MapSampleDataToScreen (wfs210.Trigger.Level), "TRIGGERMARKER", -9);
 		}
 
 		/// <summary>
@@ -371,19 +372,27 @@ namespace WFS210.UI
 		/// </summary>
 		void LoadScrollIndicator ()
 		{
-			scroll = new CAShapeLayer ();
+
+			scroll = new CALayer ();
+			var image = UIImage.FromBundle ("VIEWPORT/SCROLL BAR-130x688");
+			scroll.Bounds = new RectangleF (0, 0, image.CGImage.Width/image.CurrentScale, image.CGImage.Height/image.CurrentScale);
+			scroll.Position = new PointF (ScopeBounds.Width /2 + ScopeBounds.Left, ScopeBounds.Height + ScopeBounds.Top);
+			scroll.Contents = image.CGImage;
+			Layer.AddSublayer (scroll);
+
+			scrollBar = new CAShapeLayer ();
 			var path = new CGPath ();
 			var data = new PointF[2];
-			data [0].X = 0 + ScopeBounds.Left;
+			data [0].X = 0 + ScopeBounds.Left + 2;
 			data [1].X = 100;
-			data [0].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
-			data [1].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
+			data [0].Y = ScopeBounds.Height + ScopeBounds.Top;
+			data [1].Y = ScopeBounds.Height + ScopeBounds.Top;
 			path.AddLines (data);
-			scroll.LineWidth = 1f;
-			scroll.StrokeColor = new CGColor (62, 64, 64);
-			scroll.FillColor = new CGColor (0, 0, 0, 0);
-			scroll.Path = path;
-			Layer.AddSublayer (scroll);
+			scrollBar.LineWidth = 2f;
+			scrollBar.StrokeColor = new CGColor (72f/255f, 72f/255f, 72f/255f);
+			scrollBar.FillColor = new CGColor (0, 0, 0, 0);
+			scrollBar.Path = path;
+			Layer.AddSublayer (scrollBar);
 		}
 
 		/// <summary>
@@ -394,14 +403,14 @@ namespace WFS210.UI
 			if (wfs210.Hold) {
 				var path = new CGPath ();
 				var data = new PointF[2];
-				float ratio = (float)(ScrollPosition / (4096f - TotalSamples / 2));
+				float ratio = (float)(ScrollPosition / (4096f - (TotalSamples / 2)));
 				float scrollRatio = (float)(TotalSamples * ratio);
-				data [0].X = (MapXPosToScreen ((int)scrollRatio)) + ScopeBounds.Left;
-				data [1].X = data [0].X + 100;
-				data [0].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
-				data [1].Y = ScopeBounds.Height + ScopeBounds.Top - 3;
+				data [0].X = (MapXPosToScreen ((int)scrollRatio)) + ScopeBounds.Left + 2;
+				data [1].X = data [0].X + 87;
+				data [0].Y = ScopeBounds.Height + ScopeBounds.Top;
+				data [1].Y = ScopeBounds.Height + ScopeBounds.Top;
 				path.AddLines (data);
-				scroll.Path = path;
+				scrollBar.Path = path;
 			}
 		}
 
