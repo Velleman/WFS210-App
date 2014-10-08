@@ -79,7 +79,7 @@ namespace WFS210
 		/// <returns>The number of volts per unit.</returns>
 		public double VoltsPerUnit() {
 
-			double voltsPerUnit = (VoltsPerDivisionConverter.ToVolts(VoltsPerDivision) / DeviceContext.UnitsPerDivision);
+			double voltsPerUnit = (VoltsPerDivisionConverter.ToVolts(VoltsPerDivision,AttenuationFactor) / DeviceContext.UnitsPerDivision);
 
 			if (AttenuationFactor == AttenuationFactor.X10) {
 				voltsPerUnit *= 10;

@@ -465,7 +465,7 @@ namespace WFS210.UI
 								startDistance = distance;
 								Service.Execute (new PreviousVoltsPerDivisionCommand (SelectedChannel));
 							}
-							VoltTimeIndicator.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [SelectedChannel].VoltsPerDivision);
+							VoltTimeIndicator.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [SelectedChannel].VoltsPerDivision, wfs210.Channels[SelectedChannel].AttenuationFactor);
 						}
 					}
 				} else if (pg.State == UIGestureRecognizerState.Ended) {

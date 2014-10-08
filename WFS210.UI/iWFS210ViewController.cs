@@ -135,7 +135,7 @@ namespace WFS210.UI
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
 			ScopeView.SelectedChannel = 0;
-			UpdateScopeControls ();
+			UpdateScopeControls();
 		}
 
 		partial void btnAC1_TouchUpInside (UIButton sender)
@@ -170,12 +170,16 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
 		{
+			InvokeOnMainThread (() => {
 			ShowMarkerUnitPopover (sender, 0);
+			});
 		}
 
 		partial void btnSignalMeasurements_TouchUpInside (UIButton sender)
 		{
+			InvokeOnMainThread (() => {
 			ShowSignalUnitPopover (sender, 0);
+			});
 		}
 
 		#endregion
@@ -281,6 +285,7 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements2_TouchUpInside (UIButton sender)
 		{
+
 			ShowMarkerUnitPopover (sender, 1);
 		}
 
@@ -294,7 +299,6 @@ namespace WFS210.UI
 			var content = new PopoverContentViewController<SignalUnit> ();
 			content.ValueChanged += (object s, EnumEventArgs<SignalUnit> e) => {
 				DisplaySettings.SignalUnits [channel] = e.Value;
-				UpdateMeasurements ();
 			};
 
 			DetailViewPopover = new UIPopoverController (content);
@@ -308,7 +312,6 @@ namespace WFS210.UI
 			var content = new PopoverContentViewController<MarkerUnit> ();
 			content.ValueChanged += (object s, EnumEventArgs<MarkerUnit> e) => {
 				DisplaySettings.MarkerUnits [channel] = e.Value;
-				UpdateMeasurements ();
 			};
 
 			DetailViewPopover = new UIPopoverController (content);
@@ -482,7 +485,7 @@ namespace WFS210.UI
 
 		void UpdateVoltText1 ()
 		{
-			lblVolt1.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision);
+			lblVolt1.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision,Oscilloscope.Channels[0].AttenuationFactor);
 		}
 
 		void UpdateInputCoupling2 ()
@@ -524,7 +527,7 @@ namespace WFS210.UI
 
 		void UpdateVoltText2 ()
 		{
-			lblVolt2.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision);
+			lblVolt2.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision,Oscilloscope.Channels[1].AttenuationFactor);
 		}
 
 		void UpdateTriggerChannelUI ()
@@ -601,9 +604,9 @@ namespace WFS210.UI
 			case MarkerUnit.Frequency:
 				return FrequencyConverter.ToString (MarkerDataCalculator.CalculateFrequency (Oscilloscope.TimeBase, ScopeView.XMarkers [0], ScopeView.XMarkers [1], ScopeView.Frame));
 			case MarkerUnit.dV1:
-				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision, ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
+				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision,Oscilloscope.Channels[0].AttenuationFactor,ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
 			case MarkerUnit.dV2:
-				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision, ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
+				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision,Oscilloscope.Channels[0].AttenuationFactor , ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
 			default:
 				return "?";
 			}

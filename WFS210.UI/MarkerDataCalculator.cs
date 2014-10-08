@@ -46,13 +46,13 @@ namespace WFS210.UI
 		/// <param name="marker1">Marker1.</param>
 		/// <param name="marker2">Marker2.</param>
 		/// <param name="frame">Frame.</param>
-		public static double CalculateDV(VoltsPerDivision vpd,Marker marker1, Marker marker2,RectangleF frame)
+		public static double CalculateDV(VoltsPerDivision vpd,AttenuationFactor attenuationFactor,Marker marker1, Marker marker2,RectangleF frame)
 		{
 
 			var pixelsPerDiv = frame.Height / 10 ;
 			var distance = Math.Abs (marker1.Value - marker2.Value);
 			var divs = distance / pixelsPerDiv;
-			var result = divs * VoltsPerDivisionConverter.ToVolts(vpd);
+			var result = divs * VoltsPerDivisionConverter.ToVolts(vpd,attenuationFactor);
 			return result;
 		}
 	}

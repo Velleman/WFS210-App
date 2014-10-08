@@ -84,7 +84,7 @@ namespace WFS210.Services
 						break;
 					}
 
-					double samplesPerVolt = 25 / VoltsPerDivisionConverter.ToVolts (channel.VoltsPerDivision);
+					double samplesPerVolt = 25 / VoltsPerDivisionConverter.ToVolts (channel.VoltsPerDivision,channel.AttenuationFactor);
 
 					double a = Amplitude * samplesPerVolt;
 					double o = input * Offset * samplesPerVolt;
