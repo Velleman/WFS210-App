@@ -99,10 +99,6 @@
     <Reference Include="monotouch" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Resources\BUTTONS\SCREENSHOT\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
   </ItemGroup>
@@ -250,13 +246,10 @@
     <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-DC-OFF-196x6%402x.png" />
     <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-DC-ON-196x6%402x.png" />
     <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-GND-OFF-263x6%402x.png" />
-    <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-GND-ON-263x6%402x.png" />
     <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-LEFT-OFF-467x6%402x.png" />
-    <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-LEFT-ON-467x6%402x.png" />
     <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-OFF-6x6%402x.png" />
     <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-ON-6x6%402x.png" />
     <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-RIGHT-OFF-628x6%402x.png" />
-    <BundleResource Include="Resources\BUTTONS\CHANNEL 1\CHAN1-RIGHT-ON-628x6%402x.png" />
     <BundleResource Include="Resources\BUTTONS\SCREENSHOT\SCREENSHOT-6x614%402x.png" />
     <BundleResource Include="Resources\BUTTONS\SETTINGS\SETTINGS-964x710%402x.png" />
     <BundleResource Include="Resources\BUTTONS\TIME\TIME-LEFT-OFF-6X468%402x.png" />
