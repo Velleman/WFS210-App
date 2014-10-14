@@ -12,6 +12,9 @@ namespace WFS210.Services
 
 		public override void Execute(Service service)
 		{
+			if (service.Oscilloscope.AutoRange)
+				service.Oscilloscope.AutoRange = !service.Oscilloscope.AutoRange;
+
 			Channel channel = service.Oscilloscope.Channels [Channel];
 
 			channel.VoltsPerDivision = channel.VoltsPerDivision.Cycle (1);

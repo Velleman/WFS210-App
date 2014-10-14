@@ -28,6 +28,18 @@ namespace WFS210.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblApp { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblAppVersion { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblChannel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblDemo { get; set; }
 
 		[Outlet]
@@ -37,6 +49,26 @@ namespace WFS210.UI
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblName { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblScope { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblScopeVersion { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblWifi { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblWifiChannel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblWifiVersion { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -64,6 +96,18 @@ namespace WFS210.UI
 				btnDismiss.Dispose ();
 				btnDismiss = null;
 			}
+			if (lblApp != null) {
+				lblApp.Dispose ();
+				lblApp = null;
+			}
+			if (lblAppVersion != null) {
+				lblAppVersion.Dispose ();
+				lblAppVersion = null;
+			}
+			if (lblChannel != null) {
+				lblChannel.Dispose ();
+				lblChannel = null;
+			}
 			if (lblDemo != null) {
 				lblDemo.Dispose ();
 				lblDemo = null;
@@ -75,6 +119,26 @@ namespace WFS210.UI
 			if (lblName != null) {
 				lblName.Dispose ();
 				lblName = null;
+			}
+			if (lblScope != null) {
+				lblScope.Dispose ();
+				lblScope = null;
+			}
+			if (lblScopeVersion != null) {
+				lblScopeVersion.Dispose ();
+				lblScopeVersion = null;
+			}
+			if (lblWifi != null) {
+				lblWifi.Dispose ();
+				lblWifi = null;
+			}
+			if (lblWifiChannel != null) {
+				lblWifiChannel.Dispose ();
+				lblWifiChannel = null;
+			}
+			if (lblWifiVersion != null) {
+				lblWifiVersion.Dispose ();
+				lblWifiVersion = null;
 			}
 			if (swDemo != null) {
 				swDemo.Dispose ();

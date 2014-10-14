@@ -34,6 +34,11 @@ namespace WFS210.Services
 		public event EventHandler SettingsChanged;
 
 		/// <summary>
+		/// Occurs when settings have changed.
+		/// </summary>
+		public event EventHandler<EventArgs> FullFrame;
+
+		/// <summary>
 		/// Gets the service object for the specified service type.
 		/// </summary>
 		/// <returns>The service.</returns>
@@ -61,12 +66,19 @@ namespace WFS210.Services
 		{
 			this.Services.Add (type, service);
 			GetService (type).SettingsChanged += HandleSettingsChanged;
+			GetService (type).FullFrame += HandleFullFrame;
 		}
 
 		void HandleSettingsChanged (object sender, System.EventArgs e)
 		{
 			if (SettingsChanged != null)
 				SettingsChanged (this, null);
+		}
+
+		void HandleFullFrame (object sender, System.EventArgs e)
+		{
+			if (FullFrame != null)
+				FullFrame (this, null);
 		}
 	}
 }

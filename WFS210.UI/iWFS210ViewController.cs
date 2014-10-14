@@ -74,12 +74,14 @@ namespace WFS210.UI
 		{
 			InvokeOnMainThread (() => {
 				UpdateScopeControls ();
-				ScopeView.UpdateScopeView ();
+				ScopeView.Update ();
 			});
-
+			Oscilloscope.Channels [0].Samples.Clear ();
+			Oscilloscope.Channels [1].Samples.Clear ();
 		}
 
 		#region View lifecycle
+
 		/// <summary>
 		/// Views did load.
 		/// </summary>
@@ -88,16 +90,13 @@ namespace WFS210.UI
 			base.ViewDidLoad ();
 			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0"));
 			ServiceManager.SettingsChanged += SettingsChanged;
+			ServiceManager.FullFrame += HandleFullFrame;
 			ScopeView.ServiceManager = ServiceManager;
 			ScopeView.Initialize ();
 			var timer = new System.Timers.Timer (500);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				Service.Update ();
-				InvokeOnMainThread (()=>{
-					ScopeView.UpdateScopeView();
-					UpdateMeasurements ();
-				});
-
+				InvokeOnMainThread (() => ScopeView.Update ());
 			};
 			timer.Enabled = true;
 			timer.Start ();
@@ -107,6 +106,14 @@ namespace WFS210.UI
 			ScopeView.NewData += (object sender, NewDataEventArgs e) => UpdateScopeControls ();
 
 		}
+
+		void HandleFullFrame (object sender, EventArgs e)
+		{
+			InvokeOnMainThread (() => {
+				UpdateMeasurements ();
+			});
+		}
+
 		/// <summary>
 		/// Views did appear.
 		/// </summary>
@@ -132,10 +139,11 @@ namespace WFS210.UI
 		#endregion
 
 		#region Events Channel1
+
 		partial void btnSelectChannel1_TouchUpInside (UIButton sender)
 		{
 			ScopeView.SelectedChannel = 0;
-			UpdateScopeControls();
+			UpdateScopeControls ();
 		}
 
 		partial void btnAC1_TouchUpInside (UIButton sender)
@@ -171,14 +179,14 @@ namespace WFS210.UI
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
 		{
 			InvokeOnMainThread (() => {
-			ShowMarkerUnitPopover (sender, 0);
+				ShowMarkerUnitPopover (sender, 0);
 			});
 		}
 
 		partial void btnSignalMeasurements_TouchUpInside (UIButton sender)
 		{
 			InvokeOnMainThread (() => {
-			ShowSignalUnitPopover (sender, 0);
+				ShowSignalUnitPopover (sender, 0);
 			});
 		}
 
@@ -346,13 +354,10 @@ namespace WFS210.UI
 				var orientation = UIApplication.SharedApplication.StatusBarOrientation;
 				var img = UIScreen.MainScreen.Capture ();
 				UIImage screenshot = null;
-				if(orientation == UIInterfaceOrientation.LandscapeLeft)
-				{
-					screenshot = UIImage.FromImage(img.CGImage,1f, UIImageOrientation.Right);
-				}
-				else if(orientation == UIInterfaceOrientation.LandscapeRight)
-				{
-					screenshot = UIImage.FromImage(img.CGImage,1f, UIImageOrientation.Left);
+				if (orientation == UIInterfaceOrientation.LandscapeLeft) {
+					screenshot = UIImage.FromImage (img.CGImage, 1f, UIImageOrientation.Right);
+				} else if (orientation == UIInterfaceOrientation.LandscapeRight) {
+					screenshot = UIImage.FromImage (img.CGImage, 1f, UIImageOrientation.Left);
 				}
 				
 				screenshot.SaveToPhotosAlbum ((iRef, status) => {
@@ -485,7 +490,7 @@ namespace WFS210.UI
 
 		void UpdateVoltText1 ()
 		{
-			lblVolt1.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision,Oscilloscope.Channels[0].AttenuationFactor);
+			lblVolt1.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision, Oscilloscope.Channels [0].AttenuationFactor);
 		}
 
 		void UpdateInputCoupling2 ()
@@ -527,7 +532,7 @@ namespace WFS210.UI
 
 		void UpdateVoltText2 ()
 		{
-			lblVolt2.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision,Oscilloscope.Channels[1].AttenuationFactor);
+			lblVolt2.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision, Oscilloscope.Channels [1].AttenuationFactor);
 		}
 
 		void UpdateTriggerChannelUI ()
@@ -600,13 +605,13 @@ namespace WFS210.UI
 		{
 			switch (unit) {
 			case MarkerUnit.dt:
-				return TimeConverter.ToString (MarkerDataCalculator.CalculateTime (Oscilloscope.TimeBase, ScopeView.XMarkers [0], ScopeView.XMarkers [1], ScopeView.Frame),2);
+				return TimeConverter.ToString (MarkerDataCalculator.CalculateTime (Oscilloscope.TimeBase, ScopeView.XMarkers [0], ScopeView.XMarkers [1], ScopeView.Frame), 2);
 			case MarkerUnit.Frequency:
 				return FrequencyConverter.ToString (MarkerDataCalculator.CalculateFrequency (Oscilloscope.TimeBase, ScopeView.XMarkers [0], ScopeView.XMarkers [1], ScopeView.Frame));
 			case MarkerUnit.dV1:
-				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision,Oscilloscope.Channels[0].AttenuationFactor,ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
+				return Oscilloscope.Channels [0].VoltsPerDivision == VoltsPerDivision.VdivNone ? "--" : VoltageConverter.ToString (MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [0].VoltsPerDivision, Oscilloscope.Channels [0].AttenuationFactor, ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
 			case MarkerUnit.dV2:
-				return VoltageConverter.ToString(MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision,Oscilloscope.Channels[0].AttenuationFactor , ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
+				return Oscilloscope.Channels [1].VoltsPerDivision == VoltsPerDivision.VdivNone ? "--" : VoltageConverter.ToString (MarkerDataCalculator.CalculateDV (Oscilloscope.Channels [1].VoltsPerDivision, Oscilloscope.Channels [0].AttenuationFactor, ScopeView.YMarkers [0], ScopeView.YMarkers [1], ScopeView.Frame));
 			default:
 				return "?";
 			}
@@ -614,37 +619,43 @@ namespace WFS210.UI
 
 		public string GetMeasurementString (SignalUnit unit, int channel)
 		{
-			switch (unit) {
-			case SignalUnit.DbGain:
-				return DecibelConverter.ToString (Oscilloscope.DBGain ());
-			case SignalUnit.Dbm1:
-				return DecibelConverter.ToString (Oscilloscope.Channels [channel].DBm ());
-			case SignalUnit.Dbm2:
-				return DecibelConverter.ToString (Oscilloscope.Channels [channel].DBm ());
-			case SignalUnit.RMS:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vrms ());
-			case SignalUnit.TRMS:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].VTrms ());
-			case SignalUnit.Vdc:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vdc ());
-			case SignalUnit.VMax:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vmax ());
-			case SignalUnit.VMin:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vmin ());
-			case SignalUnit.Vptp:
-				return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vptp ());
-			case SignalUnit.WRMS16:
-				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms16 ());
-			case SignalUnit.WRMS2:
-				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms2 ());
-			case SignalUnit.WRMS32:
-				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms32 ());
-			case SignalUnit.WRMS4:
-				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms4 ());
-			case SignalUnit.WRMS8:
-				return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms8 ());
-			default:
-				return "?";
+			if (Oscilloscope.Channels [channel].VoltsPerDivision != VoltsPerDivision.VdivNone) {
+				if (Oscilloscope.Channels [channel].Samples.Overflow) {
+					return "Overflow";
+				} else {
+					switch (unit) {
+					case SignalUnit.dBGain:
+						return DecibelConverter.ToString (Oscilloscope.DBGain ());
+					case SignalUnit.dBm:
+						return DecibelConverter.ToString (Oscilloscope.Channels [channel].DBm ());
+					case SignalUnit.RMS:
+						return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vrms ());
+					case SignalUnit.TRMS:
+						return VoltageConverter.ToString (Oscilloscope.Channels [channel].VTrms ());
+					case SignalUnit.Vdc:
+						return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vdc ());
+					case SignalUnit.VMax:
+						return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vmax ());
+					case SignalUnit.VMin:
+						return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vmin ());
+					case SignalUnit.Vptp:
+						return VoltageConverter.ToString (Oscilloscope.Channels [channel].Vptp ());
+					case SignalUnit.WRMS16:
+						return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms16 ());
+					case SignalUnit.WRMS2:
+						return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms2 ());
+					case SignalUnit.WRMS32:
+						return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms32 ());
+					case SignalUnit.WRMS4:
+						return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms4 ());
+					case SignalUnit.WRMS8:
+						return WattConverter.ToString (Oscilloscope.Channels [channel].Wrms8 ());
+					default:
+						return "?";
+					}
+				}
+			} else {
+				return "--";
 			}
 		}
 	}

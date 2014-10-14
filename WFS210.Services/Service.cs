@@ -41,6 +41,23 @@ namespace WFS210.Services
 		}
 
 		/// <summary>
+		/// Occurs when settings have changed.
+		/// </summary>
+		public event EventHandler<EventArgs> FullFrame;
+
+		/// <summary>
+		/// Raises the settings changed event.
+		/// </summary>
+		/// <param name="e">Event arguments.</param>
+		protected virtual void OnNewFullFrame(EventArgs e)
+		{
+			if (FullFrame != null) {
+				FullFrame (this, e);
+			}
+		}
+
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.Services.Service"/> class.
 		/// </summary>
 		/// <param name="oscilloscope">Oscilloscope.</param>

@@ -33,7 +33,7 @@ namespace WFS210
 		public string Password { get; set; }
 
 		/// <summary>
-		/// ?
+		/// Gets or sets the Firmware version of the wifi module
 		/// </summary>
 		/// <value>The version.</value>
 		public string Version { get; set; }

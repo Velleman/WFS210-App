@@ -53,7 +53,7 @@ namespace WFS210.UI
 						WifiSetting.SSID = txtWifiName.Text;
 						ServiceManager.ActiveService.SendWifiSettings ();
 						new UIAlertView ("New SSID", "Please close this app, then connect to the correct wifi network and then open this app again", null, "OK",null).Show();
-						this.DismissViewController(true,null);
+						RequestDismiss();
 					}
 					else
 					{
@@ -63,7 +63,7 @@ namespace WFS210.UI
 				}
 				else
 				{
-					this.DismissViewController(true,null);
+					RequestDismiss();
 				}
 			};
 
@@ -79,12 +79,26 @@ namespace WFS210.UI
 
 			btnCalibrate.TouchUpInside += (object sender, EventArgs e) => {
 				ServiceManager.ActiveService.RequestCalibration();
-				this.DismissViewController(true,null);
+				RequestDismiss();
 			};
+
+			lblAppVersion.Text = NSBundle.MainBundle.ObjectForInfoDictionary ("CFBundleShortVersionString").ToString ();
+
+			lblWifiVersion.Text = WifiSetting.Version;
+
+			lblWifiChannel.Text = WifiSetting.Channel.ToString ();
+
+			lblScopeVersion.Text = ServiceManager.ActiveService.Oscilloscope.FirmwareVersion;
 
 			dismissRecognizer = new UITapGestureRecognizer (OnTapOutside);
 			dismissRecognizer.NumberOfTapsRequired = 1u;
 			dismissRecognizer.Delegate = new DismissGestureRecognizerDelegate (this);
+		}
+
+		private void RequestDismiss()
+		{
+			if (RequestedDismiss != null)
+				RequestedDismiss (this, EventArgs.Empty);
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -121,7 +135,7 @@ namespace WFS210.UI
 				}
 				var convertedPoint = View.ConvertPointFromView (location, View.Window);
 				if (!View.PointInside (convertedPoint, null)) {
-					this.DismissViewController (true, null);
+					RequestDismiss();
 				}
 			}
 		}

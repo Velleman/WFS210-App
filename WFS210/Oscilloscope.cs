@@ -10,6 +10,12 @@ namespace WFS210
 	public class Oscilloscope
 	{
 		/// <summary>
+		/// Gets or sets the firmware version.
+		/// </summary>
+		/// <value>The firmware version.</value>
+		public string FirmwareVersion{ get; set;}
+
+		/// <summary>
 		/// The oscilloscope's channels. This list should only be modified internally.
 		/// </summary>
 		private List<Channel> channels = new List<Channel> ();
@@ -73,12 +79,6 @@ namespace WFS210
 			Channel channel = new Channel (4096, DeviceContext);
 			channels.Add (channel);
 		}
-
-		/// <summary>
-		/// Gets the firmware version.
-		/// </summary>
-		/// <value>The firmware version.</value>
-		public int FirmwareVersion{ get; private set; }
 
 		public WifiSettings WifiSetting {
 			get;

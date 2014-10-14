@@ -13,6 +13,20 @@ namespace WFS210
 		/// </summary>
 		private readonly byte[] samples;
 
+		private DeviceContext context;
+
+		/// <summary>
+		/// Gets or sets a value indicating whether there is a overflow in the samples.
+		/// </summary>
+		/// <value><c>true</c> if there is a overflow; otherwise, <c>false</c>.</value>
+		public bool Overflow { get; set; }
+
+		/// <summary>
+		/// Gets the latest point in the buffer
+		/// </summary>
+		/// <value>The latest point that is added to the buffer</value>
+		public int LatestPoint { get; private set;}
+
 		/// <summary>
 		/// Gets the total number of samples.
 		/// </summary>
@@ -27,9 +41,10 @@ namespace WFS210
 		/// that can hold the requested number of samples.
 		/// </summary>
 		/// <param name="size">.</param>
-		public SampleBuffer(int size) {
+		public SampleBuffer(int size,DeviceContext context) {
 
 			samples = new byte[size];
+			this.context = context;
 		}
 
 		/// <summary>
@@ -45,9 +60,17 @@ namespace WFS210
 			set
 			{
 				samples [sample] = value;
+				if (value > context.SampleMax || value < context.SampleMin) {
+					if (!Overflow)
+						Overflow = true;
+				}
+				if (sample > LatestPoint) {
+					if (sample != 4095)
+					LatestPoint = sample;
+				}
 			}
 		}
-
+			
 		/// <summary>
 		/// Gets the enumerator.
 		/// </summary>
@@ -55,6 +78,18 @@ namespace WFS210
 		public IEnumerator GetEnumerator ()
 		{
 			return samples.GetEnumerator ();
+		}
+
+		/// <summary>
+		/// Clears the data.
+		/// </summary>
+		public void Clear ()
+		{
+			for(int i = 0; i< samples.Length; i ++)
+			{
+				samples[i] = 0;
+			}
+			LatestPoint = 0;
 		}
 	}
 }

@@ -63,6 +63,7 @@ namespace WFS210.Services
 			Random random = new Random ();
 			double randomPhase = random.Next (0, 628) / 100;
 			if (!oscilloscope.Hold) {
+				channel.Samples.Overflow = false;
 				for (int i = 0; i < channel.Samples.Count; i++) {
 
 					double gnd = 1, input = 0;

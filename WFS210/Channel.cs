@@ -65,7 +65,7 @@ namespace WFS210
 		public Channel (int sampleBufferSize, DeviceContext context)
 		{
 			DeviceContext = context;
-			Samples = new SampleBuffer(sampleBufferSize);
+			Samples = new SampleBuffer(sampleBufferSize,context);
 			VoltsPerDivision = VoltsPerDivision.Vdiv1V;
 			InputCoupling = InputCoupling.AC;
 			AttenuationFactor = AttenuationFactor.X1;
@@ -78,14 +78,7 @@ namespace WFS210
 		/// </summary>
 		/// <returns>The number of volts per unit.</returns>
 		public double VoltsPerUnit() {
-
-			double voltsPerUnit = (VoltsPerDivisionConverter.ToVolts(VoltsPerDivision,AttenuationFactor) / DeviceContext.UnitsPerDivision);
-
-			if (AttenuationFactor == AttenuationFactor.X10) {
-				voltsPerUnit *= 10;
-			}
-
-			return voltsPerUnit;
+			return (VoltsPerDivisionConverter.ToVolts(VoltsPerDivision,AttenuationFactor) / DeviceContext.UnitsPerDivision);
 		}
 
 		/// <summary>
@@ -106,7 +99,7 @@ namespace WFS210
 
 			foreach(byte sample in Samples) {
 
-				value += Voltage (sample);
+				value += Voltage (255 - sample);
 			}
 
 			return (value / Samples.Count);

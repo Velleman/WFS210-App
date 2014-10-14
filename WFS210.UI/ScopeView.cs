@@ -49,11 +49,16 @@ namespace WFS210.UI
 		UILongPressGestureRecognizer longPressGesture;
 		UIPanGestureRecognizer panGesture;
 		ServiceManager _ServiceManager;
-		public ServiceManager ServiceManager{ get{ return this._ServiceManager;} set{ this._ServiceManager = value;
+
+		public ServiceManager ServiceManager {
+			get{ return this._ServiceManager; }
+			set {
+				this._ServiceManager = value;
 				wfs210 = _ServiceManager.ActiveService.Oscilloscope;
 				SampleToPointRatio = (float)ScopeBounds.Height / (wfs210.DeviceContext.UnitsPerDivision * wfs210.DeviceContext.Divisions);
 				TotalSamples = wfs210.DeviceContext.SamplesPerTimeBase * 15;
-			}}
+			}
+		}
 
 		public event EventHandler<NewDataEventArgs> NewData;
 
@@ -128,34 +133,36 @@ namespace WFS210.UI
 			}
 		}
 
+		int Latestpoint =0;
+
 		/// <summary>
 		/// Updates the scope view.
 		/// </summary>
-		public void UpdateScopeView ()
+		public void Update ()
 		{
 			for (int i = 0; i < wfs210.Channels.Count; i++) {
+				path [i] = new CGPath ();
+
+				SampleBuffer buffer = wfs210.Channels [i].Samples;
+
+				if (buffer.LatestPoint > TotalSamples)
+					Latestpoint = TotalSamples;
+				else
+					Latestpoint = buffer.LatestPoint;
+
+				scopePoints = new PointF[Latestpoint];
+				var offset = ScrollPosition;
 				if (wfs210.Channels [i].VoltsPerDivision != VoltsPerDivision.VdivNone) {
-					path [i] = new CGPath ();
-
-					SampleBuffer buffer = wfs210.Channels [i].Samples;
-					scopePoints = new PointF[TotalSamples];
-					var offset = 0;
-					offset = wfs210.Hold ? ScrollPosition : 0;
-
-					for (int j = offset; j < offset + TotalSamples; j++) {
+					for (int j = offset; j < offset + scopePoints.Length; j++) {
 						scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left, MapSampleDataToScreen (buffer [j]));
 					}
-					path [i].AddLines (scopePoints);
-					signals [i].Path = path [i];
 				} else {
-					path [i] = new CGPath ();
-					scopePoints = new PointF[TotalSamples];
-					for (int j = 0; j < scopePoints.Length; j++) {	
-						scopePoints [j] = new PointF (MapXPosToScreen (j) + ScopeBounds.Left, 0);
+					for (int j = offset; j < offset + scopePoints.Length; j++) {
+						scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left,0);
 					}
-					path [i].AddLines (scopePoints);
-					signals [i].Path = path [i];
 				}
+				path [i].AddLines (scopePoints);
+				signals [i].Path = path [i];
 			}
 			if (MarkersAreVisible) {
 				foreach (Marker m in Markers) {
@@ -221,7 +228,7 @@ namespace WFS210.UI
 			gridLayer.Position = new PointF ((ScopeBounds.Width / 2) + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
 			var image = UIImage.FromBundle ("VIEWPORT/VIEWPORT-130x78");
 			gridLayer.Contents = image.CGImage;
-			gridLayer.Bounds = new RectangleF (0, 0, image.CGImage.Width/image.CurrentScale, image.CGImage.Height/image.CurrentScale);
+			gridLayer.Bounds = new RectangleF (0, 0, image.CGImage.Width / image.CurrentScale, image.CGImage.Height / image.CurrentScale);
 			Layer.AddSublayer (gridLayer);
 		}
 
@@ -374,8 +381,8 @@ namespace WFS210.UI
 
 			scroll = new CALayer ();
 			var image = UIImage.FromBundle ("VIEWPORT/SCROLL BAR-130x688");
-			scroll.Bounds = new RectangleF (0, 0, image.CGImage.Width/image.CurrentScale, image.CGImage.Height/image.CurrentScale);
-			scroll.Position = new PointF (ScopeBounds.Width /2 + ScopeBounds.Left, ScopeBounds.Height + ScopeBounds.Top);
+			scroll.Bounds = new RectangleF (0, 0, image.CGImage.Width / image.CurrentScale, image.CGImage.Height / image.CurrentScale);
+			scroll.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height + ScopeBounds.Top);
 			scroll.Contents = image.CGImage;
 			Layer.AddSublayer (scroll);
 
@@ -388,7 +395,7 @@ namespace WFS210.UI
 			data [1].Y = ScopeBounds.Height + ScopeBounds.Top;
 			path.AddLines (data);
 			scrollBar.LineWidth = 2f;
-			scrollBar.StrokeColor = new CGColor (72f/255f, 72f/255f, 72f/255f);
+			scrollBar.StrokeColor = new CGColor (72f / 255f, 72f / 255f, 72f / 255f);
 			scrollBar.FillColor = new CGColor (0, 0, 0, 0);
 			scrollBar.Path = path;
 			Layer.AddSublayer (scrollBar);
@@ -399,18 +406,16 @@ namespace WFS210.UI
 		/// </summary>
 		void UpdateScrollIndicator ()
 		{
-			if (wfs210.Hold) {
-				var path = new CGPath ();
-				var data = new PointF[2];
-				float ratio = (float)(ScrollPosition / (4096f - (TotalSamples / 2)));
-				float scrollRatio = (float)(TotalSamples * ratio);
-				data [0].X = (MapXPosToScreen ((int)scrollRatio)) + ScopeBounds.Left + 2;
-				data [1].X = data [0].X + 87;
-				data [0].Y = ScopeBounds.Height + ScopeBounds.Top;
-				data [1].Y = ScopeBounds.Height + ScopeBounds.Top;
-				path.AddLines (data);
-				scrollBar.Path = path;
-			}
+			var path = new CGPath ();
+			var data = new PointF[2];
+			float ratio = (float)(ScrollPosition / (4096f - (TotalSamples / 2)));
+			float scrollRatio = (float)(TotalSamples * ratio);
+			data [0].X = (MapXPosToScreen ((int)scrollRatio)) + ScopeBounds.Left + 2;
+			data [1].X = data [0].X + 87;
+			data [0].Y = ScopeBounds.Height + ScopeBounds.Top;
+			data [1].Y = ScopeBounds.Height + ScopeBounds.Top;
+			path.AddLines (data);
+			scrollBar.Path = path;
 		}
 
 		/// <summary>
@@ -465,14 +470,14 @@ namespace WFS210.UI
 								startDistance = distance;
 								Service.Execute (new PreviousVoltsPerDivisionCommand (SelectedChannel));
 							}
-							VoltTimeIndicator.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [SelectedChannel].VoltsPerDivision, wfs210.Channels[SelectedChannel].AttenuationFactor);
+							VoltTimeIndicator.Text = VoltsPerDivisionConverter.ToString (wfs210.Channels [SelectedChannel].VoltsPerDivision, wfs210.Channels [SelectedChannel].AttenuationFactor);
 						}
 					}
 				} else if (pg.State == UIGestureRecognizerState.Ended) {
 					VoltTimeIndicator.Hidden = true;
 					ApplyMarkerValuesToScope ();
 					OnNewData (null);
-					UpdateScopeView ();
+					Update ();
 				}
 			});
 			this.AddGestureRecognizer (pinchGesture);
@@ -509,11 +514,11 @@ namespace WFS210.UI
 					copy -= (int)delta;
 					copy = (int)Math.Min (Math.Max (copy, 0), 4096 - TotalSamples);
 					previousX = touch.X;
-					if (wfs210.Hold) {
-						ScrollPosition = copy;
-						UpdateScrollIndicator ();
-						UpdateScopeView ();
-					}
+
+					ScrollPosition = copy;
+					UpdateScrollIndicator ();
+					Update ();
+
 
 
 				} else if (pg.State == UIGestureRecognizerState.Ended) {

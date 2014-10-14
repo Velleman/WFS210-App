@@ -15,9 +15,8 @@ namespace WFS210.UI
 		WRMS8,
 		WRMS16,
 		WRMS32,
-		Dbm1,
-		Dbm2,
-		DbGain
+		dBm,
+		dBGain
 	}
 }
 

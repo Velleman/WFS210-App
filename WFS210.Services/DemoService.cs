@@ -63,6 +63,13 @@ namespace WFS210.Services
 		/// </summary>
 		public override void ApplySettings ()
 		{
+			if (Oscilloscope.AutoRange) {
+				Oscilloscope.Channels [0].InputCoupling = InputCoupling.AC;
+				Oscilloscope.Channels [1].InputCoupling = InputCoupling.AC;
+				Oscilloscope.Channels [0].VoltsPerDivision = VoltsPerDivision.Vdiv1V;
+				Oscilloscope.Channels [1].VoltsPerDivision = VoltsPerDivision.Vdiv1V;
+				Oscilloscope.TimeBase = TimeBase.Tdiv1ms;
+			}
 			RequestSettings ();
 		}
 
@@ -93,6 +100,7 @@ namespace WFS210.Services
 			foreach (Channel channel in Oscilloscope.Channels) {
 
 				SignalGenerator.GenerateSignal (channel, true);
+				OnNewFullFrame (EventArgs.Empty);
 			}
 		}
 

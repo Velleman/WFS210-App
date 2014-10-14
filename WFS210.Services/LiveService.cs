@@ -11,6 +11,7 @@ namespace WFS210.Services
 	{
 		private readonly TcpConnection connection;
 
+
 		/// <summary>
 		/// Gets the tcp connection used to communicate with the remote oscilloscope.
 		/// </summary>
@@ -167,13 +168,21 @@ namespace WFS210.Services
 
 
 			var position = 12;
+			Oscilloscope.Channels [0].Samples.Overflow = false;
+			Oscilloscope.Channels [1].Samples.Overflow = false;
 			for (int i = 0; i < bufferSize; i++) {
 				Oscilloscope.Channels [0].Samples [i + offSet / 2] = payload [position];
 				position++;
 				Oscilloscope.Channels [1].Samples [i + offSet / 2] = payload [position];
 				position++;
 			}
+			var framesize = bufferSize + offSet/2;
+			if (framesize == Oscilloscope.Channels [0].Samples.Count) {
+				OnNewFullFrame (EventArgs.Empty);
+			}
 		}
+
+
 
 		/// <summary>
 		/// Encodes the wifi settings.
@@ -232,8 +241,25 @@ namespace WFS210.Services
 			var Passwordtrimmed = PasswordString.Split (new char[1]{ '\0' }, 2) [0];
 			Oscilloscope.WifiSetting.Password = Passwordtrimmed;
 
-			//TODO recover Build number and Version
+			var FirmwareVersion = new char[4];
+			var x = 69;
+			for(int y = x; y< x + 4; y++)
+			{
+				FirmwareVersion [y - x] = (char)payload [y];
+			}
+			var firmware = new string (FirmwareVersion);
+			Oscilloscope.FirmwareVersion = firmware;
 
+
+			var WifiVersion = new char[16];
+			i = 72;
+			do {
+				WifiVersion [i - 72] = (char)payload [i];
+				i++;
+			} while(payload [i] != 0);
+			var wifi = new string (WifiVersion);
+			var wifiTrimmed = wifi.Split (new char[1]{ '\0' }, 2) [0];
+			Oscilloscope.WifiSetting.Version = wifiTrimmed;
 		}
 
 		/// <summary>
