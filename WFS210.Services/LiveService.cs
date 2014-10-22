@@ -203,8 +203,7 @@ namespace WFS210.Services
 			for (int i = 4; i < 36; i++) {
 				payload [i] = (byte)data [i - 4];
 			}
-
-			var password = Oscilloscope.WifiSetting.Password.ToCharArray ();
+				
 			wifiname.CopyTo (data, 0);
 			for (int i = 37; i < 68; i++) {
 				payload [i] = (byte)data [i - 37];
@@ -242,7 +241,7 @@ namespace WFS210.Services
 			Oscilloscope.WifiSetting.Password = Passwordtrimmed;
 
 			var FirmwareVersion = new char[4];
-			var x = 69;
+			var x = 68;
 			for(int y = x; y< x + 4; y++)
 			{
 				FirmwareVersion [y - x] = (char)payload [y];
