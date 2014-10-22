@@ -23,7 +23,6 @@ namespace WFS210.UI
 
 		CGPath[] path;
 		PointF initialPoint;
-		Service service;
 		Oscilloscope wfs210;
 
 		PointF[] scopePoints;
@@ -72,8 +71,6 @@ namespace WFS210.UI
 			Padding = new Padding (17, 0, 18, 0);
 			MarkersAreVisible = true;
 			LoadGrid ();
-			LoadXMarkers ();
-			LoadYMarkers ();
 			RegisterPanGestureRecognizer ();
 			RegisterLongPressRecognizer ();
 			LoadVoltTimeIndicator ();
@@ -89,6 +86,8 @@ namespace WFS210.UI
 		{
 			LoadZeroLines ();
 			LoadTriggerMarker ();
+			LoadXMarkers ();
+			LoadYMarkers ();
 			path = new CGPath[wfs210.Channels.Count];
 			signals = new CAShapeLayer[wfs210.Channels.Count];
 			LoadSignals ();

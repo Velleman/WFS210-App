@@ -103,15 +103,13 @@ namespace WFS210.UI
 
 			ScopeView.SelectedChannel = 0;
 
-			ScopeView.NewData += (object sender, NewDataEventArgs e) => UpdateScopeControls ();
+			ScopeView.NewData += (object sender, NewDataEventArgs e) => InvokeOnMainThread (UpdateMeasurements);
 
 		}
 
 		void HandleFullFrame (object sender, EventArgs e)
 		{
-			InvokeOnMainThread (() => {
-				UpdateMeasurements ();
-			});
+			InvokeOnMainThread (UpdateMeasurements);
 		}
 
 		/// <summary>
@@ -178,16 +176,12 @@ namespace WFS210.UI
 
 		partial void btnMarkerMeasurements_TouchUpInside (UIButton sender)
 		{
-			InvokeOnMainThread (() => {
-				ShowMarkerUnitPopover (sender, 0);
-			});
+			InvokeOnMainThread (() => ShowMarkerUnitPopover (sender, 0));
 		}
 
 		partial void btnSignalMeasurements_TouchUpInside (UIButton sender)
 		{
-			InvokeOnMainThread (() => {
-				ShowSignalUnitPopover (sender, 0);
-			});
+			InvokeOnMainThread (() => ShowSignalUnitPopover (sender, 0));
 		}
 
 		#endregion
@@ -246,7 +240,18 @@ namespace WFS210.UI
 
 		partial void btnAutorange_TouchUpInside (UIButton sender)
 		{
-			Oscilloscope.AutoRange = !Oscilloscope.AutoRange;
+			if (!Oscilloscope.AutoRange) {
+				if (Service.Oscilloscope.Channels [0].VoltsPerDivision == VoltsPerDivision.VdivNone) {
+					Service.Oscilloscope.Channels [0].VoltsPerDivision = VoltsPerDivision.Vdiv20V;
+				}
+				if (Service.Oscilloscope.Channels [1].VoltsPerDivision == VoltsPerDivision.VdivNone) {
+					Service.Oscilloscope.Channels [1].VoltsPerDivision = VoltsPerDivision.Vdiv20V;
+				}
+				Service.ApplySettings();
+				Oscilloscope.AutoRange = !Oscilloscope.AutoRange;
+			}
+			else
+				Oscilloscope.AutoRange = !Oscilloscope.AutoRange;
 			Service.ApplySettings ();  
 		}
 
