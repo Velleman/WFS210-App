@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System;
+using System.Collections.Generic;
 
 namespace WFS210.IO
 {
@@ -41,6 +42,11 @@ namespace WFS210.IO
 		/// The reader.
 		/// </summary>
 		protected MessageReader Reader;
+
+        /// <summary>
+        /// Amount of data that can be parsed
+        /// </summary>
+        private int AvailableData;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.IO.TcpConnection"/> class.
@@ -161,16 +167,32 @@ namespace WFS210.IO
 			}
 		}
 
+        /// <summary>
+        /// Loads the Data
+        /// </summary>
+        public void LoadData()
+        {
+            AvailableData = Reader.LoadData();
+        }
+
 		/// <summary>
 		/// Read a message.
 		/// </summary>
-		public Message Read ()
+		public List<Message> ReadMessages ()
 		{
-			if (Client.Available <= 0) {
-				return null;
-			}
-
-			return Reader.Read ();
+            if (AvailableData > 6)
+            {
+                List<Message> messages = new List<Message>();
+                var message = Reader.Read();
+                while (message != null)
+                {
+                    messages.Add(message);
+                    message = Reader.Read();
+                }
+                return messages;
+            }
+            else
+                return null;
 		}
 	}
 }

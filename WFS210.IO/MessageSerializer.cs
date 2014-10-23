@@ -19,7 +19,13 @@ namespace WFS210.IO
 		/// Deserialize a message from the specified stream.
 		/// </summary>
 		/// <param name="stream">Stream.</param>
-		public abstract Message Deserialize(Stream stream);
+		public abstract Message Deserialize();
+
+        /// <summary>
+        /// Loads a chunk of data of the stream
+        /// </summary>
+        /// <param name="stream"></param>
+        public abstract int LoadData(Stream stream);
 	}
 }
 

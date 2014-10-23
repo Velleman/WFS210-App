@@ -33,8 +33,13 @@ namespace WFS210.IO
 		/// </summary>
 		public Message Read ()
 		{
-			return Serializer.Deserialize (Stream);
+			return Serializer.Deserialize ();
 		}
+
+        public int LoadData()
+        {
+            return Serializer.LoadData(Stream);
+        }
 	}
 }
 
