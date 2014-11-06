@@ -501,27 +501,23 @@ namespace WFS210.UI
 		{
 			float previousX = 0;
 			panGesture = new UIPanGestureRecognizer ((pg) => {
-				if (pg.State == UIGestureRecognizerState.Began) {
-					Console.WriteLine ("PAN BEGAN");
+				switch (pg.State) {
+				case UIGestureRecognizerState.Began:
 					previousX = pg.LocationOfTouch (0, this).X;
-				} else if (pg.State == UIGestureRecognizerState.Changed) {
-
+					break;
+				case UIGestureRecognizerState.Changed:
 					var touch = pg.LocationOfTouch (0, this);
-
 					var copy = ScrollPosition;
 					var delta = touch.X - previousX;
 					copy -= (int)delta;
 					copy = (int)Math.Min (Math.Max (copy, 0), 4096 - TotalSamples);
 					previousX = touch.X;
-
 					ScrollPosition = copy;
 					UpdateScrollIndicator ();
 					Update ();
-
-
-
-				} else if (pg.State == UIGestureRecognizerState.Ended) {
-					Console.WriteLine ("PAN END");
+					break;
+				case UIGestureRecognizerState.Ended:
+					break;
 				}
 			});
 			panGesture.MaximumNumberOfTouches = 2;
@@ -544,7 +540,6 @@ namespace WFS210.UI
 				horizontal = true;
 			else
 				horizontal = false;
-			//Console.WriteLine (horizontal.ToString ());
 			return horizontal;
 		}
 

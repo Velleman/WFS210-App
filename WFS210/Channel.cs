@@ -87,7 +87,7 @@ namespace WFS210
 		/// <param name="sample">The sample's value in volts (V).</param>
 		public double Voltage (int sample)
 		{
-			return ((sample - YPosition) * VoltsPerUnit ());
+			return ((YPosition - sample) * VoltsPerUnit ());
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace WFS210
 
 			foreach(byte sample in Samples) {
 
-				value += Voltage (255 - sample);
+				value += Voltage (sample);
 			}
 
 			return (value / Samples.Count);
@@ -185,7 +185,7 @@ namespace WFS210
 		/// <returns>dBm</returns>
 		public double DBm()
 		{
-			return (20 * Math.Log (Vrms () / 0.775));
+			return (20 * Math.Log10 (Vrms () / 0.775));
 		}
 
 		/// <summary>

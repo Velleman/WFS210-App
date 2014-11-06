@@ -143,24 +143,26 @@ namespace WFS210.Services
 
             List<Message> messages = Connection.ReadMessages();
 
-            foreach (Message message in messages)
-            {
-                switch (message.Command)
-                {
-                    case Command.SampleData:
-                        DecodeSamplesMessage(message);
-                        break;
-                    case Command.Settings:
-                        DecodeSettingsMessage(message);
-                        OnSettingsChanged(null);
-                        break;
-                    case Command.WifiSettings:
-                        DecodeWifiSettingsMessage(message);
-                        break;
-                    default:
-                        break;
-                }
-            }
+			if (messages != null) {
+				if (messages.Count > 0) {
+					foreach (Message message in messages) {
+						switch (message.Command) {
+						case Command.SampleData:
+							DecodeSamplesMessage (message);
+							break;
+						case Command.Settings:
+							DecodeSettingsMessage (message);
+							OnSettingsChanged (null);
+							break;
+						case Command.WifiSettings:
+							DecodeWifiSettingsMessage (message);
+							break;
+						default:
+							break;
+						}
+					}
+				}
+			}
         }
 
         /// <summary>

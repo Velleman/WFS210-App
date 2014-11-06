@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>iWFS210</string>
+	<string>WFS210</string>
 	<key>CFBundleIdentifier</key>
 	<string>be.velleman.iWFS210</string>
 	<key>CFBundleShortVersionString</key>

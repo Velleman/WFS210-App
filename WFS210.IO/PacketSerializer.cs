@@ -145,7 +145,6 @@ namespace WFS210.IO
             var sizeLow = buffer[2];
             var sizeHigh = buffer[3];
             var size = (sizeHigh * 256) + sizeLow;
-            Console.WriteLine(size.ToString());
             return size;
         }
 
