@@ -76,8 +76,10 @@ namespace WFS210.UI
 				UpdateScopeControls ();
 				ScopeView.Update ();
 			});
-			Oscilloscope.Channels [0].Samples.Clear ();
-			Oscilloscope.Channels [1].Samples.Clear ();
+			if (!Oscilloscope.Hold && Oscilloscope.Trigger.Mode == TriggerMode.Run) {
+				Oscilloscope.Channels [0].Samples.Clear ();
+				Oscilloscope.Channels [1].Samples.Clear ();
+			}
 		}
 
 		#region View lifecycle
@@ -93,10 +95,12 @@ namespace WFS210.UI
 			ServiceManager.FullFrame += HandleFullFrame;
 			ScopeView.ServiceManager = ServiceManager;
 			ScopeView.Initialize ();
-			var timer = new System.Timers.Timer (500);
+			var timer = new System.Timers.Timer (200);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
+				timer.Stop();
 				Service.Update ();
-				InvokeOnMainThread (() => ScopeView.Update ());
+				InvokeOnMainThread (ScopeView.Update);
+				timer.Start();
 			};
 			timer.Enabled = true;
 			timer.Start ();
@@ -120,7 +124,13 @@ namespace WFS210.UI
 		{
 			base.ViewDidAppear (animated);
 			UpdateScopeControls ();
+			UIApplication.SharedApplication.IdleTimerDisabled = true;
+		}
 
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+			UIApplication.SharedApplication.IdleTimerDisabled = false;
 		}
 
 		/// <Docs>Whether this UIViewController prefers the status bar to be hidden.</Docs>
