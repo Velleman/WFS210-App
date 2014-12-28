@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace aWFS210
+namespace WFS210.Android
 {
 	public class NewDataEventArgs : EventArgs
 	{

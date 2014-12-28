@@ -11,7 +11,7 @@
 
 [assembly: global::Android.Runtime.ResourceDesignerAttribute("aWFS210.Resource", IsApplication=true)]
 
-namespace aWFS210
+namespace WFS210.Android
 {
 	
 	

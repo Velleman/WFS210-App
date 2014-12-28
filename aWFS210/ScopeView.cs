@@ -15,7 +15,7 @@ using WFS210.Services;
 using WFS210;
 using Android.Graphics;
 
-namespace aWFS210
+namespace WFS210.Android
 {
 	public class ScopeView : View
 	{

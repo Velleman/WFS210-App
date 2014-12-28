@@ -10,7 +10,7 @@ using WFS210;
 using WFS210.Services;
 
 
-namespace aWFS210
+namespace WFS210.Android
 {
 	[Activity (Label = "aWFS210", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
