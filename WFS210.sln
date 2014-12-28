@@ -47,6 +47,6 @@ Global
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = WFS210.UI\iWFS210.csproj
+		StartupItem = aWFS210\aWFS210.csproj
 	EndGlobalSection
 EndGlobal
