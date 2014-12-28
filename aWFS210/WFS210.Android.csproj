@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{2FADE171-3743-427D-A44A-C63F10A32F27}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>aWFS210</RootNamespace>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <AssemblyName>aWFS210</AssemblyName>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScopeView.cs" />
+    <Compile Include="Marker.cs" />
+    <Compile Include="Trace.cs" />
+    <Compile Include="XMarker.cs" />
+    <Compile Include="YMarker.cs" />
+    <Compile Include="ZeroLine.cs" />
+    <Compile Include="NewDataEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\drawable\background.xml" />
+    <AndroidResource Include="Resources\drawable\backgroundcalibrating.xml" />
+    <AndroidResource Include="Resources\drawable\backgroundmeasurements.xml" />
+    <AndroidResource Include="Resources\drawable\backgroundsurfaceview.xml" />
+    <AndroidResource Include="Resources\drawable\battcharging1.png" />
+    <AndroidResource Include="Resources\drawable\battcharging2.png" />
+    <AndroidResource Include="Resources\drawable\battcharging3.png" />
+    <AndroidResource Include="Resources\drawable\batteryanimation.xml" />
+    <AndroidResource Include="Resources\drawable\battfull.png" />
+    <AndroidResource Include="Resources\drawable\battlow.png" />
+    <AndroidResource Include="Resources\drawable\bg.png" />
+    <AndroidResource Include="Resources\drawable\btncyan.xml" />
+    <AndroidResource Include="Resources\drawable\btngreen.xml" />
+    <AndroidResource Include="Resources\drawable\btngrey.xml" />
+    <AndroidResource Include="Resources\drawable\btnred.xml" />
+    <AndroidResource Include="Resources\drawable\btnwhite.xml" />
+    <AndroidResource Include="Resources\drawable\btnyellow.xml" />
+    <AndroidResource Include="Resources\drawable\button.9.png" />
+    <AndroidResource Include="Resources\drawable\buttoncyan.9.png" />
+    <AndroidResource Include="Resources\drawable\buttongreen.9.png" />
+    <AndroidResource Include="Resources\drawable\buttonred.9.png" />
+    <AndroidResource Include="Resources\drawable\buttonsettings.9.png" />
+    <AndroidResource Include="Resources\drawable\buttonwhite.9.png" />
+    <AndroidResource Include="Resources\drawable\buttonyellow.9.png" />
+    <AndroidResource Include="Resources\drawable\charger.png" />
+    <AndroidResource Include="Resources\drawable\down.png" />
+    <AndroidResource Include="Resources\drawable\fallingbackground.xml" />
+    <AndroidResource Include="Resources\drawable\measurementstyle.xml" />
+    <AndroidResource Include="Resources\drawable\ninefalling.xml" />
+    <AndroidResource Include="Resources\drawable\ninefallingpressed.xml" />
+    <AndroidResource Include="Resources\drawable\ninegreen.xml" />
+    <AndroidResource Include="Resources\drawable\ninerising.xml" />
+    <AndroidResource Include="Resources\drawable\ninerisingpressed.xml" />
+    <AndroidResource Include="Resources\drawable\ninetimebaseright.xml" />
+    <AndroidResource Include="Resources\drawable\seperatorhorizontal.png" />
+    <AndroidResource Include="Resources\drawable\seperatorvertical.png" />
+    <AndroidResource Include="Resources\drawable\shape_blank.xml" />
+    <AndroidResource Include="Resources\drawable\slopedownselected.9.png" />
+    <AndroidResource Include="Resources\drawable\slopedownunselected.9.png" />
+    <AndroidResource Include="Resources\drawable\slopeupselected.9.png" />
+    <AndroidResource Include="Resources\drawable\slopeupunselected.9.png" />
+    <AndroidResource Include="Resources\drawable\spinner.xml" />
+    <AndroidResource Include="Resources\drawable\spinnerbg.9.png" />
+    <AndroidResource Include="Resources\drawable\splahlogo.png" />
+    <AndroidResource Include="Resources\drawable\timebaseleft.9.png" />
+    <AndroidResource Include="Resources\drawable\timebaseleftdisabled.9.png" />
+    <AndroidResource Include="Resources\drawable\timebaseright.9.png" />
+    <AndroidResource Include="Resources\drawable\timebaserightdisabled.9.png" />
+    <AndroidResource Include="Resources\drawable\toettoet.png" />
+    <AndroidResource Include="Resources\drawable\uppressed.png" />
+    <AndroidResource Include="Resources\drawable\voltdown1.9.png" />
+    <AndroidResource Include="Resources\drawable\voltdown2.9.png" />
+    <AndroidResource Include="Resources\drawable\voltdowndisabled.9.png" />
+    <AndroidResource Include="Resources\drawable\voltup1.9.png" />
+    <AndroidResource Include="Resources\drawable\voltup2.9.png" />
+    <AndroidResource Include="Resources\drawable\voltupdisabled.9.png" />
+    <AndroidResource Include="Resources\drawable\wifiicon.png" />
+    <AndroidResource Include="Resources\values\Colors.xml" />
+    <AndroidResource Include="Resources\drawable\icon.png" />
+  </ItemGroup>
+  <Import Project="..\WFS210\WFS210.projitems" Label="Shared" Condition="Exists('..\WFS210\WFS210.projitems')" />
+  <Import Project="..\WFS210.IO\WFS210.IO.projitems" Label="Shared" Condition="Exists('..\WFS210.IO\WFS210.IO.projitems')" />
+  <Import Project="..\WFS210.Services\WFS210.Services.projitems" Label="Shared" Condition="Exists('..\WFS210.Services\WFS210.Services.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+</Project>

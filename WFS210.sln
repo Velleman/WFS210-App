@@ -9,7 +9,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WFS210.Services", "WFS210.S
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WFS210", "WFS210\WFS210.shproj", "{A7943D95-7C8C-425D-B144-B2460F3B2CBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aWFS210", "aWFS210\aWFS210.csproj", "{2FADE171-3743-427D-A44A-C63F10A32F27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFS210.Android", "aWFS210\WFS210.Android.csproj", "{2FADE171-3743-427D-A44A-C63F10A32F27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +47,6 @@ Global
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = aWFS210\aWFS210.csproj
+		StartupItem = aWFS210\WFS210.Android.csproj
 	EndGlobalSection
 EndGlobal
