@@ -1,5 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">aWFS210</string>
-</resources>
+
+    <string name="app_name">WFS210</string>
+    <string name="channel1">CH 1</string>
+    <string name="channel1bold"><b>CH 1</b></string>
+    <string name="channel2">CH 2</string>
+    <string name="channel2bold"><b>CH 2</b></string>
+    <string name="channel1full">CHANNEL 1</string>
+    <string name="channel1boldfull"><b>CHANNEL 1</b></string>
+    <string name="channel2full">CHANNEL 2</string>
+    <string name="channel2boldfull"><b>CHANNEL 2</b></string>
+    <string name="AC">AC</string>
+    <string name="ACbold"><b>AC</b></string>
+    <string name="DC">DC</string>
+    <string name="DCbold"><b>DC</b></string>
+    <string name="GND">GND</string>
+    <string name="GNDbold"><b>GND</b></string>
+    <string name="probe">Probe x1/x10</string>
+    <string name="normal">NRML</string>
+    <string name="normalbold"><b>NRML</b></string>
+    <string name="run">RUN</string>
+    <string name="runbold"><b>RUN</b></string>
+    <string name="once">ONCE</string>
+    <string name="oncebold"><b>ONCE</b></string>
+    <string name="hold">HOLD</string>
+    <string name="holdbold"><b>HOLD</b></string>
+    <string name="placeholder"><b></b></string>
+    <string name="battery">Battery Loading</string>
+	<string name="seperator">seperator</string>
+	<string name="trigger">TRIGGER</string>
+	<string name="timebase">TIMEBASE</string>
+	<string name="autorange">AUTORANGE</string>
+	
+   	<string-array name="MarkerMeasurements">
+        <item>dt</item>
+        <item>Frequency</item>
+        <item>dV1</item>
+        <item>dV2</item>
+        <item>Enable/Disable Markers</item>
+    </string-array>
+	<string-array name="Measurements">
+	    <item>Vdc</item>
+        <item>rms</item>
+        <item>Trms</item>
+        <item>Vpp</item>
+        <item>Vmax</item>
+        <item>Vmin</item>
+        <item>Wrms2</item>
+        <item>Wrms4</item>
+        <item>Wrms8</item>
+        <item>Wrms16</item>
+        <item>Wrms32</item>
+        <item>Dbm</item>
+        <item>DbGain</item>
+    </string-array>
+
+</resources>	
