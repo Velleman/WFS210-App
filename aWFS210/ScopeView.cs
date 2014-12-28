@@ -116,7 +116,7 @@ namespace WFS210.Android
 		/// <summary>
 		/// Implement this to do your drawing.
 		/// </summary>
-		protected override void OnDraw (Android.Graphics.Canvas canvas)
+		protected override void OnDraw (Canvas canvas)
 		{
 			base.OnDraw (canvas);
 
@@ -135,7 +135,7 @@ namespace WFS210.Android
 			DrawGrid (canvas);
 		}
 
-		private void DrawGrid(Android.Graphics.Canvas canvas)
+		private void DrawGrid(Canvas canvas)
 		{
 			canvas.DrawLine (0, height / 2, width, height / 2, paintGrid);
 			for (int i = 0; i < 5; i++) {

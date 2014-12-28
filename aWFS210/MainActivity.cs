@@ -8,11 +8,14 @@ using Android.Widget;
 using Android.OS;
 using WFS210;
 using WFS210.Services;
+using aWFS210;
+using Android.Graphics.Drawables;
+
 
 
 namespace WFS210.Android
 {
-	[Activity (Label = "aWFS210", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Black.NoTitleBar.Fullscreen")]
+	[Activity (Label = "WFS210.Android", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
 	{
 		/// <summary>
@@ -50,6 +53,7 @@ namespace WFS210.Android
 			btnProbe1, btnProbe2,
 			btnVoltUp1, btnVoltUp2,
 			btnVoltDown1, btnVoltDown2;
+		private TextView lblVolt1,lblVolt2,lblTimebase;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -91,6 +95,7 @@ namespace WFS210.Android
 			ScopeView.SelectedChannel = 0;
 
 			ScopeView.NewData += (object sender, NewDataEventArgs e) => RunOnUiThread (() => UpdateMeasurements());
+			UpdateScopeControls ();
 		}
 
 		void HandleFullFrame (object sender, EventArgs e)
@@ -112,10 +117,10 @@ namespace WFS210.Android
 
 		private void UpdateScopeControls ()
 		{
-//			UpdateSelectedChannel ();
-//			UpdateChannel1UI ();
-//			UpdateChannel2UI ();
-//			UpdateTriggerUI ();
+			UpdateSelectedChannel ();
+			UpdateChannel1UI ();
+			UpdateChannel2UI ();
+			UpdateTriggerUI ();
 //			UpdateMeasurements ();
 //			UpdateBatteryStatus ();
 		}
@@ -123,26 +128,26 @@ namespace WFS210.Android
 
 		private void UpdateChannel1UI ()
 		{
-//			UpdateInputCoupling1 ();
-//			UpdateAttenuationFactor1 ();
-//			UpdateVoltText1 ();
+			UpdateInputCoupling1 ();
+			UpdateAttenuationFactor1 ();
+			UpdateVoltText1 ();
 		}
 
 		private void UpdateChannel2UI ()
 		{
-//			UpdateInputCoupling2 ();
-//			UpdateAttenuationFactor2 ();
-//			UpdateVoltText2 ();
+			UpdateInputCoupling2 ();
+			UpdateAttenuationFactor2 ();
+			UpdateVoltText2 ();
 		}
 
 		private void UpdateTriggerUI ()
 		{
-//			UpdateTriggerChannelUI ();
-//			UpdateTriggerSlopeUI ();
-//			UpdateTriggerModeUI ();
-//			UpdateHoldUI ();
-//			UpdateAutorangeUI ();
-//			UpdateTimeBaseText ();
+			UpdateTriggerChannelUI ();
+			UpdateTriggerSlopeUI ();
+			UpdateTriggerModeUI ();
+			UpdateHoldUI ();
+			UpdateAutorangeUI ();
+			UpdateTimeBaseText ();
 		}
 
 
@@ -158,6 +163,168 @@ namespace WFS210.Android
 //			btnMarkerMeasurements2.SetTitle (GetMarkerMeasurementString (DisplaySettings.MarkerUnits [1]), UIControlState.Normal);
 
 		}
+
+		private void UpdateSelectedChannel ()
+		{
+			if (ScopeView.SelectedChannel == 0) {
+				SetBackgroundResourceAndKeepPadding(btnSelectChannel1,Resource.Drawable.buttongreen);
+				SetBackgroundResourceAndKeepPadding(btnSelectChannel2,Resource.Drawable.button);
+			} else {
+				SetBackgroundResourceAndKeepPadding(btnSelectChannel1,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnSelectChannel2,Resource.Drawable.buttonyellow);
+			}
+		}
+
+		void UpdateInputCoupling1 ()
+		{
+			switch (Oscilloscope.Channels [0].InputCoupling) {
+			case InputCoupling.AC:
+				SetBackgroundResourceAndKeepPadding(btnAC1,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnDC1,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnGND1,Resource.Drawable.button);
+				break;
+			case InputCoupling.DC:
+				SetBackgroundResourceAndKeepPadding(btnAC1,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnDC1,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnGND1,Resource.Drawable.button);
+				break;
+			case InputCoupling.GND:
+				SetBackgroundResourceAndKeepPadding(btnAC1,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnDC1,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnGND1,Resource.Drawable.buttonyellow);
+				break;
+			default:
+				break;
+			}
+		}
+
+		void UpdateAttenuationFactor1 ()
+		{
+			switch (Oscilloscope.Channels [0].AttenuationFactor) {
+			case AttenuationFactor.X1:
+				SetBackgroundResourceAndKeepPadding(btnProbe1,Resource.Drawable.button);
+				break;
+			case AttenuationFactor.X10:
+				SetBackgroundResourceAndKeepPadding(btnProbe1,Resource.Drawable.buttonyellow);
+				break;
+			default:
+				break;
+			}
+		}
+
+		void UpdateVoltText1 ()
+		{
+			lblVolt1.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [0].VoltsPerDivision, Oscilloscope.Channels [0].AttenuationFactor);
+		}
+
+		void UpdateInputCoupling2 ()
+		{
+			switch (Oscilloscope.Channels [1].InputCoupling) {
+			case InputCoupling.AC:
+				SetBackgroundResourceAndKeepPadding(btnAC2,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnDC2,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnGND2,Resource.Drawable.button);
+				break;
+			case InputCoupling.DC:
+				SetBackgroundResourceAndKeepPadding(btnAC2,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnDC2,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnGND2,Resource.Drawable.button);
+				break;
+			case InputCoupling.GND:
+				SetBackgroundResourceAndKeepPadding(btnAC2,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnDC2,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnGND2,Resource.Drawable.buttonyellow);
+				break;
+			default:
+				break;
+			}
+		}
+
+		void UpdateAttenuationFactor2 ()
+		{
+			switch (Oscilloscope.Channels [1].AttenuationFactor) {
+			case AttenuationFactor.X1:
+				SetBackgroundResourceAndKeepPadding(btnProbe2,Resource.Drawable.button);
+				break;
+			case AttenuationFactor.X10:
+				SetBackgroundResourceAndKeepPadding(btnProbe2,Resource.Drawable.buttonyellow);
+				break;
+			default:
+				break;
+			}
+		}
+
+		void UpdateVoltText2 ()
+		{
+			lblVolt2.Text = VoltsPerDivisionConverter.ToString (Oscilloscope.Channels [1].VoltsPerDivision, Oscilloscope.Channels [1].AttenuationFactor);
+		}
+
+		void UpdateTriggerChannelUI ()
+		{
+			if (Oscilloscope.Trigger.Channel == 0) {
+				SetBackgroundResourceAndKeepPadding(btnTriggerCH1,Resource.Drawable.buttoncyan);
+				SetBackgroundResourceAndKeepPadding(btnTriggerCH2,Resource.Drawable.button);
+			} else {
+				SetBackgroundResourceAndKeepPadding(btnTriggerCH1,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnTriggerCH2,Resource.Drawable.buttoncyan);
+			}
+		}
+
+		void UpdateTriggerSlopeUI ()
+		{
+			if (Oscilloscope.Trigger.Slope == TriggerSlope.Rising) {
+				SetBackgroundResourceAndKeepPadding(btnSlopeUp,Resource.Drawable.slopeupselected);
+				SetBackgroundResourceAndKeepPadding(btnSlopeDown,Resource.Drawable.slopedownunselected);
+			} else {
+				SetBackgroundResourceAndKeepPadding(btnSlopeUp,Resource.Drawable.slopeupunselected);
+				SetBackgroundResourceAndKeepPadding(btnSlopeDown,Resource.Drawable.slopedownselected);
+			}
+		}
+
+		void UpdateTriggerModeUI ()
+		{
+			switch (Oscilloscope.Trigger.Mode) {
+			case TriggerMode.Normal:
+				SetBackgroundResourceAndKeepPadding(btnNrml,Resource.Drawable.buttoncyan);
+				SetBackgroundResourceAndKeepPadding(btnOnce,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnRun,Resource.Drawable.button);
+				break;
+			case TriggerMode.Once:
+				SetBackgroundResourceAndKeepPadding(btnNrml,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnOnce,Resource.Drawable.buttoncyan);
+				SetBackgroundResourceAndKeepPadding(btnRun,Resource.Drawable.button);
+				break;
+			case TriggerMode.Run:
+				SetBackgroundResourceAndKeepPadding(btnNrml,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnOnce,Resource.Drawable.button);
+				SetBackgroundResourceAndKeepPadding(btnRun,Resource.Drawable.buttoncyan);
+				break;
+			default:
+				break;
+			}
+		}
+
+		void UpdateHoldUI ()
+		{
+			if (Oscilloscope.Hold)
+				SetBackgroundResourceAndKeepPadding(btnHold,Resource.Drawable.buttoncyan);
+			else
+				SetBackgroundResourceAndKeepPadding(btnHold,Resource.Drawable.button);
+		}
+
+		void UpdateAutorangeUI ()
+		{
+			if (Oscilloscope.AutoRange)
+				SetBackgroundResourceAndKeepPadding(btnAutoRange,Resource.Drawable.buttonred);
+			else
+				SetBackgroundResourceAndKeepPadding(btnAutoRange,Resource.Drawable.button);
+		}
+
+		void UpdateTimeBaseText ()
+		{
+			lblTimebase.Text = TimeBaseConverter.ToString (Oscilloscope.TimeBase);
+		}
+
 
 		private void LoadControls()
 		{
@@ -236,6 +403,11 @@ namespace WFS210.Android
 
 			btnAutoRange = FindViewById<Button> (Resource.Id.btnAutoRange);
 			btnAutoRange.Click += HandleAutorangeClick;
+
+			lblVolt1 = FindViewById<TextView> (Resource.Id.txtVDIV1);
+			lblVolt2 = FindViewById<TextView> (Resource.Id.txtVDIV2);
+
+			lblTimebase = FindViewById<TextView> (Resource.Id.txtTimebase);
 		}
 
 		void HandleAutorangeClick (object sender, EventArgs e)
@@ -257,12 +429,12 @@ namespace WFS210.Android
 
 		void HandleTimebaseRightClick(object sender, EventArgs e)
 		{
-			Service.Execute (new NextTimeBaseCommand ());
+			Service.Execute (new PreviousTimeBaseCommand ());
 		}
 
 		void HandleTimebaseLeftClick (object sender, EventArgs e)
 		{
-			Service.Execute (new PreviousTimeBaseCommand ());
+			Service.Execute (new NextTimeBaseCommand ());
 		}
 
 		void HandleHoldClick (object sender, EventArgs e)
@@ -375,6 +547,17 @@ namespace WFS210.Android
 		void HandleAC1Click (object sender, EventArgs e)
 		{
 			Service.Execute (new InputCouplingCommand (0, InputCoupling.AC));
+		}
+
+		private void SetBackgroundResourceAndKeepPadding(View view,int resource)
+		{
+			int top = view.PaddingTop;
+			int left = view.PaddingLeft;
+			int right = view.PaddingRight;
+			int bottom = view.PaddingBottom;
+
+			view.SetBackgroundResource (resource);
+			view.SetPadding(left, top, right, bottom);
 		}
 
 	}

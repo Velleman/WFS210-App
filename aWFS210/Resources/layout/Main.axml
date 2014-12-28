@@ -382,7 +382,9 @@
                 android:layout_alignLeft="@id/txtMeasurement2"
                 android:layout_alignRight="@id/txtMeasurement2"
                 android:layout_alignTop="@id/txtMeasurement2"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:background="#000000"
+                android:alpha="0" />
             <Spinner
                 android:id="@+id/spMeasurement2"
                 android:layout_width="fill_parent"
@@ -651,7 +653,7 @@
         android:background="@drawable/backgroundsurfaceview"
         android:padding="1dp">
         <view
-            class="awfs210.ScopeView"
+            class="wfs210.android.ScopeView"
             android:id="@+id/ScopeView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
