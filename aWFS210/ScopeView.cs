@@ -34,6 +34,7 @@ namespace aWFS210
 		public event EventHandler<NewDataEventArgs> NewData;
 
 		private Paint[] paints;
+		private Paint paintGrid;
 
 		private int height;
 		private int width;
@@ -96,6 +97,11 @@ namespace aWFS210
 			paints[1].Color = Color.Yellow;
 			paints[1].StrokeWidth = 2;
 			paints[1].SetStyle (Paint.Style.Stroke);
+
+			paintGrid = new Paint ();
+			paintGrid.Color = Color.Gray;
+			paintGrid.StrokeWidth = 1;
+			paintGrid.SetStyle (Paint.Style.Stroke);
 		}
 
 		protected override void OnSizeChanged (int w, int h, int oldw, int oldh)
@@ -124,6 +130,22 @@ namespace aWFS210
 			}
 
 				canvas.DrawPath (traces[i], paints[i]);
+			}
+
+			DrawGrid (canvas);
+		}
+
+		private void DrawGrid(Android.Graphics.Canvas canvas)
+		{
+			canvas.DrawLine (0, height / 2, width, height / 2, paintGrid);
+			for (int i = 0; i < 5; i++) {
+				canvas.DrawLine (0, height / 2 + (RasterSpace * i), width, height / 2 + (RasterSpace * i), paintGrid);
+				canvas.DrawLine (0, height / 2 - (RasterSpace * i), width, height / 2 - (RasterSpace * i), paintGrid);
+			}
+			var distance = RasterSpace;
+			while (distance < width) {
+				canvas.DrawLine (distance, 0, distance, Height, paintGrid);
+				distance += RasterSpace;
 			}
 
 		}
@@ -162,7 +184,7 @@ namespace aWFS210
 		/// </summary>
 		private void CalculateRaster()
 		{
-			RasterSpace = width / Oscilloscope.DeviceContext.Divisions;
+			RasterSpace = height / Oscilloscope.DeviceContext.Divisions;
 		}
 
 		/// <summary>
