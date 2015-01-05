@@ -8,7 +8,6 @@ using Android.Widget;
 using Android.OS;
 using WFS210;
 using WFS210.Services;
-using aWFS210;
 using Android.Graphics.Drawables;
 
 
@@ -81,7 +80,7 @@ namespace WFS210.Android
 			ServiceManager.FullFrame += HandleFullFrame;
 			this.ScopeView.ServiceManager = this.ServiceManager;
 			this.ScopeView.Oscilloscope = this.Oscilloscope;
-			this.ScopeView.Initialize ();
+			this.ScopeView.Initialize (this);
 			var timer = new System.Timers.Timer (200);
 			timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
 				timer.Stop();
@@ -179,19 +178,19 @@ namespace WFS210.Android
 		{
 			switch (Oscilloscope.Channels [0].InputCoupling) {
 			case InputCoupling.AC:
-				SetBackgroundResourceAndKeepPadding(btnAC1,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnAC1,Resource.Drawable.buttongreen);
 				SetBackgroundResourceAndKeepPadding(btnDC1,Resource.Drawable.button);
 				SetBackgroundResourceAndKeepPadding(btnGND1,Resource.Drawable.button);
 				break;
 			case InputCoupling.DC:
 				SetBackgroundResourceAndKeepPadding(btnAC1,Resource.Drawable.button);
-				SetBackgroundResourceAndKeepPadding(btnDC1,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnDC1,Resource.Drawable.buttongreen);
 				SetBackgroundResourceAndKeepPadding(btnGND1,Resource.Drawable.button);
 				break;
 			case InputCoupling.GND:
 				SetBackgroundResourceAndKeepPadding(btnAC1,Resource.Drawable.button);
 				SetBackgroundResourceAndKeepPadding(btnDC1,Resource.Drawable.button);
-				SetBackgroundResourceAndKeepPadding(btnGND1,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnGND1,Resource.Drawable.buttongreen);
 				break;
 			default:
 				break;
@@ -205,7 +204,7 @@ namespace WFS210.Android
 				SetBackgroundResourceAndKeepPadding(btnProbe1,Resource.Drawable.button);
 				break;
 			case AttenuationFactor.X10:
-				SetBackgroundResourceAndKeepPadding(btnProbe1,Resource.Drawable.buttonyellow);
+				SetBackgroundResourceAndKeepPadding(btnProbe1,Resource.Drawable.buttongreen);
 				break;
 			default:
 				break;

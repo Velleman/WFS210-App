@@ -651,7 +651,8 @@
         android:layout_alignRight="@id/rlbattery"
         android:layout_below="@id/seperatorV4"
         android:background="@drawable/backgroundsurfaceview"
-        android:padding="1dp">
+        android:padding="1dp"
+        android:clipChildren="false">
         <view
             class="wfs210.android.ScopeView"
             android:id="@+id/ScopeView"

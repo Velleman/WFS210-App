@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("aWFS210.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("WFS210.Android.Resource", IsApplication=true)]
 
-namespace aWFS210
+namespace WFS210.Android
 {
 	
 	
@@ -170,94 +170,118 @@ namespace aWFS210
 			public const int icon = 2130837531;
 			
 			// aapt resource value: 0x7f02001c
-			public const int measurementstyle = 2130837532;
+			public const int marker1 = 2130837532;
 			
 			// aapt resource value: 0x7f02001d
-			public const int ninefalling = 2130837533;
+			public const int marker2 = 2130837533;
 			
 			// aapt resource value: 0x7f02001e
-			public const int ninefallingpressed = 2130837534;
+			public const int markera = 2130837534;
 			
 			// aapt resource value: 0x7f02001f
-			public const int ninegreen = 2130837535;
+			public const int markerb = 2130837535;
 			
 			// aapt resource value: 0x7f020020
-			public const int ninerising = 2130837536;
+			public const int markertriggerdown = 2130837536;
 			
 			// aapt resource value: 0x7f020021
-			public const int ninerisingpressed = 2130837537;
+			public const int markertriggerup = 2130837537;
 			
 			// aapt resource value: 0x7f020022
-			public const int ninetimebaseright = 2130837538;
+			public const int measurementstyle = 2130837538;
 			
 			// aapt resource value: 0x7f020023
-			public const int seperatorhorizontal = 2130837539;
+			public const int ninefalling = 2130837539;
 			
 			// aapt resource value: 0x7f020024
-			public const int seperatorvertical = 2130837540;
+			public const int ninefallingpressed = 2130837540;
 			
 			// aapt resource value: 0x7f020025
-			public const int shape_blank = 2130837541;
+			public const int ninegreen = 2130837541;
 			
 			// aapt resource value: 0x7f020026
-			public const int slopedownselected = 2130837542;
+			public const int ninerising = 2130837542;
 			
 			// aapt resource value: 0x7f020027
-			public const int slopedownunselected = 2130837543;
+			public const int ninerisingpressed = 2130837543;
 			
 			// aapt resource value: 0x7f020028
-			public const int slopeupselected = 2130837544;
+			public const int ninetimebaseright = 2130837544;
 			
 			// aapt resource value: 0x7f020029
-			public const int slopeupunselected = 2130837545;
+			public const int seperatorhorizontal = 2130837545;
 			
 			// aapt resource value: 0x7f02002a
-			public const int spinner = 2130837546;
+			public const int seperatorvertical = 2130837546;
 			
 			// aapt resource value: 0x7f02002b
-			public const int spinnerbg = 2130837547;
+			public const int shape_blank = 2130837547;
 			
 			// aapt resource value: 0x7f02002c
-			public const int splahlogo = 2130837548;
+			public const int slopedownselected = 2130837548;
 			
 			// aapt resource value: 0x7f02002d
-			public const int timebaseleft = 2130837549;
+			public const int slopedownunselected = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int timebaseleftdisabled = 2130837550;
+			public const int slopeupselected = 2130837550;
 			
 			// aapt resource value: 0x7f02002f
-			public const int timebaseright = 2130837551;
+			public const int slopeupunselected = 2130837551;
 			
 			// aapt resource value: 0x7f020030
-			public const int timebaserightdisabled = 2130837552;
+			public const int spinner = 2130837552;
 			
 			// aapt resource value: 0x7f020031
-			public const int toettoet = 2130837553;
+			public const int spinnerbg = 2130837553;
 			
 			// aapt resource value: 0x7f020032
-			public const int uppressed = 2130837554;
+			public const int splahlogo = 2130837554;
 			
 			// aapt resource value: 0x7f020033
-			public const int voltdown1 = 2130837555;
+			public const int timebaseleft = 2130837555;
 			
 			// aapt resource value: 0x7f020034
-			public const int voltdown2 = 2130837556;
+			public const int timebaseleftdisabled = 2130837556;
 			
 			// aapt resource value: 0x7f020035
-			public const int voltdowndisabled = 2130837557;
+			public const int timebaseright = 2130837557;
 			
 			// aapt resource value: 0x7f020036
-			public const int voltup1 = 2130837558;
+			public const int timebaserightdisabled = 2130837558;
 			
 			// aapt resource value: 0x7f020037
-			public const int voltup2 = 2130837559;
+			public const int toettoet = 2130837559;
 			
 			// aapt resource value: 0x7f020038
-			public const int voltupdisabled = 2130837560;
+			public const int uppressed = 2130837560;
 			
 			// aapt resource value: 0x7f020039
-			public const int wifiicon = 2130837561;
+			public const int voltdown1 = 2130837561;
+			
+			// aapt resource value: 0x7f02003a
+			public const int voltdown2 = 2130837562;
+			
+			// aapt resource value: 0x7f02003b
+			public const int voltdowndisabled = 2130837563;
+			
+			// aapt resource value: 0x7f02003c
+			public const int voltup1 = 2130837564;
+			
+			// aapt resource value: 0x7f02003d
+			public const int voltup2 = 2130837565;
+			
+			// aapt resource value: 0x7f02003e
+			public const int voltupdisabled = 2130837566;
+			
+			// aapt resource value: 0x7f02003f
+			public const int wifiicon = 2130837567;
+			
+			// aapt resource value: 0x7f020040
+			public const int zeroline1 = 2130837568;
+			
+			// aapt resource value: 0x7f020041
+			public const int zeroline2 = 2130837569;
 			
 			static Drawable()
 			{
