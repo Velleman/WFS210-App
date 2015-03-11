@@ -1,13 +1,13 @@
 ﻿using System;
 using Android.App;
+using Android.Content;
 
 namespace WFS210.Android
 {
 	public class YMarker : Marker
 	{
-		public YMarker (Activity activity,int resId,int width,int value) : base(activity,resId)
+		public YMarker (Context context,int resId,float width,float value) : base(context,resId,MarkerLayout.Horizontal)
 		{
-			Layout = MarkerLayout.Horizontal;
 			CalculateBounds (width);
 			Value = value;
 		}

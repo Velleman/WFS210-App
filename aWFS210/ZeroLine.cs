@@ -1,15 +1,15 @@
 ﻿using System;
 using Android.App;
 using Android.Graphics;
+using Android.Content;
 
 namespace WFS210.Android
 {
 	public class ZeroLine : Marker
 	{
-		public ZeroLine (Activity activity,int resId,int width,int value) : base(activity,resId)
+		public ZeroLine (Context context,int resId,int width,int offSet, int value) : base(context,resId,MarkerLayout.Horizontal)
 		{
-			Layout = MarkerLayout.Horizontal;
-			CalculateBounds (width);
+			CalculateBounds (width,offSet);
 			Value = value;
 		}
 	}

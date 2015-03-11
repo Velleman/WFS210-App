@@ -14,7 +14,7 @@ using Android.Graphics.Drawables;
 
 namespace WFS210.Android
 {
-	[Activity (Label = "WFS210.Android", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Black.NoTitleBar.Fullscreen")]
+	[Activity (Label = "WFS210", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
 	{
 		/// <summary>
@@ -28,9 +28,9 @@ namespace WFS210.Android
 		protected ServiceManager ServiceManager;
 
 		/// <summary>
-		/// The scope view.
+		/// The scope data manager.
 		/// </summary>
-		private ScopeView ScopeView;
+		private SignalView _ScopeLayout;
 
 		/// <summary>
 		/// Gets the service.
@@ -67,8 +67,7 @@ namespace WFS210.Android
 			//Create the ServiceManager
 			this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
 
-			this.ScopeView = FindViewById<ScopeView> (Resource.Id.ScopeView);
-
+			this._ScopeLayout = FindViewById<SignalView> (Resource.Id.SignalView);
 			LoadControls();
 
 		}
@@ -78,22 +77,21 @@ namespace WFS210.Android
 			base.OnResume ();
 			ServiceManager.SettingsChanged += HandleSettingsChanged;
 			ServiceManager.FullFrame += HandleFullFrame;
-			this.ScopeView.ServiceManager = this.ServiceManager;
-			this.ScopeView.Oscilloscope = this.Oscilloscope;
-			this.ScopeView.Initialize (this);
+			this._ScopeLayout.ServiceManager = this.ServiceManager;
+			this._ScopeLayout.Oscilloscope = this.Oscilloscope;
 			var timer = new System.Timers.Timer (200);
 			timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
 				timer.Stop();
 				Service.Update ();
-				RunOnUiThread (() =>ScopeView.Update());
+				RunOnUiThread (() =>_ScopeLayout.Update());
 				timer.Start();
 			};
 			timer.Enabled = true;
 			timer.Start ();
 
-			ScopeView.SelectedChannel = 0;
+			_ScopeLayout.SelectedChannel = 0;
 
-			ScopeView.NewData += (object sender, NewDataEventArgs e) => RunOnUiThread (() => UpdateMeasurements());
+			_ScopeLayout.NewData += (object sender, NewDataEventArgs e) => RunOnUiThread (() => UpdateMeasurements());
 			UpdateScopeControls ();
 		}
 
@@ -106,7 +104,7 @@ namespace WFS210.Android
 		{
 			RunOnUiThread (() => {
 				UpdateScopeControls ();
-				ScopeView.Update ();
+				_ScopeLayout.Update ();
 			});
 			if (!Oscilloscope.Hold && Oscilloscope.Trigger.Mode == TriggerMode.Run) {
 				Oscilloscope.Channels [0].Samples.Clear ();
@@ -165,7 +163,7 @@ namespace WFS210.Android
 
 		private void UpdateSelectedChannel ()
 		{
-			if (ScopeView.SelectedChannel == 0) {
+			if (_ScopeLayout.SelectedChannel == 0) {
 				SetBackgroundResourceAndKeepPadding(btnSelectChannel1,Resource.Drawable.buttongreen);
 				SetBackgroundResourceAndKeepPadding(btnSelectChannel2,Resource.Drawable.button);
 			} else {
@@ -528,13 +526,13 @@ namespace WFS210.Android
 
 		void HandleCH2Click (object sender, EventArgs e)
 		{
-			ScopeView.SelectedChannel = 1;
+			//_ScopeLayout.SelectedChannel = 1;
 			UpdateScopeControls ();
 		}
 
 		void HandleCH1Click (object sender, EventArgs e)
 		{
-			ScopeView.SelectedChannel = 0;
+			_ScopeLayout.SelectedChannel = 0;
 			UpdateScopeControls ();
 		}
 

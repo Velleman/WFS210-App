@@ -8,9 +8,9 @@ using Android.App;
 [assembly: AssemblyTitle ("aWFS210")]
 [assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("")]
+[assembly: AssemblyCompany ("Velleman nv")]
 [assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("TH3_Downer")]
+[assembly: AssemblyCopyright ("Velleman nv")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 

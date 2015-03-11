@@ -4,6 +4,7 @@ using Android.Content.Res;
 using Android.Content;
 using Android.App;
 using Android.Graphics;
+using Android.Widget;
 
 
 namespace WFS210.Android
@@ -11,65 +12,67 @@ namespace WFS210.Android
 	public class Marker
 	{
 		protected NinePatchDrawable npd;
+		private Rect _bounds;
+		private MarkerLayout _markerLayout;
 
-		public MarkerLayout Layout { get; set; }
+		protected int _value;
 
-		protected int value;
-
-		public Marker (Activity activity,int resourceId)
+		public Marker (Context context,int resourceId,MarkerLayout ml)
 		{
-			npd = (NinePatchDrawable)activity.Resources.GetDrawable (resourceId);
+			_markerLayout = ml;
+			npd = (NinePatchDrawable)context.Resources.GetDrawable (resourceId);
+			_bounds = new Rect (0, 0, npd.IntrinsicWidth, npd.IntrinsicHeight);
 		}
 
-		public virtual void Draw(Canvas canvas)
-		{
-			npd.Draw (canvas);
+		public MarkerLayout Layout{
+			get{
+				return _markerLayout;
+			}
 		}
 
 		/// <summary>
 		/// Gets or sets the value.
 		/// </summary>
 		/// <value>The value.</value>
-		public int Value
+		public float Value
 		{
-			get{ return value; }
+			get{ return _value; }
 			set{ 
-				this.value = value;
-				SetValue ();
+				_value = (int)value;
+				if (_markerLayout == MarkerLayout.Horizontal) {
+					_bounds.Top = _value - npd.IntrinsicHeight/2;
+					_bounds.Bottom = _bounds.Top + npd.IntrinsicHeight;
+				} else {
+					_bounds.Left = _value - npd.IntrinsicWidth /2;
+					_bounds.Right = _bounds.Left + npd.IntrinsicWidth;
+				}
 			}
 		}
 
-		protected void CalculateBounds(int size)
+		protected void CalculateBounds(float size)
 		{
-			if (Layout == MarkerLayout.Horizontal) {
-				var left = 0;
-				var top = 0;
-				var right = size;
-				var bottom = top + npd.IntrinsicHeight;
-				npd.Bounds = new Rect (left, top, right, bottom);
+			if (_markerLayout == MarkerLayout.Horizontal) {
+				_bounds.Right = (int)size;
 			} else {
-				var left = 0 - (npd.IntrinsicWidth/2);
-				var top = 0;
-				var right = left + npd.IntrinsicWidth;
-				var bottom = size;
-				npd.Bounds = new Rect (left, top, right, bottom);
+				_bounds.Bottom = (int)size;
 			}
 		}
 
-		private void SetValue(){
-			if (Layout == MarkerLayout.Horizontal) {
-				var left = -20;
-				var top = this.value - (npd.IntrinsicHeight/2);
-				var right = npd.Bounds.Right;
-				var bottom = top + npd.IntrinsicHeight;
-				npd.Bounds = new Rect (left, top, right, bottom);
+		protected void CalculateBounds(float size,float offset)
+		{
+			if (_markerLayout == MarkerLayout.Horizontal) {
+				_bounds.Left = (int)offset;
+				_bounds.Right = (int)size;
 			} else {
-				var left = this.value - (npd.IntrinsicWidth/2);
-				var top = 0;
-				var right = left + npd.IntrinsicWidth;
-				var bottom = npd.Bounds.Bottom;
-				npd.Bounds = new Rect (left, top, right, bottom);
+				_bounds.Top = (int)offset;
+				_bounds.Bottom = (int)size;
 			}
+		}
+			
+		public void Draw (Canvas canvas)
+		{
+			npd.Bounds = _bounds;
+			npd.Draw (canvas);
 		}
 	}
 }

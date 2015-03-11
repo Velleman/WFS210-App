@@ -25,14 +25,33 @@
 // THE SOFTWARE.
 using System;
 using Android.App;
+using Android.Graphics.Drawables;
+using Android.Content;
 
 namespace WFS210.Android
 {
 	public class TriggerMarker : Marker
 	{
-		public TriggerMarker (Activity activity,int resId,int width,int value) : base(activity,resId)
+		private bool _slopeUp;
+		private NinePatchDrawable _npdSlopeUp, _npdSlopeDown;
+		public bool SlopeUp{
+			get{
+				return _slopeUp;
+			}
+			set{
+				_slopeUp = value;
+				if (value) {
+					npd = _npdSlopeUp;
+				} else {
+					npd = _npdSlopeDown;
+				}
+			}
+		}
+
+		public TriggerMarker (Context context,int resIdUp,int resIdDown,float width,float value) : base(context,resIdUp,MarkerLayout.Horizontal)
 		{
-			Layout = MarkerLayout.Horizontal;
+			_npdSlopeUp = (NinePatchDrawable)context.Resources.GetDrawable (resIdUp);
+			_npdSlopeDown = (NinePatchDrawable)context.Resources.GetDrawable (resIdDown);
 			CalculateBounds (width);
 			Value = value;
 		}
