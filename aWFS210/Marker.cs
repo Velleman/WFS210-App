@@ -5,6 +5,7 @@ using Android.Content;
 using Android.App;
 using Android.Graphics;
 using Android.Widget;
+using Android.Animation;
 
 
 namespace WFS210.Android
@@ -17,15 +18,15 @@ namespace WFS210.Android
 
 		protected int _value;
 
-		public Marker (Context context,int resourceId,MarkerLayout ml)
+		public Marker (Context context, int resourceId, MarkerLayout ml)
 		{
 			_markerLayout = ml;
 			npd = (NinePatchDrawable)context.Resources.GetDrawable (resourceId);
 			_bounds = new Rect (0, 0, npd.IntrinsicWidth, npd.IntrinsicHeight);
 		}
 
-		public MarkerLayout Layout{
-			get{
+		public MarkerLayout Layout {
+			get {
 				return _markerLayout;
 			}
 		}
@@ -34,22 +35,33 @@ namespace WFS210.Android
 		/// Gets or sets the value.
 		/// </summary>
 		/// <value>The value.</value>
-		public float Value
-		{
+		public float Value {
 			get{ return _value; }
-			set{ 
-				_value = (int)value;
+			set { 
+
 				if (_markerLayout == MarkerLayout.Horizontal) {
-					_bounds.Top = _value - npd.IntrinsicHeight/2;
-					_bounds.Bottom = _bounds.Top + npd.IntrinsicHeight;
+					ValueAnimator animator = ValueAnimator.OfInt (new[]{ _value, (int)value });
+					animator.SetDuration (100);
+					animator.Update += (object sender, ValueAnimator.AnimatorUpdateEventArgs e) => {
+						_bounds.Top = (int)e.Animation.AnimatedValue - npd.IntrinsicHeight / 2;
+						_bounds.Bottom = _bounds.Top + npd.IntrinsicHeight;
+					};
+					animator.Start ();
+
 				} else {
-					_bounds.Left = _value - npd.IntrinsicWidth /2;
-					_bounds.Right = _bounds.Left + npd.IntrinsicWidth;
+					ValueAnimator animator = ValueAnimator.OfInt (new[]{ _value, (int)value });
+					animator.SetDuration (100);
+					animator.Update += (object sender, ValueAnimator.AnimatorUpdateEventArgs e) => {
+						_bounds.Left = (int)e.Animation.AnimatedValue - npd.IntrinsicWidth / 2;
+						_bounds.Right = _bounds.Left + npd.IntrinsicWidth;
+					};
+					animator.Start ();
 				}
+				_value = (int)value;
 			}
 		}
 
-		protected void CalculateBounds(float size)
+		protected void CalculateBounds (float size)
 		{
 			if (_markerLayout == MarkerLayout.Horizontal) {
 				_bounds.Right = (int)size;
@@ -58,7 +70,7 @@ namespace WFS210.Android
 			}
 		}
 
-		protected void CalculateBounds(float size,float offset)
+		protected void CalculateBounds (float size, float offset)
 		{
 			if (_markerLayout == MarkerLayout.Horizontal) {
 				_bounds.Left = (int)offset;
@@ -68,7 +80,7 @@ namespace WFS210.Android
 				_bounds.Bottom = (int)size;
 			}
 		}
-			
+
 		public void Draw (Canvas canvas)
 		{
 			npd.Bounds = _bounds;

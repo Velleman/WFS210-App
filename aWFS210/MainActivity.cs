@@ -9,12 +9,13 @@ using Android.OS;
 using WFS210;
 using WFS210.Services;
 using Android.Graphics.Drawables;
+using Android.Content.PM;
 
 
 
 namespace WFS210.Android
 {
-	[Activity (Label = "WFS210", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Black.NoTitleBar.Fullscreen")]
+	[Activity (Label = "WFS210", MainLauncher = true, Icon = "@drawable/icon",ScreenOrientation = ScreenOrientation.SensorLandscape, Theme="@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
 	{
 		/// <summary>
