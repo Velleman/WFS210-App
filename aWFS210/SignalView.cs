@@ -15,22 +15,21 @@ using WFS210.Services;
 using WFS210;
 using Android.Graphics;
 using Android.Support.V4.View;
+using WFS210.Util;
 
 namespace WFS210.Android
 {
 	public class SignalView : View
 	{
-		public ServiceManager ServiceManager{ get; set;}
+		public ServiceManager ServiceManager{ get; set; }
 
-		public Oscilloscope Oscilloscope{ get; set;}
+		public Oscilloscope Oscilloscope{ get; set; }
 
-		private ScaleGestureDetector _scaleDetector;
-
-		private Rect smallClip,largeClip;
+		private Rect smallClip, largeClip;
 
 		public Path[] traces;
 
-		public int SelectedChannel { get; set;}
+		public int SelectedChannel { get; set; }
 
 		public event EventHandler<NewDataEventArgs> NewData;
 
@@ -44,7 +43,16 @@ namespace WFS210.Android
 
 		private int GrappleDistance;
 
-		private GestureDetector _gestureDetector;
+		private static readonly int InvalidPointerId = -1;
+
+		private readonly ScaleGestureDetector _scaleDetector;
+
+		private int _activePointerId = InvalidPointerId;
+		private float _lastTouchX;
+		private float _lastTouchY;
+		private float _posX;
+		private float _posY;
+		private float _scaleFactor = 1.0f;
 
 		public float horizontalDIVS;
 
@@ -54,6 +62,7 @@ namespace WFS210.Android
 		Marker _closestMarker;
 
 		private Context _context;
+
 		/// <summary>
 		/// Gets or sets the service.
 		/// </summary>
@@ -64,24 +73,22 @@ namespace WFS210.Android
 			}
 		}
 
-		public SignalView (Context context) :
-			base (context)
-		{
-			Initialize (context);
-		}
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WFS210.Android.SignalView"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="attrs">Attrs.</param>
 		public SignalView (Context context, IAttributeSet attrs) :
 			base (context, attrs)
 		{
 			Initialize (context);
+			_scaleDetector = new ScaleGestureDetector (context, new MyScaleListener (this));
 		}
 
-		public SignalView (Context context, IAttributeSet attrs, int defStyle) :
-			base (context, attrs, defStyle)
-		{
-			Initialize (context);
-		}
-
+		/// <summary>
+		/// Initialize the SignalView.
+		/// </summary>
+		/// <param name="context">Context.</param>
 		public void Initialize (Context context)
 		{
 			_context = context;
@@ -94,15 +101,15 @@ namespace WFS210.Android
 			//init paints
 			paints = new Paint[2];
 			paints [0] = new Paint ();
-			paints[0] = new Paint ();
-			paints[0].Color = Color.Green;
-			paints[0].StrokeWidth = 2;
-			paints[0].SetStyle (Paint.Style.Stroke);
+			paints [0] = new Paint ();
+			paints [0].Color = Color.Green;
+			paints [0].StrokeWidth = 2;
+			paints [0].SetStyle (Paint.Style.Stroke);
 
-			paints[1] = new Paint ();
-			paints[1].Color = Color.Yellow;
-			paints[1].StrokeWidth = 2;
-			paints[1].SetStyle (Paint.Style.Stroke);
+			paints [1] = new Paint ();
+			paints [1].Color = Color.Yellow;
+			paints [1].StrokeWidth = 2;
+			paints [1].SetStyle (Paint.Style.Stroke);
 
 			paintGrid = new Paint ();
 			paintGrid.Color = Color.Gray;
@@ -111,54 +118,78 @@ namespace WFS210.Android
 
 			_markers = new List<Marker> ();
 
-			this.SetBackgroundColor(Color.Transparent);
+			this.SetBackgroundColor (Color.Transparent);
 
 			offSet = 20;
-			//this.SetLayerType (LayerType.Software, null);
 
 			GrappleDistance = 60;
+
 		}
 
+		/// <param name="e">The motion event.</param>
+		/// <summary>
+		/// Implement this method to handle touch screen motion events.
+		/// </summary>
+		/// <returns>To be added.</returns>
 		public override bool OnTouchEvent (MotionEvent e)
 		{
-			switch (e.Action) {
+			_scaleDetector.OnTouchEvent (e);
+			MotionEventActions action = e.Action & MotionEventActions.Mask;
+			int pointerIndex;
+			switch (action) {
 			case MotionEventActions.Down:
+				_lastTouchX = e.GetX ();
+				_lastTouchY = e.GetY ();
+				_activePointerId = e.GetPointerId (0);
 				_closestMarker = GetMarkerAt (new PointF (e.GetX (), e.GetY ()));
 				break;
 			case MotionEventActions.Move:
-				if (_closestMarker != null) {
-					if (_closestMarker is XMarker) {
-						var position = _closestMarker.Value;
-						var touchPos = e.GetX();
-						if (touchPos > grid.StartWidth) {
-							if (touchPos < grid.EndWidth)
-								position = e.GetX ();
-							else
-								position = grid.EndWidth;
+				pointerIndex = e.FindPointerIndex (_activePointerId);
+				float x = e.GetX ();
+				float y = e.GetY ();
+				if (!_scaleDetector.IsInProgress) {
+					if (_closestMarker != null) {
+						if (_closestMarker is XMarker) {
+							var position = _closestMarker.Value;
+							if (x > grid.StartWidth) {
+								if (x < grid.EndWidth)
+									position = x;
+								else
+									position = grid.EndWidth;
+							} else {
+								position = grid.StartWidth;
+							}
+							_closestMarker.Value = position;
 						} else {
-							position = grid.StartWidth;
-						}
-						_closestMarker.Value = position;
-					} else {
-						var position = _closestMarker.Value;
-						var touchPos = e.GetY();
-						if (touchPos > grid.StartHeight) {
-							if (touchPos < grid.EndHeight)
-								position = e.GetY ();
-							else
-								position = grid.EndHeight;
-						} else {
-							position = grid.StartHeight;
-						}
-						_closestMarker.Value = position;
+							var position = _closestMarker.Value;
+							if (y > grid.StartHeight) {
+								if (y < grid.EndHeight)
+									position = y;
+								else
+									position = grid.EndHeight;
+							} else {
+								position = grid.StartHeight;
+							}
+							_closestMarker.Value = position;
 
+						}
+						Invalidate ();
 					}
-					Invalidate ();
 				}
+				_lastTouchX = x;
+				_lastTouchY = y;
 				break;
 			case MotionEventActions.Up:
+			case MotionEventActions.Cancel:
 				_closestMarker = null;
 				Invalidate ();
+				break;
+			case MotionEventActions.PointerUp:
+				pointerIndex = (int)(e.Action & MotionEventActions.PointerIndexMask) >> (int)MotionEventActions.PointerIndexShift;
+				int pointerid = e.GetPointerId (pointerIndex);
+				if (pointerid == _activePointerId) {
+
+				}
 				break;
 			default:
 				break;
@@ -166,18 +197,28 @@ namespace WFS210.Android
 			return true;
 		}
 
+		/// <param name="w">Current width of this view.</param>
+		/// <param name="h">Current height of this view.</param>
+		/// <param name="oldw">Old width of this view.</param>
+		/// <param name="oldh">Old height of this view.</param>
+		/// <summary>
+		/// This is called during layout when the size of this view has changed.
+		/// </summary>
 		protected override void OnSizeChanged (int w, int h, int oldw, int oldh)
 		{
 			base.OnSizeChanged (w, h, oldw, oldh);
 			grid = new Grid (w, h, offSet, offSet);
-			smallClip = new Rect ((int)grid.StartWidth,(int)grid.StartHeight+1,(int)grid.EndWidth,(int)grid.EndHeight);
+			smallClip = new Rect ((int)grid.StartWidth, (int)grid.StartHeight + 1, (int)grid.EndWidth, (int)grid.EndHeight);
 			largeClip = new Rect (0, 0, w, h);
 			CalculateRatios ();
 			CalculateMarkers ();
 
 		}
 
-		public void Update()
+		/// <summary>
+		/// Update this instance.
+		/// </summary>
+		public void Update ()
 		{
 			Invalidate ();
 		}
@@ -190,35 +231,28 @@ namespace WFS210.Android
 		{
 			base.OnDraw (canvas);
 
-			grid.Draw (canvas,paintGrid);
+			grid.Draw (canvas, paintGrid);
 
 			canvas.ClipRect (smallClip);
 
-			for(int i=0;i < 2;i++)
-			{
+			for (int i = 0; i < 2; i++) {
 				traces [i].Reset ();
-				traces[i].MoveTo (grid.StartWidth, MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [0]));
+				traces [i].MoveTo (grid.StartWidth, MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [0]));
 
-				for (int j = (int)grid.StartWidth; j < MapXPosToScreen(TotalSamples); j++) {
-					traces[i].LineTo(MapXPosToScreen(j), MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [j]));
+				for (int j = (int)grid.StartWidth; j < MapXPosToScreen (TotalSamples); j++) {
+					traces [i].LineTo (MapXPosToScreen (j), MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [j]));
+				}
+
+				canvas.DrawPath (traces [i], paints [i]);
 			}
 
-				canvas.DrawPath (traces[i], paints[i]);
-			}
-
-			canvas.ClipRect (largeClip,Region.Op.Replace);
-
+			canvas.ClipRect (largeClip, Region.Op.Replace);
 
 			foreach (Marker m in _markers) {
 				m.Draw (canvas);
 			}
 
 		}
-
-
-
-
-
 
 		/// <summary>
 		/// Raises the new data event.
@@ -230,28 +264,28 @@ namespace WFS210.Android
 				NewData (this, e);
 		}
 
-		private void CalculateMarkers()
+		private void CalculateMarkers ()
 		{
 			_markers.Clear ();
 
-			_markers.Add (new ZeroLine (_context,Resource.Drawable.zeroline1,(int)grid.EndWidth,(int)grid.StartWidth,(int)(grid.Height/2.3)));
-			_markers.Add (new ZeroLine (_context,Resource.Drawable.zeroline2,(int)grid.EndWidth,(int)grid.StartWidth,(int)(grid.Height/1.7)));
+			_markers.Add (new ZeroLine (_context, Resource.Drawable.zeroline1, (int)grid.EndWidth, (int)grid.StartWidth, (int)(grid.Height / 2.3)));
+			_markers.Add (new ZeroLine (_context, Resource.Drawable.zeroline2, (int)grid.EndWidth, (int)grid.StartWidth, (int)(grid.Height / 1.7)));
 
-			_markers.Add (new YMarker (_context,Resource.Drawable.markera,grid.EndWidth,(int)(grid.Height/3)));
-			_markers.Add (new YMarker (_context,Resource.Drawable.markerb,grid.EndWidth,(int)(grid.Height*0.75)));
+			_markers.Add (new YMarker (_context, Resource.Drawable.markera, grid.EndWidth, (int)(grid.Height / 3)));
+			_markers.Add (new YMarker (_context, Resource.Drawable.markerb, grid.EndWidth, (int)(grid.Height * 0.75)));
 
 			_markers.Add (new TriggerMarker (_context, Resource.Drawable.markertriggerup, Resource.Drawable.markertriggerdown, grid.EndWidth, (int)(grid.Height / 4)));
 
-			_markers.Add (new XMarker (_context,Resource.Drawable.marker1,(int)grid.EndHeight,(int)(grid.Width/3)));
-			_markers.Add (new XMarker (_context,Resource.Drawable.marker2,(int)grid.EndHeight,(int)(grid.Width*0.75)));
+			_markers.Add (new XMarker (_context, Resource.Drawable.marker1, (int)grid.EndHeight, (int)(grid.Width / 3)));
+			_markers.Add (new XMarker (_context, Resource.Drawable.marker2, (int)grid.EndHeight, (int)(grid.Width * 0.75)));
 		}
 
 		/// <summary>
 		/// Calculates the ratios.
 		/// </summary>
-		private void CalculateRatios()
+		private void CalculateRatios ()
 		{
-			SampleToPointRatio = (float)((grid.EndHeight - grid.StartHeight)/(Oscilloscope.DeviceContext.UnitsPerDivision * Oscilloscope.DeviceContext.Divisions));
+			SampleToPointRatio = (float)((grid.EndHeight - grid.StartHeight) / (Oscilloscope.DeviceContext.UnitsPerDivision * Oscilloscope.DeviceContext.Divisions));
 			TotalSamples = (int)(Oscilloscope.DeviceContext.SamplesPerTimeBase * grid.HorizontalDivs);
 		}
 
@@ -354,6 +388,56 @@ namespace WFS210.Android
 			}
 
 			return closestMarker;
+		}
+
+		private class MyScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener
+		{
+			private readonly SignalView _view;
+
+			float firstSpanX;
+			float firstSpanY;
+			int scaleTreshold;
+			float spanX,spanY;
+			public MyScaleListener (SignalView view)
+			{
+				_view = view;
+				scaleTreshold = 50;
+			}
+
+			public override bool OnScale (ScaleGestureDetector detector)
+			{
+				spanX = detector.CurrentSpanX;
+				spanY = detector.CurrentSpanY;
+
+				double angle = (Math.Atan2(spanY,spanX));
+				angle = angle * (180.0 / Math.PI);
+				if (angle < 45) {
+					if (firstSpanX >  spanX + scaleTreshold) {
+						_view.Oscilloscope.TimeBase = _view.Oscilloscope.TimeBase.Cycle (1);
+						firstSpanX = spanX;
+					} else if (firstSpanX < spanX - scaleTreshold){
+						_view.Oscilloscope.TimeBase = _view.Oscilloscope.TimeBase.Cycle (-1);
+						firstSpanX = spanX;
+					}
+				} else {
+					if (firstSpanY > spanY + scaleTreshold) {
+						firstSpanY = spanY;
+						_view.Service.Execute (new PreviousVoltsPerDivisionCommand (_view.SelectedChannel));
+					} else if(firstSpanY < spanY - scaleTreshold){
+						firstSpanY = spanY;
+						_view.Service.Execute (new NextVoltsPerDivisionCommand (_view.SelectedChannel));
+					}
+				}
+				_view.Invalidate ();
+				return true;
+			}
+
+			public override bool OnScaleBegin (ScaleGestureDetector detector)
+			{
+				return base.OnScaleBegin (detector);
+				firstSpanX = detector.CurrentSpanX;
+				firstSpanY = detector.CurrentSpanY;
+			}
 		}
 
 	}
