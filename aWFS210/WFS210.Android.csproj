@@ -58,6 +58,7 @@
     <Compile Include="SignalView.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="VoltTimeIndicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
