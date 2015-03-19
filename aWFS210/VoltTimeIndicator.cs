@@ -32,6 +32,7 @@ namespace WFS210.Android
 	{
 		public VoltTimeIndicator (Context ctx) : base(ctx)
 		{
+
 		}
 	}
 }

@@ -31,6 +31,10 @@ namespace WFS210.Android
 
 		public int SelectedChannel { get; set; }
 
+		public bool IsScaling{ get; private set;}
+
+		public bool ScalingTime{ get; private set;}
+
 		public event EventHandler<NewDataEventArgs> NewData;
 
 		private Paint[] paints;
@@ -123,7 +127,6 @@ namespace WFS210.Android
 			offSet = 20;
 
 			GrappleDistance = 60;
-
 		}
 
 		/// <param name="e">The motion event.</param>
@@ -412,14 +415,17 @@ namespace WFS210.Android
 				double angle = (Math.Atan2(spanY,spanX));
 				angle = angle * (180.0 / Math.PI);
 				if (angle < 45) {
+					_view.ScalingTime = true;
 					if (firstSpanX >  spanX + scaleTreshold) {
-						_view.Oscilloscope.TimeBase = _view.Oscilloscope.TimeBase.Cycle (1);
+						_view.Service.Execute (new NextTimeBaseCommand ());
 						firstSpanX = spanX;
 					} else if (firstSpanX < spanX - scaleTreshold){
-						_view.Oscilloscope.TimeBase = _view.Oscilloscope.TimeBase.Cycle (-1);
+						_view.Service.Execute (new PreviousTimeBaseCommand ());
 						firstSpanX = spanX;
+
 					}
 				} else {
+					_view.ScalingTime = false;
 					if (firstSpanY > spanY + scaleTreshold) {
 						firstSpanY = spanY;
 						_view.Service.Execute (new PreviousVoltsPerDivisionCommand (_view.SelectedChannel));
@@ -434,9 +440,18 @@ namespace WFS210.Android
 
 			public override bool OnScaleBegin (ScaleGestureDetector detector)
 			{
-				return base.OnScaleBegin (detector);
 				firstSpanX = detector.CurrentSpanX;
 				firstSpanY = detector.CurrentSpanY;
+				_view.IsScaling = true;
+				return base.OnScaleBegin (detector);
+			}
+
+			public override void OnScaleEnd (ScaleGestureDetector detector)
+			{
+				base.OnScaleEnd (detector);
+				_view.IsScaling = false;
+				//HACK: trigger update on the ui so the volttimeindicator disappears;
+				_view.Service.Execute (new TriggerChannelCommand (_view.Oscilloscope.Trigger.Channel));
 			}
 		}
 

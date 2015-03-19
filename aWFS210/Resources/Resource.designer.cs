@@ -275,13 +275,16 @@ namespace WFS210.Android
 			public const int voltupdisabled = 2130837566;
 			
 			// aapt resource value: 0x7f02003f
-			public const int wifiicon = 2130837567;
+			public const int vti_bg = 2130837567;
 			
 			// aapt resource value: 0x7f020040
-			public const int zeroline1 = 2130837568;
+			public const int wifiicon = 2130837568;
 			
 			// aapt resource value: 0x7f020041
-			public const int zeroline2 = 2130837569;
+			public const int zeroline1 = 2130837569;
+			
+			// aapt resource value: 0x7f020042
+			public const int zeroline2 = 2130837570;
 			
 			static Drawable()
 			{
@@ -298,6 +301,9 @@ namespace WFS210.Android
 			
 			// aapt resource value: 0x7f070042
 			public const int SignalView = 2131165250;
+			
+			// aapt resource value: 0x7f070043
+			public const int VoltTimeIndicator = 2131165251;
 			
 			// aapt resource value: 0x7f070006
 			public const int btnAC1 = 2131165190;
@@ -615,6 +621,9 @@ namespace WFS210.Android
 			
 			// aapt resource value: 0x7f05001b
 			public const int trigger = 2131034139;
+			
+			// aapt resource value: 0x7f05001e
+			public const int voltime = 2131034142;
 			
 			static String()
 			{

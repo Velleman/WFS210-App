@@ -31,7 +31,8 @@
 	<string name="trigger">TRIGGER</string>
 	<string name="timebase">TIMEBASE</string>
 	<string name="autorange">AUTORANGE</string>
-	
+	<string name="voltime">test\DIV</string>
+
    	<string-array name="MarkerMeasurements">
         <item>dt</item>
         <item>Frequency</item>

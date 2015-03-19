@@ -31,7 +31,12 @@ namespace WFS210.Android
 		/// <summary>
 		/// The scope data manager.
 		/// </summary>
-		private SignalView _ScopeLayout;
+		private SignalView _ScopeView;
+
+		/// <summary>
+		/// The Volt Time Indicator view to display the volt/time settings when scaling
+		/// </summary>
+		private TextView _VoltTimeIndicator;
 
 		/// <summary>
 		/// Gets the service.
@@ -68,7 +73,9 @@ namespace WFS210.Android
 			//Create the ServiceManager
 			this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
 
-			this._ScopeLayout = FindViewById<SignalView> (Resource.Id.SignalView);
+			this._ScopeView = FindViewById<SignalView> (Resource.Id.SignalView);
+			this._VoltTimeIndicator = FindViewById<TextView> (Resource.Id.VoltTimeIndicator);
+			this._VoltTimeIndicator.SetZ (999f);
 			LoadControls();
 
 		}
@@ -78,21 +85,21 @@ namespace WFS210.Android
 			base.OnResume ();
 			ServiceManager.SettingsChanged += HandleSettingsChanged;
 			ServiceManager.FullFrame += HandleFullFrame;
-			this._ScopeLayout.ServiceManager = this.ServiceManager;
-			this._ScopeLayout.Oscilloscope = this.Oscilloscope;
+			this._ScopeView.ServiceManager = this.ServiceManager;
+			this._ScopeView.Oscilloscope = this.Oscilloscope;
 			var timer = new System.Timers.Timer (200);
 			timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
 				timer.Stop();
 				Service.Update ();
-				RunOnUiThread (() =>_ScopeLayout.Update());
+				RunOnUiThread (() =>_ScopeView.Update());
 				timer.Start();
 			};
 			timer.Enabled = true;
 			timer.Start ();
 
-			_ScopeLayout.SelectedChannel = 0;
+			_ScopeView.SelectedChannel = 0;
 
-			_ScopeLayout.NewData += (object sender, NewDataEventArgs e) => RunOnUiThread (() => UpdateMeasurements());
+			_ScopeView.NewData += (object sender, NewDataEventArgs e) => RunOnUiThread (() => UpdateMeasurements());
 			UpdateScopeControls ();
 		}
 
@@ -105,7 +112,7 @@ namespace WFS210.Android
 		{
 			RunOnUiThread (() => {
 				UpdateScopeControls ();
-				_ScopeLayout.Update ();
+				_ScopeView.Update ();
 			});
 			if (!Oscilloscope.Hold && Oscilloscope.Trigger.Mode == TriggerMode.Run) {
 				Oscilloscope.Channels [0].Samples.Clear ();
@@ -116,6 +123,12 @@ namespace WFS210.Android
 		private void UpdateScopeControls ()
 		{
 			UpdateSelectedChannel ();
+			if (_ScopeView.IsScaling) {
+					_VoltTimeIndicator.Visibility = ViewStates.Visible;
+				UpdateVoltTimeIndicator ();
+			} else {
+				_VoltTimeIndicator.Visibility = ViewStates.Gone;
+			}
 			UpdateChannel1UI ();
 			UpdateChannel2UI ();
 			UpdateTriggerUI ();
@@ -123,6 +136,14 @@ namespace WFS210.Android
 //			UpdateBatteryStatus ();
 		}
 
+		private void UpdateVoltTimeIndicator()
+		{
+			if (_ScopeView.ScalingTime)
+				_VoltTimeIndicator.Text = TimeBaseConverter.ToString (Oscilloscope.TimeBase);
+			else {
+				_VoltTimeIndicator.Text = VoltsPerDivisionConverter.ToString(Oscilloscope.Channels [_ScopeView.SelectedChannel].VoltsPerDivision,Oscilloscope.Channels [_ScopeView.SelectedChannel].AttenuationFactor);
+			}
+		}
 
 		private void UpdateChannel1UI ()
 		{
@@ -164,7 +185,7 @@ namespace WFS210.Android
 
 		private void UpdateSelectedChannel ()
 		{
-			if (_ScopeLayout.SelectedChannel == 0) {
+			if (_ScopeView.SelectedChannel == 0) {
 				SetBackgroundResourceAndKeepPadding(btnSelectChannel1,Resource.Drawable.buttongreen);
 				SetBackgroundResourceAndKeepPadding(btnSelectChannel2,Resource.Drawable.button);
 			} else {
@@ -533,7 +554,7 @@ namespace WFS210.Android
 
 		void HandleCH1Click (object sender, EventArgs e)
 		{
-			_ScopeLayout.SelectedChannel = 0;
+			_ScopeView.SelectedChannel = 0;
 			UpdateScopeControls ();
 		}
 

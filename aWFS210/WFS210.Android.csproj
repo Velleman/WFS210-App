@@ -58,7 +58,6 @@
     <Compile Include="SignalView.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="VoltTimeIndicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -135,6 +134,7 @@
     <AndroidResource Include="Resources\drawable\markertriggerdown.9.png" />
     <AndroidResource Include="Resources\drawable\markertriggerup.9.png" />
     <AndroidResource Include="Resources\drawable\zeroline2.9.png" />
+    <AndroidResource Include="Resources\drawable\vti_bg.axml" />
   </ItemGroup>
   <Import Project="..\WFS210\WFS210.projitems" Label="Shared" Condition="Exists('..\WFS210\WFS210.projitems')" />
   <Import Project="..\WFS210.IO\WFS210.IO.projitems" Label="Shared" Condition="Exists('..\WFS210.IO\WFS210.IO.projitems')" />
