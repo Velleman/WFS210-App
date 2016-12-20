@@ -2,7 +2,7 @@
 using System.Collections;
 using Android.Graphics;
 
-namespace WFS210.Android
+namespace WFS210.Droid
 {
 	/// <summary>
 	/// Trace.

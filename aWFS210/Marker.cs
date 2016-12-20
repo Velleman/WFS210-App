@@ -8,7 +8,7 @@ using Android.Widget;
 using Android.Animation;
 
 
-namespace WFS210.Android
+namespace WFS210.Droid
 {
 	public class Marker
 	{

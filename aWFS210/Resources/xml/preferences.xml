@@ -1,0 +1,36 @@
+﻿<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+<PreferenceCategory android:title="Settings">
+    <EditTextPreference
+        android:defaultValue="DEMO"
+        android:key="WIFINAME"
+        android:summary="This will set the name of the wifi scope"
+        android:title="Name of the wifi scope" />
+    <CheckBoxPreference
+        android:key="DEMO"
+        android:summary="Enables the Demo mode"
+        android:title="Demo mode" />
+</PreferenceCategory>
+
+<PreferenceCategory android:title="Calibration">
+    <CheckBoxPreference
+        android:key="CALIBRATE"
+        android:title="Request Calibration" 
+        android:summary="Check it to request a calibration"/>
+</PreferenceCategory>
+
+<PreferenceCategory android:title="Versions">
+    <Preference
+        android:key="VERSIONNUMBERSCOPE"
+        android:title="Firmware Version" />
+    <Preference
+        android:key="VERSIONNUMBERWIFI"
+        android:title="Wifi Firmware Version" 
+        android:summary=""/>
+    <Preference
+        android:key="APPVERSION"
+        android:title="App Version" 
+        android:summary=""
+        android:defaultValue="1.1"/>
+</PreferenceCategory>
+</PreferenceScreen>

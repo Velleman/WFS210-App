@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 using System;
 
-namespace WFS210.Android
+namespace WFS210.Droid
 {
 	public enum MarkerLayout
 	{

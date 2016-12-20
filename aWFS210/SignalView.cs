@@ -6,18 +6,18 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using WFS210.Services;
 using WFS210;
-using Android.Graphics;
-using Android.Support.V4.View;
+using WFS210.Services;
 using WFS210.Util;
 
-namespace WFS210.Android
+namespace WFS210.Droid
 {
 	public class SignalView : View
 	{
@@ -25,7 +25,7 @@ namespace WFS210.Android
 
 		public Oscilloscope Oscilloscope{ get; set; }
 
-		private Rect smallClip, largeClip;
+		private Rect signalRectangle, largeRectangle;
 
 		public Path[] traces;
 
@@ -54,15 +54,13 @@ namespace WFS210.Android
 		private int _activePointerId = InvalidPointerId;
 		private float _lastTouchX;
 		private float _lastTouchY;
-		private float _posX;
-		private float _posY;
-		private float _scaleFactor = 1.0f;
 
 		public float horizontalDIVS;
 
-		Grid grid;
+		public Grid Grid{ get; private set;}
 		 
-		List<Marker> _markers;
+		public List<Marker> Markers{ get; private set;}
+        public bool DrawMarkers { get; set; }
 		Marker _closestMarker;
 
 		private Context _context;
@@ -120,7 +118,7 @@ namespace WFS210.Android
 			paintGrid.StrokeWidth = 1;
 			paintGrid.SetStyle (Paint.Style.Stroke);
 
-			_markers = new List<Marker> ();
+			Markers = new List<Marker> ();
 
 			this.SetBackgroundColor (Color.Transparent);
 
@@ -154,24 +152,24 @@ namespace WFS210.Android
 					if (_closestMarker != null) {
 						if (_closestMarker is XMarker) {
 							var position = _closestMarker.Value;
-							if (x > grid.StartWidth) {
-								if (x < grid.EndWidth)
+							if (x > Grid.StartWidth) {
+								if (x < Grid.EndWidth)
 									position = x;
 								else
-									position = grid.EndWidth;
+									position = Grid.EndWidth;
 							} else {
-								position = grid.StartWidth;
+								position = Grid.StartWidth;
 							}
 							_closestMarker.Value = position;
 						} else {
 							var position = _closestMarker.Value;
-							if (y > grid.StartHeight) {
-								if (y < grid.EndHeight)
+							if (y > Grid.StartHeight) {
+								if (y < Grid.EndHeight)
 									position = y;
 								else
-									position = grid.EndHeight;
+									position = Grid.EndHeight;
 							} else {
-								position = grid.StartHeight;
+								position = Grid.StartHeight;
 							}
 							_closestMarker.Value = position;
 
@@ -210,9 +208,9 @@ namespace WFS210.Android
 		protected override void OnSizeChanged (int w, int h, int oldw, int oldh)
 		{
 			base.OnSizeChanged (w, h, oldw, oldh);
-			grid = new Grid (w, h, offSet, offSet);
-			smallClip = new Rect ((int)grid.StartWidth, (int)grid.StartHeight + 1, (int)grid.EndWidth, (int)grid.EndHeight);
-			largeClip = new Rect (0, 0, w, h);
+			Grid = new Grid (w, h, offSet, offSet);
+			signalRectangle = new Rect ((int)Grid.StartWidth, (int)Grid.StartHeight + 1, (int)Grid.EndWidth, (int)Grid.EndHeight);
+			largeRectangle = new Rect (0, 0, w, h);
 			CalculateRatios ();
 			CalculateMarkers ();
 
@@ -234,26 +232,30 @@ namespace WFS210.Android
 		{
 			base.OnDraw (canvas);
 
-			grid.Draw (canvas, paintGrid);
+			Grid.Draw (canvas, paintGrid);
 
-			canvas.ClipRect (smallClip);
+			canvas.ClipRect (signalRectangle);
 
 			for (int i = 0; i < 2; i++) {
 				traces [i].Reset ();
-				traces [i].MoveTo (grid.StartWidth, MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [0]));
+				traces [i].MoveTo (Grid.StartWidth, MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [0]));
 
-				for (int j = (int)grid.StartWidth; j < MapXPosToScreen (TotalSamples); j++) {
+				for (int j = (int)Grid.StartWidth; j < MapXPosToScreen (TotalSamples); j++) {
 					traces [i].LineTo (MapXPosToScreen (j), MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [j]));
 				}
 
 				canvas.DrawPath (traces [i], paints [i]);
 			}
 
-			canvas.ClipRect (largeClip, Region.Op.Replace);
+			canvas.ClipRect (largeRectangle, Region.Op.Replace);
 
-			foreach (Marker m in _markers) {
-				m.Draw (canvas);
-			}
+            if (DrawMarkers)
+            {
+                foreach (Marker m in Markers)
+                {
+                    m.Draw(canvas);
+                }
+            }
 
 		}
 
@@ -269,18 +271,18 @@ namespace WFS210.Android
 
 		private void CalculateMarkers ()
 		{
-			_markers.Clear ();
+			Markers.Clear ();
 
-			_markers.Add (new ZeroLine (_context, Resource.Drawable.zeroline1, (int)grid.EndWidth, (int)grid.StartWidth, (int)(grid.Height / 2.3)));
-			_markers.Add (new ZeroLine (_context, Resource.Drawable.zeroline2, (int)grid.EndWidth, (int)grid.StartWidth, (int)(grid.Height / 1.7)));
+			Markers.Add (new ZeroLine (_context, Resource.Drawable.zeroline1, (int)Grid.EndWidth, (int)Grid.StartWidth, (int)(Grid.Height / 2.3)));
+			Markers.Add (new ZeroLine (_context, Resource.Drawable.zeroline2, (int)Grid.EndWidth, (int)Grid.StartWidth, (int)(Grid.Height / 1.7)));
 
-			_markers.Add (new YMarker (_context, Resource.Drawable.markera, grid.EndWidth, (int)(grid.Height / 3)));
-			_markers.Add (new YMarker (_context, Resource.Drawable.markerb, grid.EndWidth, (int)(grid.Height * 0.75)));
+			Markers.Add (new YMarker (_context, Resource.Drawable.markera, Grid.EndWidth, (int)(Grid.Height / 3)));
+			Markers.Add (new YMarker (_context, Resource.Drawable.markerb, Grid.EndWidth, (int)(Grid.Height * 0.75)));
 
-			_markers.Add (new TriggerMarker (_context, Resource.Drawable.markertriggerup, Resource.Drawable.markertriggerdown, grid.EndWidth, (int)(grid.Height / 4)));
+			Markers.Add (new TriggerMarker (_context, Resource.Drawable.markertriggerup, Resource.Drawable.markertriggerdown, Grid.EndWidth, (int)(Grid.Height / 4)));
 
-			_markers.Add (new XMarker (_context, Resource.Drawable.marker1, (int)grid.EndHeight, (int)(grid.Width / 3)));
-			_markers.Add (new XMarker (_context, Resource.Drawable.marker2, (int)grid.EndHeight, (int)(grid.Width * 0.75)));
+			Markers.Add (new XMarker (_context, Resource.Drawable.marker1, (int)Grid.EndHeight, (int)(Grid.Width / 3)));
+			Markers.Add (new XMarker (_context, Resource.Drawable.marker2, (int)Grid.EndHeight, (int)(Grid.Width * 0.75)));
 		}
 
 		/// <summary>
@@ -288,8 +290,8 @@ namespace WFS210.Android
 		/// </summary>
 		private void CalculateRatios ()
 		{
-			SampleToPointRatio = (float)((grid.EndHeight - grid.StartHeight) / (Oscilloscope.DeviceContext.UnitsPerDivision * Oscilloscope.DeviceContext.Divisions));
-			TotalSamples = (int)(Oscilloscope.DeviceContext.SamplesPerTimeBase * grid.HorizontalDivs);
+			SampleToPointRatio = (float)((Grid.EndHeight - Grid.StartHeight) / (Oscilloscope.DeviceContext.UnitsPerDivision * Oscilloscope.DeviceContext.Divisions));
+			TotalSamples = (int)(Oscilloscope.DeviceContext.SamplesPerTimeBase * Grid.HorizontalDivs);
 		}
 
 		/// <summary>
@@ -300,7 +302,7 @@ namespace WFS210.Android
 		private int MapSampleDataToScreen (int sample)
 		{
 			var result = (int)((sample * SampleToPointRatio));
-			return result + (int)grid.StartHeight;
+			return result + (int)Grid.StartHeight;
 		}
 
 		/// <summary>
@@ -330,7 +332,7 @@ namespace WFS210.Android
 		/// <param name="pos">Position.</param>
 		private int MapXPosToScreen (int pos)
 		{
-			var ratio = (float)grid.Width / (float)TotalSamples;
+			var ratio = (float)Grid.Width / (float)TotalSamples;
 			return (int)(pos * ratio);
 		}
 
@@ -371,12 +373,12 @@ namespace WFS210.Android
 
 			// Here we will loop over all markers in an attempt
 			// to find the marker closest to the touch position.
-			for (int i = 0; i < _markers.Count; i++) {
+			for (int i = 0; i < Markers.Count; i++) {
 
 				// First, we calculate the distance between the marker
 				// line and the touch position. If this distance is within
 				// grapple distance, then we have a hit.
-				distance = HitTest (pt, _markers [i]);
+				distance = HitTest (pt, Markers [i]);
 				if (distance < GrappleDistance) {
 
 					// Check if this new hit is closer than the previous
@@ -384,7 +386,7 @@ namespace WFS210.Android
 					// new closest marker.
 					if ((i == 0) || (distance < lastDistance)) {
 
-						closestMarker = _markers [i];
+						closestMarker = Markers [i];
 						lastDistance = distance; // save
 					}
 				}

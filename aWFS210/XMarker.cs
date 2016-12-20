@@ -3,7 +3,7 @@ using Android.App;
 using Android.Graphics;
 using Android.Content;
 
-namespace WFS210.Android
+namespace WFS210.Droid
 {
 	public class XMarker : Marker
 	{

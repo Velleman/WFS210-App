@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -6,15 +6,15 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{2FADE171-3743-427D-A44A-C63F10A32F27}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WFS210.Android</RootNamespace>
+    <RootNamespace>WFS210.Droid</RootNamespace>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>aWFS210</AssemblyName>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="Mono.Android.Support.v4" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.21.0.3.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -58,14 +60,21 @@
     <Compile Include="SignalView.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MarkerUnit.cs" />
+    <Compile Include="DisplaySettings.cs" />
+    <Compile Include="SignalUnit.cs" />
+    <Compile Include="MarkerDataCalculator.cs" />
+    <Compile Include="MarkerID.cs" />
+    <Compile Include="PreferenceActivity.cs" />
+    <Compile Include="PrefFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\background.xml" />
     <AndroidResource Include="Resources\drawable\backgroundcalibrating.xml" />
@@ -135,6 +144,9 @@
     <AndroidResource Include="Resources\drawable\markertriggerup.9.png" />
     <AndroidResource Include="Resources\drawable\zeroline2.9.png" />
     <AndroidResource Include="Resources\drawable\vti_bg.axml" />
+    <AndroidResource Include="Resources\xml\preferences.xml" />
+    <AndroidResource Include="Resources\layout-sw600dp\Main.axml" />
+    <AndroidResource Include="Resources\layout-small-land\Main.axml" />
   </ItemGroup>
   <Import Project="..\WFS210\WFS210.projitems" Label="Shared" Condition="Exists('..\WFS210\WFS210.projitems')" />
   <Import Project="..\WFS210.IO\WFS210.IO.projitems" Label="Shared" Condition="Exists('..\WFS210.IO\WFS210.IO.projitems')" />
@@ -149,4 +161,13 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportv4-18">
+      <Version>21.0.3.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\layout\" />
+  </ItemGroup>
 </Project>

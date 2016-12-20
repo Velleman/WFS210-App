@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.NetworkInformation;
 using System.Text;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,11 @@ namespace WFS210.IO
 		/// </summary>
 		const string WelcomeText = "*HELLO*";
 
-		/// <summary>
-		/// Underlying client used for TCP communication.
-		/// </summary>
-		protected TcpClient Client;
+        protected string IPAddress = DefaultAddress;
+        /// <summary>
+        /// Underlying client used for TCP communication.
+        /// </summary>
+        protected TcpClient Client;
 
 		/// <summary>
 		/// Writer in charge of writing packet objects from the network stream.
@@ -53,7 +55,7 @@ namespace WFS210.IO
 		/// </summary>
 		public TcpConnection ()
 		{
-
+            System.Net.NetworkInformation.
 		}
 
 		/// <summary>
@@ -61,7 +63,7 @@ namespace WFS210.IO
 		/// </summary>
 		public bool Connect ()
 		{
-			return Connect (DefaultAddress);
+			return Connect (IPAddress);
 		}
 
 		/// <summary>
@@ -194,6 +196,11 @@ namespace WFS210.IO
             else
                 return null;
 		}
+
+        public string IPAdress
+        {
+            get; set;
+        }
 	}
 }
 

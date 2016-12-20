@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    class="wfs210.android.ScopeWindow"
+    android:id="@+id/scope_fragment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <view
+        class="wfs210.android.SignalView"
+        android:id="@+id/SignalView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/backgroundsurfaceview"
+        android:layout_marginBottom="15dp" />
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgZeroLine1"
+        android:layout_alignLeft="@id/SignalView"
+        android:paddingRight="10dp"
+        android:background="@drawable/zeroline1"
+        android:layout_alignParentLeft="false"
+        android:layout_alignRight="@id/SignalView"
+        android:layout_alignTop="@id/SignalView" />
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgZeroLine1"
+        android:id="@+id/imgZeroLine2"
+        android:paddingLeft="20dp"
+        android:background="@drawable/zeroline2"
+        android:layout_alignLeft="@id/SignalView"
+        android:layout_alignParentLeft="false"
+        android:layout_alignRight="@id/SignalView" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/rltriggerlayout"
+        android:id="@+id/imgMarker1"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/marker1"
+        android:layout_alignBottom="@id/SignalView"
+        android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgMarker2"
+        android:layout_toRightOf="@id/imgMarker1"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/marker2"
+        android:layout_alignBottom="@id/SignalView" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgMarkerA"
+        android:layout_alignLeft="@id/SignalView"
+        android:background="@drawable/markera"
+        android:paddingLeft="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgMakerB"
+        android:layout_below="@id/imgMarkerA"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/markerb"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+</fragment>

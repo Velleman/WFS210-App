@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <scenes>
+        <!--IWFS210 View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="iWFS210ViewController" id="BYZ-38-t0r" customClass="iWFS210ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3"/>
+                        <viewControllerLayoutGuide type="bottom" id="4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="MainView">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5" customClass="ScopeView">
+                                <rect key="frame" x="113" y="61" width="912" height="630"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                            </view>
+                            <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44">
+                                <rect key="frame" x="129" y="6" width="60" height="52"/>
+                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-AC-ON-129x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnAC1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="190"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57">
+                                <rect key="frame" x="196" y="6" width="60" height="52"/>
+                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnDC1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="191"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58">
+                                <rect key="frame" x="263" y="6" width="60" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-GND-OFF-263x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnGND1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="192"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59">
+                                <rect key="frame" x="344" y="6" width="102" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-1X-OFF-344x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnProbe1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="193"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="60">
+                                <rect key="frame" x="467" y="6" width="60" height="52"/>
+                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 1/CHAN1-LEFT-ON-467x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnVoltDown1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="194"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="61">
+                                <rect key="frame" x="529" y="22" width="94" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62">
+                                <rect key="frame" x="628" y="6" width="60" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-RIGHT-ON-628x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnVoltUp1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="195"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="63">
+                                <rect key="frame" x="984" y="5" width="28" height="54"/>
+                                <state key="normal" title="    " backgroundImage="BATTERY/BATT-FULL-984x5.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64">
+                                <rect key="frame" x="6" y="96" width="48" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-CHAN1-ON-6x96.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerCH1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="196"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="65">
+                                <rect key="frame" x="61" y="96" width="48" height="52"/>
+                                <state key="normal" title="    " backgroundImage="BUTTONS/TRIGGER/TRIG-CHAN2-OFF-60x96.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerCH2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="197"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66">
+                                <rect key="frame" x="6" y="156" width="48" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-UP-ON-6x156.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerSlopeUp_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="198"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="67">
+                                <rect key="frame" x="60" y="156" width="48" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-DOWN-OFF-60x156.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerSlopeDown_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="222"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68">
+                                <rect key="frame" x="6" y="216" width="102" height="52"/>
+                                <state key="normal" title="    " backgroundImage="BUTTONS/TRIGGER/TRIG-RUN-ON-6x216.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerRun_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="200"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69">
+                                <rect key="frame" x="6" y="276" width="48" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-NRML-OFF-6x276.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerNrml_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="201"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="70">
+                                <rect key="frame" x="60" y="276" width="48" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerOnce_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="202"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="71">
+                                <rect key="frame" x="6" y="336" width="102" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TRIGGER/TRIG-HOLD-OFF-6x336.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTriggerHold_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="203"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Trigger" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="72">
+                                <rect key="frame" x="7" y="74" width="102" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Timebase" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="73">
+                                <rect key="frame" x="7" y="404" width="102" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76">
+                                <rect key="frame" x="6" y="468" width="48" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TIME/TIME-LEFT-ON-6X468.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTimeLeft_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="204"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77">
+                                <rect key="frame" x="60" y="468" width="48" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/TIME/TIME-RIGHT-ON-60X468.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnTimeRight_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="205"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="78">
+                                <rect key="frame" x="6" y="541" width="102" height="52"/>
+                                <state key="normal" title="    " backgroundImage="BUTTONS/AUTO RANGE/AUTORANGE-OFF-6x541.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnAutorange_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="206"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="1ms/DIV" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="91">
+                                <rect key="frame" x="7" y="433" width="102" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="107">
+                                <rect key="frame" x="7" y="709" width="102" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-OFF-6x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSelectChannel2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="213"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="108">
+                                <rect key="frame" x="129" y="710" width="59" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-AC-ON-129x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnAC2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="212"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="109">
+                                <rect key="frame" x="196" y="710" width="60" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnDC2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="214"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="110">
+                                <rect key="frame" x="263" y="710" width="60" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-GND-OFF-263x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnGND2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="215"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="111">
+                                <rect key="frame" x="344" y="710" width="102" height="52"/>
+                                <state key="normal" title=" " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-1X-OFF-344x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnProbe2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="216"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="112">
+                                <rect key="frame" x="467" y="710" width="60" height="52"/>
+                                <state key="normal" title="" backgroundImage="BUTTONS/CHANNEL 2/CHAN2-LEFT-ON-467x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnVoltDown2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="217"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="113">
+                                <rect key="frame" x="535" y="722" width="88" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="114">
+                                <rect key="frame" x="628" y="710" width="60" height="52"/>
+                                <state key="normal" title="   " backgroundImage="BUTTONS/CHANNEL 2/CHAN2-RIGHT-ON-628x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnVoltUp2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="218"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="115">
+                                <rect key="frame" x="964" y="710" width="54" height="52"/>
+                                <state key="normal" title="" backgroundImage="BUTTONS/SETTINGS/SETTINGS-964x710.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSettings_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="219"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43">
+                                <rect key="frame" x="6" y="6" width="102" height="52"/>
+                                <state key="normal" title="    " backgroundImage="BUTTONS/CHANNEL 1/CHAN1-ON-6x6.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSelectChannel1_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="160"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="365">
+                                <rect key="frame" x="703" y="6" width="141" height="52"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnMarkerMeasurements_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="372"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="366">
+                                <rect key="frame" x="852" y="6" width="117" height="52"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSignalMeasurements_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="371"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="367">
+                                <rect key="frame" x="703" y="710" width="126" height="52"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnMarkerMeasurements2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="369"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="368">
+                                <rect key="frame" x="830" y="710" width="112" height="52"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSignalMeasurements2_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="370"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="496">
+                                <rect key="frame" x="6" y="614" width="102" height="52"/>
+                                <state key="normal" title=" " backgroundImage="BUTTONS/SCREENSHOT/SCREENSHOT-6x614.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSnap_TouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="497"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="MainView" destination="8bC-Xf-vdC" id="name-outlet-8bC-Xf-vdC"/>
+                        <outlet property="ScopeView" destination="5" id="name-outlet-5"/>
+                        <outlet property="btnAC1" destination="44" id="name-outlet-44"/>
+                        <outlet property="btnAC2" destination="108" id="name-outlet-108"/>
+                        <outlet property="btnAutorange" destination="78" id="name-outlet-78"/>
+                        <outlet property="btnBattery" destination="63" id="name-outlet-63"/>
+                        <outlet property="btnDC1" destination="57" id="name-outlet-57"/>
+                        <outlet property="btnDC2" destination="109" id="name-outlet-109"/>
+                        <outlet property="btnGND1" destination="58" id="name-outlet-58"/>
+                        <outlet property="btnGND2" destination="110" id="name-outlet-110"/>
+                        <outlet property="btnMarkerMeasurements" destination="365" id="name-outlet-365"/>
+                        <outlet property="btnMarkerMeasurements2" destination="367" id="name-outlet-367"/>
+                        <outlet property="btnProbe1" destination="59" id="name-outlet-59"/>
+                        <outlet property="btnProbe2" destination="111" id="name-outlet-111"/>
+                        <outlet property="btnSelectChannel1" destination="43" id="name-outlet-43"/>
+                        <outlet property="btnSelectChannel2" destination="107" id="name-outlet-107"/>
+                        <outlet property="btnSettings" destination="115" id="name-outlet-115"/>
+                        <outlet property="btnSignalMeasurements" destination="366" id="name-outlet-366"/>
+                        <outlet property="btnSignalMeasurements2" destination="368" id="name-outlet-368"/>
+                        <outlet property="btnSnap" destination="496" id="name-outlet-496"/>
+                        <outlet property="btnTimeLeft" destination="76" id="name-outlet-76"/>
+                        <outlet property="btnTimeRight" destination="77" id="name-outlet-77"/>
+                        <outlet property="btnTriggerCH1" destination="64" id="name-outlet-64"/>
+                        <outlet property="btnTriggerCH2" destination="65" id="name-outlet-65"/>
+                        <outlet property="btnTriggerHold" destination="71" id="name-outlet-71"/>
+                        <outlet property="btnTriggerNrml" destination="69" id="name-outlet-69"/>
+                        <outlet property="btnTriggerOnce" destination="70" id="name-outlet-70"/>
+                        <outlet property="btnTriggerRun" destination="68" id="name-outlet-68"/>
+                        <outlet property="btnTriggerSlopeDown" destination="67" id="name-outlet-67"/>
+                        <outlet property="btnTriggerSlopeUp" destination="66" id="name-outlet-66"/>
+                        <outlet property="btnVoltDown1" destination="60" id="name-outlet-60"/>
+                        <outlet property="btnVoltDown2" destination="112" id="name-outlet-112"/>
+                        <outlet property="btnVoltUp1" destination="62" id="name-outlet-62"/>
+                        <outlet property="btnVoltUp2" destination="114" id="name-outlet-114"/>
+                        <outlet property="lblTime" destination="91" id="name-outlet-91"/>
+                        <outlet property="lblTimeBase" destination="73" id="name-outlet-73"/>
+                        <outlet property="lblTrigger" destination="72" id="name-outlet-72"/>
+                        <outlet property="lblVolt1" destination="61" id="name-outlet-61"/>
+                        <outlet property="lblVolt2" destination="113" id="name-outlet-113"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="109" y="-47"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="228">
+            <objects>
+                <viewController storyboardIdentifier="SettingsViewController" modalTransitionStyle="flipHorizontal" modalPresentationStyle="formSheet" id="229" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="226"/>
+                        <viewControllerLayoutGuide type="bottom" id="227"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="287">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="288">
+                                <rect key="frame" x="173" y="685" width="739" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text=" " borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="504">
+                                <rect key="frame" x="225" y="53" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <switch opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="507">
+                                <rect key="frame" x="225" y="157" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Demo Mode" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="512">
+                                <rect key="frame" x="90" y="158" width="110" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Wifi Name" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="515">
+                                <rect key="frame" x="90" y="53" width="110" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="521">
+                                <rect key="frame" x="225" y="119" width="51" height="31"/>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="526">
+                                <rect key="frame" x="112" y="305" width="177" height="30"/>
+                                <state key="normal" title="Calibrate the scope">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="541">
+                                <rect key="frame" x="90" y="345" width="80" height="30"/>
+                                <state key="normal" title="Apply">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="542">
+                                <rect key="frame" x="245" y="345" width="80" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="App Version" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="547">
+                                <rect key="frame" x="90" y="196" width="100" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=" " lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="548">
+                                <rect key="frame" x="225" y="196" width="100" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="WFS210 Info" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="549">
+                                <rect key="frame" x="90" y="234" width="100" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text=" " lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="550">
+                                <rect key="frame" x="225" y="234" width="164" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Scope Firmware" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="592">
+                                <rect key="frame" x="90" y="272" width="130" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="  " lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="593">
+                                <rect key="frame" x="223" y="272" width="164" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Enable Markers" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="520">
+                                <rect key="frame" x="90" y="120" width="130" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zF3-kL-PY9">
+                                <rect key="frame" x="225" y="91" width="100" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wifi Channel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPO-2I-soL">
+                                <rect key="frame" x="90" y="91" width="97" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.24705882352941178" colorSpace="calibratedRGB"/>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="400" height="400"/>
+                    <connections>
+                        <outlet property="btnApply" destination="541" id="name-outlet-541"/>
+                        <outlet property="btnCalibrate" destination="526" id="name-outlet-526"/>
+                        <outlet property="btnDismiss" destination="542" id="name-outlet-542"/>
+                        <outlet property="lblApp" destination="547" id="name-outlet-547"/>
+                        <outlet property="lblAppVersion" destination="548" id="name-outlet-548"/>
+                        <outlet property="lblDemo" destination="512" id="name-outlet-512"/>
+                        <outlet property="lblMarkers" destination="520" id="name-outlet-520"/>
+                        <outlet property="lblName" destination="515" id="name-outlet-515"/>
+                        <outlet property="lblScope" destination="592" id="name-outlet-592"/>
+                        <outlet property="lblScopeVersion" destination="593" id="name-outlet-593"/>
+                        <outlet property="lblWifi" destination="549" id="name-outlet-549"/>
+                        <outlet property="lblWifiVersion" destination="550" id="name-outlet-550"/>
+                        <outlet property="swDemo" destination="507" id="name-outlet-507"/>
+                        <outlet property="swMarker" destination="521" id="name-outlet-521"/>
+                        <outlet property="txtWifiName" destination="504" id="name-outlet-504"/>
+                        <outlet property="lblChannel" destination="wPO-2I-soL" id="name-outlet-wPO-2I-soL"/>
+                        <outlet property="lblWifiChannel" destination="zF3-kL-PY9" id="name-outlet-zF3-kL-PY9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="231" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1250" y="27"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="BATTERY/BATT-FULL-984x5.png" width="28" height="54"/>
+        <image name="BUTTONS/AUTO RANGE/AUTORANGE-OFF-6x541.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-1X-OFF-344x6.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-AC-ON-129x6.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-DC-OFF-196x6.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-GND-OFF-263x6.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-LEFT-ON-467x6.png" width="54" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-ON-6x6.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-RIGHT-ON-628x6.png" width="54" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-1X-OFF-344x710.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-AC-ON-129x710.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-DC-OFF-196x710.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-GND-OFF-263x710.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-LEFT-ON-467x710.png" width="54" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-OFF-6x710.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-RIGHT-ON-628x710.png" width="54" height="52"/>
+        <image name="BUTTONS/SCREENSHOT/SCREENSHOT-6x614.png" width="102" height="52"/>
+        <image name="BUTTONS/SETTINGS/SETTINGS-964x710.png" width="54" height="52"/>
+        <image name="BUTTONS/TIME/TIME-LEFT-ON-6X468.png" width="48" height="52"/>
+        <image name="BUTTONS/TIME/TIME-RIGHT-ON-60X468.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-CHAN1-ON-6x96.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-CHAN2-OFF-60x96.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-DOWN-OFF-60x156.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-HOLD-OFF-6x336.png" width="102" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-NRML-OFF-6x276.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-RUN-ON-6x216.png" width="102" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-UP-ON-6x156.png" width="48" height="52"/>
+        <image name="BACKGROUND/BG-0x0.png" width="1024" height="768"/>
+        <image name="BATTERY/BATT-CHARGING-984x5.png" width="28" height="54"/>
+        <image name="BATTERY/BATT-LOW-984x5.png" width="28" height="54"/>
+        <image name="BUTTONS/AUTO RANGE/AUTORANGE-ON-6x541.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-10X-OFF-344x6.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-10X-ON-344x6.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-1X-ON-344x6.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-AC-OFF-129x6.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-DC-ON-196x6.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-GND-ON-263x6.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-LEFT-OFF-467x6.png" width="54" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-OFF-6x6.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 1/CHAN1-RIGHT-OFF-628x6.png" width="54" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-10X-OFF-344x710.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-10X-ON-344x710.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-1X-ON-344x710.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-AC-OFF-129x710.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-DC-ON-196x710.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-GND-ON-263x710.png" width="60" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-LEFT-OFF-467x710.png" width="54" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-ON-6x710.png" width="102" height="52"/>
+        <image name="BUTTONS/CHANNEL 2/CHAN2-RIGHT-OFF-628x710.png" width="54" height="52"/>
+        <image name="BUTTONS/TIME/TIME-LEFT-OFF-6X468.png" width="48" height="52"/>
+        <image name="BUTTONS/TIME/TIME-RIGHT-OFF-60X468.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-CHAN1-OFF-6x96.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-CHAN2-ON-60x96.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-DOWN-ON-60x156.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-HOLD-ON-6x336.png" width="102" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-NRML-ON-6x276.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-ONCE-ON-60x276.png" width="48" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-RUN-OFF-6x216.png" width="102" height="52"/>
+        <image name="BUTTONS/TRIGGER/TRIG-UP-OFF-6x156.png" width="48" height="52"/>
+        <image name="MARKERS/MARKER A SLIDER-112x__.png" width="912" height="32"/>
+        <image name="MARKERS/MARKER B SLIDER-112x__.png" width="912" height="32"/>
+        <image name="TRIGGER LEVEL/TRIG SLIDER-SLOPE DOWN-112x__.png" width="912" height="32"/>
+        <image name="TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png" width="912" height="32"/>
+        <image name="VIEWPORT/SCROLL BAR-130x688.png" width="894" height="6"/>
+        <image name="VIEWPORT/VIEWPORT-130x78.png" width="894" height="612"/>
+        <image name="ZEROLINE/ZERO-CHAN1-131x__.png" width="892" height="22"/>
+        <image name="ZEROLINE/ZERO-CHAN2-131x__.png" width="892" height="22"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="Icon-72.png" width="72" height="72"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Icon-Small-50.png" width="50" height="50"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="MARKERS/MARKER 1 SLIDER-__x60.png" width="32" height="628"/>
+        <image name="MARKERS/MARKER 2 SLIDER-__x60.png" width="32" height="628"/>
+        <image name="Default-Landscape.png" width="1024" height="748"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackOpaque"/>
+        <simulatedOrientationMetrics key="orientation" orientation="landscapeRight"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

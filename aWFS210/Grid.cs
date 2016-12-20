@@ -25,7 +25,7 @@
 using System;
 using Android.Graphics;
 
-namespace WFS210.Android
+namespace WFS210.Droid
 {
 	public class Grid
 	{

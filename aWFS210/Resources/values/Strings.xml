@@ -32,6 +32,7 @@
 	<string name="timebase">TIMEBASE</string>
 	<string name="autorange">AUTORANGE</string>
 	<string name="voltime">test\DIV</string>
+	<string name="Calibrating">Calibrating</string>
 
    	<string-array name="MarkerMeasurements">
         <item>dt</item>
