@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using HockeyApp.iOS;
+using UIKit;
 
 namespace WFS210.UI
 {
@@ -41,6 +42,15 @@ namespace WFS210.UI
 		// This method is called when the application is about to terminate. Save data, if needed.
 		public override void WillTerminate (UIApplication application)
 		{
+		}
+
+		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+		{
+			var manager = BITHockeyManager.SharedHockeyManager;
+			manager.Configure("4737e4e06e5e4b02828db57c7cccfdef");
+			manager.StartManager();
+			manager.Authenticator.AuthenticateInstallation(); // This line is obsolete in crash only builds
+			return true;
 		}
 	}
 }

@@ -1,10 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using System.Text;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WFS210.IO
 {
@@ -14,6 +15,9 @@ namespace WFS210.IO
 	/// </summary>
 	public class TcpConnection
 	{
+
+		public string IPAddress { get; set; }
+
 		/// <summary>
 		/// The default gateway address.
 		/// </summary>
@@ -29,7 +33,6 @@ namespace WFS210.IO
 		/// </summary>
 		const string WelcomeText = "*HELLO*";
 
-        protected string IPAddress = DefaultAddress;
         /// <summary>
         /// Underlying client used for TCP communication.
         /// </summary>
@@ -55,7 +58,7 @@ namespace WFS210.IO
 		/// </summary>
 		public TcpConnection ()
 		{
-            System.Net.NetworkInformation.
+			this.IPAddress = DefaultAddress;
 		}
 
 		/// <summary>
@@ -63,7 +66,7 @@ namespace WFS210.IO
 		/// </summary>
 		public bool Connect ()
 		{
-			return Connect (IPAddress);
+			return Connect (this.IPAddress);
 		}
 
 		/// <summary>
@@ -85,7 +88,6 @@ namespace WFS210.IO
 			try {
 				Client = new TcpClient ();
 				var result = Client.BeginConnect (address, port, null, null);
-
 				result.AsyncWaitHandle.WaitOne (TimeSpan.FromSeconds (2));
 				if (!Client.Connected) {
 					return false;
@@ -196,11 +198,6 @@ namespace WFS210.IO
             else
                 return null;
 		}
-
-        public string IPAdress
-        {
-            get; set;
-        }
 	}
 }
 

@@ -1,7 +1,7 @@
-﻿using System;
-using MonoTouch.UIKit;
-using MonoTouch.CoreAnimation;
-using System.Drawing;
+using System;
+using UIKit;
+using CoreAnimation;
+using CoreGraphics;
 
 namespace WFS210.UI
 {

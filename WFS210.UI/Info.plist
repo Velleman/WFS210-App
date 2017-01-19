@@ -7,13 +7,13 @@
 	<key>CFBundleIdentifier</key>
 	<string>be.velleman.iWFS210</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.1.3</string>
 	<key>CFBundleVersion</key>
-	<string>1.1</string>
+	<string>1.1.6</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>7.0</string>
+	<string>8.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>2</integer>
@@ -22,7 +22,7 @@
 	<string>MainStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string>armv7</string>
+		<string>arm64</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -41,6 +41,24 @@
 		<string>Icon-Small-40@2x</string>
 		<string>Icon-Small@2x</string>
 		<string>Icon-Small-50@2x</string>
+		<string>Icon-83.5@2x</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>MainStoryboard</string>
+	<key>UIMainStoryboardFile~ipad</key>
+	<string>MainStoryboard</string>
+	<key>UIRequiresFullScreen</key>
+	<string>YES</string>
+	<key>CFBundleName</key>
+	<string>WFS210</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to save screenshot</string>
 </dict>
 </plist>

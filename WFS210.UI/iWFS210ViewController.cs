@@ -1,10 +1,12 @@
 using System;
-using MonoTouch.UIKit;
 using WFS210;
 using System.Timers;
 using WFS210.Services;
-using MonoTouch.Foundation;
+using Foundation;
 using System.Drawing;
+using UIKit;
+using System.Net.NetworkInformation;
+using System.Linq;
 
 namespace WFS210.UI
 {
@@ -42,19 +44,26 @@ namespace WFS210.UI
 		UIPopoverController DetailViewPopover;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WFS210.UI.iWFS210ViewController"/> class.
+		/// Initializes a new instance of the <see cref="iWFS210ViewController"/> class.
 		/// </summary>
 		/// <param name="handle">Handle.</param>
 		public iWFS210ViewController (IntPtr handle) : base (handle)
 		{
-			this.Oscilloscope = new Oscilloscope ();
+			Oscilloscope = new Oscilloscope();
+			var markerExist = NSUserDefaults.StandardUserDefaults["markers"];
+			if (markerExist == null)
+			{
+				NSUserDefaults.StandardUserDefaults.SetBool(true, "markers");
+			}
 			var demo = NSUserDefaults.StandardUserDefaults.BoolForKey ("demo");
-			if (demo)
-				this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
+			if (demo){
+				ServiceManager = new ServiceManager(Oscilloscope, ServiceType.Demo);
+			}
 			else {
-				this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Live);
-				if (!Service.Activate ()) {
-					this.ServiceManager.ServiceType = ServiceType.Demo;
+				ServiceManager = new ServiceManager(Oscilloscope, ServiceType.Live);
+				GetIpAdress();
+				if (!Service.Activate()) {
+					ServiceManager.ServiceType = ServiceType.Demo;
 					new UIAlertView ("No Connection", "Demo mode is now running", null, "OK", null).Show ();
 				} else {
 					Service.RequestSettings ();
@@ -62,7 +71,7 @@ namespace WFS210.UI
 					Service.RequestSamples ();
 				}
 			}
-			this.DisplaySettings = new DisplaySettings (MarkerUnit.dt, SignalUnit.Vdc);
+			DisplaySettings = new DisplaySettings (MarkerUnit.dt, SignalUnit.Vdc);
 		}
 
 		/// <summary>
@@ -82,6 +91,24 @@ namespace WFS210.UI
 			}
 		}
 
+		void GetIpAdress()
+		{
+			var cards = NetworkInterface.GetAllNetworkInterfaces();
+			foreach (var card in cards)
+			{
+				if (card.Name == "en0")
+				{
+					var address = card.GetIPProperties().GatewayAddresses.FirstOrDefault();
+					var liveService = ServiceManager.GetService(ServiceType.Live) as LiveService;
+					if (address != null)
+					{
+						liveService.Connection.IPAddress = address.Address.ToString();
+					}
+
+				}
+			}
+		}
+
 		#region View lifecycle
 
 		/// <summary>
@@ -90,12 +117,12 @@ namespace WFS210.UI
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			MainView.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("BACKGROUND/BG-0x0"));
+			MainView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("BACKGROUND/BG-0x0"));
 			ServiceManager.SettingsChanged += SettingsChanged;
 			ServiceManager.FullFrame += HandleFullFrame;
 			ScopeView.ServiceManager = ServiceManager;
 			ScopeView.Initialize ();
-			var timer = new System.Timers.Timer (200);
+			var timer = new Timer(200);
 			timer.Elapsed += (object sender, ElapsedEventArgs e) => {
 				timer.Stop();
 				Service.Update ();
@@ -125,6 +152,15 @@ namespace WFS210.UI
 			base.ViewDidAppear (animated);
 			UpdateScopeControls ();
 			UIApplication.SharedApplication.IdleTimerDisabled = true;
+			var currentVersion = new Version(UIDevice.CurrentDevice.SystemVersion);
+			if (currentVersion.Major >= 10)
+			{
+				if (!NSUserDefaults.StandardUserDefaults.BoolForKey(new NSString("IOS10ERRORSHOWN")))
+				{
+					ShowIOS10Fault();
+					NSUserDefaults.StandardUserDefaults.SetBool(true, "IOS10ERRORSHOWN");
+				}
+			}
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -145,6 +181,16 @@ namespace WFS210.UI
 		}
 
 		#endregion
+
+		private void ShowIOS10Fault()
+		{
+			var alert = UIAlertController.Create("No Conection", "It seems your device is using iOS10 or higher, please update your WFS210 with the new firmware. Visit www.velleman.eu for more info", UIAlertControllerStyle.Alert);
+
+			alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
+
+			PresentViewController(alert, true, null);
+		}
+
 
 		#region Events Channel1
 
@@ -349,9 +395,9 @@ namespace WFS210.UI
 
 		partial void btnSettings_TouchUpInside (UIButton sender)
 		{
-			settingsViewController = this.Storyboard.InstantiateViewController ("SettingsViewController") as SettingsViewController;
+			settingsViewController = Storyboard.InstantiateViewController("SettingsViewController") as SettingsViewController;
 			settingsViewController.WifiSetting = Oscilloscope.WifiSetting;
-			settingsViewController.ServiceManager = this.ServiceManager;
+			settingsViewController.ServiceManager = ServiceManager;
 			settingsViewController.RequestedDismiss += (object s, EventArgs de) => {
 				settingsViewController.DismissViewController (true, null);
 				ScopeView.MarkersAreVisible = NSUserDefaults.StandardUserDefaults.BoolForKey ("markers");
@@ -364,7 +410,7 @@ namespace WFS210.UI
 		{
 			UIGraphics.BeginImageContext (UIScreen.MainScreen.ApplicationFrame.Size);
 			try {
-				var mainLayer = this.MainView.Layer;
+				var mainLayer = MainView.Layer;
 				mainLayer.RenderInContext (UIGraphics.GetCurrentContext ());
 				var orientation = UIApplication.SharedApplication.StatusBarOrientation;
 				var img = UIScreen.MainScreen.Capture ();

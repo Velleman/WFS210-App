@@ -1,4 +1,4 @@
-﻿namespace WFS210.Services
+namespace WFS210.Services
 {
 	/// <summary>
 	/// Signal type.

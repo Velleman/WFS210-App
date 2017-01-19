@@ -1,12 +1,11 @@
 using System;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using System.Drawing;
-using MonoTouch.CoreAnimation;
+using UIKit;
+using CoreGraphics;
+using CoreAnimation;
 using WFS210;
 using WFS210.Util;
 using System.Collections.Generic;
-using MonoTouch.Foundation;
+using Foundation;
 using WFS210.Services;
 
 namespace WFS210.UI
@@ -22,10 +21,10 @@ namespace WFS210.UI
 		public int ScrollPosition { get; set; }
 
 		CGPath[] path;
-		PointF initialPoint;
+		CGPoint initialPoint;
 		Oscilloscope wfs210;
 
-		PointF[] scopePoints;
+		CGPoint[] scopePoints;
 		public float SampleToPointRatio;
 
 		public int SelectedChannel{ get; set; }
@@ -101,9 +100,9 @@ namespace WFS210.UI
 		/// Gets the scope bounds.
 		/// </summary>
 		/// <value>The scope bounds.</value>
-		public RectangleF ScopeBounds {
+		public CGRect ScopeBounds {
 			get { 
-				return new RectangleF (
+				return new CGRect (
 					this.Bounds.X + Padding.Left, 
 					this.Bounds.Y + Padding.Top,
 					this.Bounds.Width - Padding.Horizontal,
@@ -149,15 +148,15 @@ namespace WFS210.UI
 				else
 					Latestpoint = buffer.LatestPoint;
 
-				scopePoints = new PointF[Latestpoint];
+				scopePoints = new CGPoint[Latestpoint];
 				var offset = ScrollPosition;
 				if (wfs210.Channels [i].VoltsPerDivision != VoltsPerDivision.VdivNone) {
 					for (int j = offset; j < offset + scopePoints.Length; j++) {
-						scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left, MapSampleDataToScreen (buffer [j]));
+						scopePoints [j - offset] = new CGPoint (MapXPosToScreen (j - offset) + ScopeBounds.Left, MapSampleDataToScreen (buffer [j]));
 					}
 				} else {
 					for (int j = offset; j < offset + scopePoints.Length; j++) {
-						scopePoints [j - offset] = new PointF (MapXPosToScreen (j - offset) + ScopeBounds.Left,0);
+						scopePoints [j - offset] = new CGPoint (MapXPosToScreen (j - offset) + ScopeBounds.Left,0);
 					}
 				}
 				path [i].AddLines (scopePoints);
@@ -224,10 +223,10 @@ namespace WFS210.UI
 		void LoadGrid ()
 		{
 			gridLayer = new CALayer ();
-			gridLayer.Position = new PointF ((ScopeBounds.Width / 2) + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
+			gridLayer.Position = new CGPoint ((ScopeBounds.Width / 2) + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
 			var image = UIImage.FromBundle ("VIEWPORT/VIEWPORT-130x78");
 			gridLayer.Contents = image.CGImage;
-			gridLayer.Bounds = new RectangleF (0, 0, image.CGImage.Width / image.CurrentScale, image.CGImage.Height / image.CurrentScale);
+			gridLayer.Bounds = new CGRect (0, 0, image.CGImage.Width / image.CurrentScale, image.CGImage.Height / image.CurrentScale);
 			Layer.AddSublayer (gridLayer);
 		}
 
@@ -237,15 +236,15 @@ namespace WFS210.UI
 		/// <returns>The signal mask.</returns>
 		CAShapeLayer GetSignalMask ()
 		{
-			RectangleF clippingRect = new RectangleF (ScopeBounds.Left, ScopeBounds.Top + 3, ScopeBounds.Width, ScopeBounds.Height - 7);
+			CGRect clippingRect = new CGRect (ScopeBounds.Left, ScopeBounds.Top + 3, ScopeBounds.Width, ScopeBounds.Height - 7);
 			// Set clippingRect to the rectangle you wish to clip to
 
 			var maskPath = UIBezierPath.FromRect (clippingRect);
 	
 			// Create a shape layer
 			maskLayer = new CAShapeLayer ();
-			maskLayer.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
-			maskLayer.Bounds = new RectangleF (ScopeBounds.X, ScopeBounds.Y, ScopeBounds.Width, ScopeBounds.Height);
+			maskLayer.Position = new CGPoint (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height / 2 + ScopeBounds.Top);
+			maskLayer.Bounds = new CGRect (ScopeBounds.X, ScopeBounds.Y, ScopeBounds.Width, ScopeBounds.Height);
 			//maskLayer.BorderColor = new CGColor (255, 0, 0 , 1f);
 			// Set the path of the mask layer to be the Bezier path we calculated earlier
 			maskLayer.Path = maskPath.CGPath;
@@ -279,7 +278,7 @@ namespace WFS210.UI
 			if (MarkersAreVisible) {
 				foreach (Marker marker in Markers) {
 					var rect = GetMarkerRect (marker);
-					marker.Position = new PointF (rect.X, rect.Y);
+					marker.Position = new CGPoint (rect.X, rect.Y);
 					Layer.AddSublayer (marker.Layer);
 				}
 			}
@@ -290,15 +289,15 @@ namespace WFS210.UI
 		/// </summary>
 		/// <returns>The marker rectangle.</returns>
 		/// <param name="marker">Marker.</param>
-		RectangleF GetMarkerRect (Marker marker)
+		CGRect GetMarkerRect (Marker marker)
 		{
 			if (marker.Layout == MarkerLayout.Vertical) {
-				return new RectangleF (marker.Value,
+				return new CGRect (marker.Value,
 					ScopeBounds.Height / 2 + marker.Inlay,
 					marker.Image.CGImage.Width,
 					ScopeBounds.Height + marker.Inlay);
 			} else {
-				return new RectangleF (ScopeBounds.Width / 2 - marker.Inlay,
+				return new CGRect (ScopeBounds.Width / 2 - marker.Inlay,
 					marker.Value,
 					ScopeBounds.Width + marker.Inlay,
 					marker.Image.CGImage.Height);
@@ -380,14 +379,14 @@ namespace WFS210.UI
 
 			scroll = new CALayer ();
 			var image = UIImage.FromBundle ("VIEWPORT/SCROLL BAR-130x688");
-			scroll.Bounds = new RectangleF (0, 0, image.CGImage.Width / image.CurrentScale, image.CGImage.Height / image.CurrentScale);
-			scroll.Position = new PointF (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height + ScopeBounds.Top);
+			scroll.Bounds = new CGRect (0, 0, image.CGImage.Width / image.CurrentScale, image.CGImage.Height / image.CurrentScale);
+			scroll.Position = new CGPoint (ScopeBounds.Width / 2 + ScopeBounds.Left, ScopeBounds.Height + ScopeBounds.Top);
 			scroll.Contents = image.CGImage;
 			Layer.AddSublayer (scroll);
 
 			scrollBar = new CAShapeLayer ();
 			var path = new CGPath ();
-			var data = new PointF[2];
+			var data = new CGPoint[2];
 			data [0].X = 0 + ScopeBounds.Left + 2;
 			data [1].X = 100;
 			data [0].Y = ScopeBounds.Height + ScopeBounds.Top;
@@ -406,7 +405,7 @@ namespace WFS210.UI
 		void UpdateScrollIndicator ()
 		{
 			var path = new CGPath ();
-			var data = new PointF[2];
+			var data = new CGPoint[2];
 			float ratio = (float)(ScrollPosition / (4096f - (TotalSamples / 2)));
 			float scrollRatio = (float)(TotalSamples * ratio);
 			data [0].X = (MapXPosToScreen ((int)scrollRatio)) + ScopeBounds.Left + 2;
@@ -441,16 +440,16 @@ namespace WFS210.UI
 			pinchGesture = new UIPinchGestureRecognizer ((pg) => {
 				if (pg.State == UIGestureRecognizerState.Began) {
 					if (pg.NumberOfTouches == 2) {
-						PointF firstPoint = pg.LocationOfTouch (0, this);
-						PointF secondPoint = pg.LocationOfTouch (1, this);
+						CGPoint firstPoint = pg.LocationOfTouch (0, this);
+						CGPoint secondPoint = pg.LocationOfTouch (1, this);
 						startDistance = CalculateDistance (firstPoint, secondPoint);
 					}
 					VoltTimeIndicator.Hidden = false;
 				} else if (pg.State == UIGestureRecognizerState.Changed) {
 					float distance;
 					if (pg.NumberOfTouches == 2) {
-						PointF firstPoint = pg.LocationOfTouch (0, this);
-						PointF secondPoint = pg.LocationOfTouch (1, this);
+						CGPoint firstPoint = pg.LocationOfTouch (0, this);
+						CGPoint secondPoint = pg.LocationOfTouch (1, this);
 						distance = CalculateDistance (firstPoint, secondPoint);
 						if (PointsAreHorizontal (firstPoint, secondPoint)) {
 							if (distance > startDistance + 50) {
@@ -500,18 +499,18 @@ namespace WFS210.UI
 		void RegisterPanGestureRecognizer ()
 		{
 			float previousX = 0;
-			panGesture = new UIPanGestureRecognizer ((pg) => {
-				switch (pg.State) {
+			panGesture = new UIPanGestureRecognizer (() => {
+				switch (panGesture.State) {
 				case UIGestureRecognizerState.Began:
-					previousX = pg.LocationOfTouch (0, this).X;
+					previousX = (float)panGesture.LocationOfTouch (0, this).X;
 					break;
 				case UIGestureRecognizerState.Changed:
-					var touch = pg.LocationOfTouch (0, this);
+					var touch = panGesture.LocationOfTouch (0, this);
 					var copy = ScrollPosition;
 					var delta = touch.X - previousX;
 					copy -= (int)delta;
 					copy = (int)Math.Min (Math.Max (copy, 0), 4096 - TotalSamples);
-					previousX = touch.X;
+					previousX = (float)touch.X;
 					ScrollPosition = copy;
 					UpdateScrollIndicator ();
 					Update ();
@@ -531,7 +530,7 @@ namespace WFS210.UI
 		/// <returns><c>true</c>, if horizontal, <c>false</c> otherwise.</returns>
 		/// <param name="firstPoint">First point.</param>
 		/// <param name="secondPoint">Second point.</param>
-		private static bool PointsAreHorizontal (PointF firstPoint, PointF secondPoint)
+		private static bool PointsAreHorizontal (CGPoint firstPoint, CGPoint secondPoint)
 		{
 			bool horizontal;
 			double angle = Math.Atan2 (secondPoint.Y - firstPoint.Y, secondPoint.X - firstPoint.X);
@@ -549,7 +548,7 @@ namespace WFS210.UI
 		/// <returns>The distance.</returns>
 		/// <param name="firstPoint">First point.</param>
 		/// <param name="secondPoint">Second point.</param>
-		private float CalculateDistance (PointF firstPoint, PointF secondPoint)
+		private float CalculateDistance (CGPoint firstPoint, CGPoint secondPoint)
 		{
 			float distance = (float)Math.Sqrt ((firstPoint.X - secondPoint.X) * (firstPoint.X - secondPoint.X) +
 			                 (firstPoint.Y - secondPoint.Y) * (firstPoint.Y - secondPoint.Y));
@@ -605,7 +604,7 @@ namespace WFS210.UI
 		/// <returns>The distance from the point to the marker.</returns>
 		/// <param name="pt">Point.</param>
 		/// <param name="marker">Marker.</param>
-		public int HitTest (PointF pt, Marker marker)
+		public int HitTest (CGPoint pt, Marker marker)
 		{
 			int distance;
 
@@ -627,7 +626,7 @@ namespace WFS210.UI
 		/// <returns>The closest <see cref="WFS210.UI.Marker"/>, null if no marker is within
 		/// grapple distance.</returns>
 		/// <param name="pt">Touch position.</param>
-		public Marker GetMarkerAt (PointF pt)
+		public Marker GetMarkerAt (CGPoint pt)
 		{
 			Marker closestMarker = null;
 

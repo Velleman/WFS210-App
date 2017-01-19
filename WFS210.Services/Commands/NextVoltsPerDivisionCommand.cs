@@ -1,4 +1,4 @@
-﻿using WFS210.Services;
+using WFS210.Services;
 using WFS210.Util;
 
 namespace WFS210.Services

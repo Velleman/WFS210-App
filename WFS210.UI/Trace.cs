@@ -1,5 +1,5 @@
-﻿using System;
-using System.Drawing;
+using System;
+using CoreGraphics;
 using System.Collections;
 
 namespace WFS210.UI
@@ -12,7 +12,7 @@ namespace WFS210.UI
 		/// <summary>
 		/// The points that construct the trace.
 		/// </summary>
-		private PointF[] points;
+		private CGPoint[] points;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WFS210.UI.Trace"/> class
@@ -21,7 +21,7 @@ namespace WFS210.UI
 		/// <param name="size">Number of points.</param>
 		public Trace (int size)
 		{
-			points = new PointF[size];
+			points = new CGPoint[size];
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace WFS210.UI
 		/// Gets or sets a specified point in the trace.
 		/// </summary>
 		/// <param name="index">Index of the point to get/set.</param>
-		public PointF this[int index]
+		public CGPoint this[int index]
 		{
 			get
 			{
@@ -53,7 +53,7 @@ namespace WFS210.UI
 		/// Get an array of points that represents the trace.
 		/// </summary>
 		/// <returns>The point array.</returns>
-		public PointF[] ToPointArray()
+		public CGPoint[] ToPointArray()
 		{
 			return points;
 		}

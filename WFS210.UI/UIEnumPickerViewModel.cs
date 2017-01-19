@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
+using UIKit;
+using CoreGraphics;
 
 namespace WFS210.UI
 {
@@ -18,14 +17,14 @@ namespace WFS210.UI
 			Values = (T[])Enum.GetValues (typeof(T));
 		}
 
-		public override int GetComponentCount (UIPickerView v)
+		public override nint GetComponentCount (UIPickerView v)
 		{
 			return 1;
 		}
 
-		public override UIView GetView (UIPickerView picker, int row, int component, UIView view)
+		public override UIView GetView (UIPickerView picker, nint row, nint component, UIView view)
 		{
-			UILabel lbl = new UILabel(new RectangleF(0, 0, picker.Bounds.Width, 40f));
+			UILabel lbl = new UILabel(new CGRect(0, 0, picker.Bounds.Width, 40f));
 			lbl.TextColor = UIColor.White;
 			lbl.Font = UIFont.SystemFontOfSize(20f);
 			lbl.TextAlignment = UITextAlignment.Center;
@@ -34,12 +33,12 @@ namespace WFS210.UI
 			return lbl;
 		}
 
-		public override int GetRowsInComponent (UIPickerView picker, int component)
+		public override nint GetRowsInComponent (UIPickerView picker, nint component)
 		{
 			return Values.Length;
 		}
 
-		public override void Selected (UIPickerView picker, int row, int component)
+		public override void Selected (UIPickerView picker, nint row, nint component)
 		{
 			if (PickerChanged != null) {
 				PickerChanged (this, new EnumEventArgs<T> (Values[row]));

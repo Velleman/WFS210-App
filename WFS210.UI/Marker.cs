@@ -1,8 +1,8 @@
 ﻿using System;
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.CoreAnimation;
-using MonoTouch.Foundation;
+using UIKit;
+using CoreGraphics;
+using CoreAnimation;
+using Foundation;
 
 namespace WFS210.UI
 {
@@ -37,7 +37,7 @@ namespace WFS210.UI
 			Layer.Contents = Image.CGImage;
 			var scale = Image.CurrentScale;
 			Console.WriteLine (scale);
-			Layer.Bounds = new RectangleF (0, 0, Image.CGImage.Width/scale, Image.CGImage.Height/scale);
+			Layer.Bounds = new CGRect (0, 0, Image.CGImage.Width/scale, Image.CGImage.Height/scale);
 
 			Name = name;
 
@@ -55,9 +55,9 @@ namespace WFS210.UI
 			set{ 
 				this.value = value;
 				if (this.Layout == MarkerLayout.Horizontal)
-					Position = new PointF (Layer.Position.X, value);
+					Position = new CGPoint (Layer.Position.X, value);
 				else
-					Position = new PointF (value, Layer.Position.Y);
+					Position = new CGPoint (value, Layer.Position.Y);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace WFS210.UI
 		/// Sets the position.
 		/// </summary>
 		/// <value>The position.</value>
-		public PointF Position
+		public CGPoint Position
 		{
 			set{ 
 				CATransaction.Begin ();

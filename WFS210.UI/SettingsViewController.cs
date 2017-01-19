@@ -1,9 +1,9 @@
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using System.CodeDom.Compiler;
 using WFS210.Services;
-using System.Drawing;
+using CoreGraphics;
 using System.Text.RegularExpressions;
 
 namespace WFS210.UI
@@ -32,6 +32,7 @@ namespace WFS210.UI
 					NSUserDefaults.StandardUserDefaults.SetBool (true, "demo");
 					ServiceManager.ActiveService.Deactivate();
 					ServiceManager.ServiceType = ServiceType.Demo;
+					ServiceManager.ActiveService.Activate();
 				} else {
 					NSUserDefaults.StandardUserDefaults.SetBool (false, "demo");
 					ServiceManager.ServiceType = ServiceType.Live;
@@ -70,7 +71,8 @@ namespace WFS210.UI
 			btnDismiss.TouchUpInside += (object sender, EventArgs e) => this.DismissViewController (true, null);
 
 			txtWifiName.Text = WifiSetting.SSID;
-			swMarker.On = NSUserDefaults.StandardUserDefaults.BoolForKey ("markers");
+			var enableMarkers = NSUserDefaults.StandardUserDefaults.BoolForKey ("markers");
+			swMarker.On = enableMarkers;
 
 			if (ServiceManager.ServiceType == ServiceType.Demo)
 				swDemo.On = true;
@@ -110,7 +112,7 @@ namespace WFS210.UI
 		public override void ViewWillLayoutSubviews ()
 		{
 			base.ViewWillLayoutSubviews ();
-			this.View.Superview.Bounds = new RectangleF (0, 0, 400, 400);
+			this.View.Superview.Bounds = new CGRect (0, 0, 400, 400);
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -126,12 +128,12 @@ namespace WFS210.UI
 		private void OnTapOutside (UITapGestureRecognizer recogniser)
 		{
 			if (recogniser.State == UIGestureRecognizerState.Ended) {
-				PointF location = recogniser.LocationInView (null);
+				CGPoint location = recogniser.LocationInView (null);
 				var version = new Version(UIDevice.CurrentDevice.SystemVersion);
 
 				if (version > new Version (8,0)) 
 				{
-					location = new PointF (location.Y, location.X);
+					location = new CGPoint (location.Y, location.X);
 				}
 				var convertedPoint = View.ConvertPointFromView (location, View.Window);
 				if (!View.PointInside (convertedPoint, null)) {

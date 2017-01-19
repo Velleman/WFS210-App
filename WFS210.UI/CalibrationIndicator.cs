@@ -1,7 +1,7 @@
-﻿using System;
-using MonoTouch.CoreAnimation;
-using System.Drawing;
-using MonoTouch.UIKit;
+using System;
+using CoreAnimation;
+using CoreGraphics;
+using UIKit;
 
 namespace WFS210.UI
 {
@@ -12,8 +12,8 @@ namespace WFS210.UI
 		/// </summary>
 		public CalibrationIndicator () : base ()
 		{
-			Layer.Bounds = new RectangleF (0, 00, 200, 100);
-			Layer.Position = new PointF( 450, 500);
+			Layer.Bounds = new CGRect (0, 00, 200, 100);
+			Layer.Position = new CGPoint( 450, 500);
 			Layer.ContentsGravity = CALayer.GravityResizeAspect;
 			Layer.BorderWidth = 3f;
 			Layer.CornerRadius = 20;

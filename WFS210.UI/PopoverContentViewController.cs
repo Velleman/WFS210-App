@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using Foundation;
+using UIKit;
 
 namespace WFS210.UI
 {
@@ -24,7 +23,7 @@ namespace WFS210.UI
 		/// Gets the content bounds.
 		/// </summary>
 		/// <value>The content bounds.</value>
-		public RectangleF ContentBounds {
+		public CGRect ContentBounds {
 			get { return Picker.Bounds; }
 		}
 

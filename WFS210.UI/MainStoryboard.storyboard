@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
-        <!--IWFS210 View Controller-->
+        <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="iWFS210ViewController" id="BYZ-38-t0r" customClass="iWFS210ViewController" sceneMemberID="viewController">
@@ -526,18 +526,18 @@
                         <outlet property="btnDismiss" destination="542" id="name-outlet-542"/>
                         <outlet property="lblApp" destination="547" id="name-outlet-547"/>
                         <outlet property="lblAppVersion" destination="548" id="name-outlet-548"/>
+                        <outlet property="lblChannel" destination="wPO-2I-soL" id="name-outlet-wPO-2I-soL"/>
                         <outlet property="lblDemo" destination="512" id="name-outlet-512"/>
                         <outlet property="lblMarkers" destination="520" id="name-outlet-520"/>
                         <outlet property="lblName" destination="515" id="name-outlet-515"/>
                         <outlet property="lblScope" destination="592" id="name-outlet-592"/>
                         <outlet property="lblScopeVersion" destination="593" id="name-outlet-593"/>
                         <outlet property="lblWifi" destination="549" id="name-outlet-549"/>
+                        <outlet property="lblWifiChannel" destination="zF3-kL-PY9" id="name-outlet-zF3-kL-PY9"/>
                         <outlet property="lblWifiVersion" destination="550" id="name-outlet-550"/>
                         <outlet property="swDemo" destination="507" id="name-outlet-507"/>
                         <outlet property="swMarker" destination="521" id="name-outlet-521"/>
                         <outlet property="txtWifiName" destination="504" id="name-outlet-504"/>
-                        <outlet property="lblChannel" destination="wPO-2I-soL" id="name-outlet-wPO-2I-soL"/>
-                        <outlet property="lblWifiChannel" destination="zF3-kL-PY9" id="name-outlet-zF3-kL-PY9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="231" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -574,54 +574,6 @@
         <image name="BUTTONS/TRIGGER/TRIG-ONCE-OFF-60x276.png" width="48" height="52"/>
         <image name="BUTTONS/TRIGGER/TRIG-RUN-ON-6x216.png" width="102" height="52"/>
         <image name="BUTTONS/TRIGGER/TRIG-UP-ON-6x156.png" width="48" height="52"/>
-        <image name="BACKGROUND/BG-0x0.png" width="1024" height="768"/>
-        <image name="BATTERY/BATT-CHARGING-984x5.png" width="28" height="54"/>
-        <image name="BATTERY/BATT-LOW-984x5.png" width="28" height="54"/>
-        <image name="BUTTONS/AUTO RANGE/AUTORANGE-ON-6x541.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-10X-OFF-344x6.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-10X-ON-344x6.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-1X-ON-344x6.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-AC-OFF-129x6.png" width="60" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-DC-ON-196x6.png" width="60" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-GND-ON-263x6.png" width="60" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-LEFT-OFF-467x6.png" width="54" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-OFF-6x6.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 1/CHAN1-RIGHT-OFF-628x6.png" width="54" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-10X-OFF-344x710.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-10X-ON-344x710.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-1X-ON-344x710.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-AC-OFF-129x710.png" width="60" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-DC-ON-196x710.png" width="60" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-GND-ON-263x710.png" width="60" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-LEFT-OFF-467x710.png" width="54" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-ON-6x710.png" width="102" height="52"/>
-        <image name="BUTTONS/CHANNEL 2/CHAN2-RIGHT-OFF-628x710.png" width="54" height="52"/>
-        <image name="BUTTONS/TIME/TIME-LEFT-OFF-6X468.png" width="48" height="52"/>
-        <image name="BUTTONS/TIME/TIME-RIGHT-OFF-60X468.png" width="48" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-CHAN1-OFF-6x96.png" width="48" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-CHAN2-ON-60x96.png" width="48" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-DOWN-ON-60x156.png" width="48" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-HOLD-ON-6x336.png" width="102" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-NRML-ON-6x276.png" width="48" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-ONCE-ON-60x276.png" width="48" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-RUN-OFF-6x216.png" width="102" height="52"/>
-        <image name="BUTTONS/TRIGGER/TRIG-UP-OFF-6x156.png" width="48" height="52"/>
-        <image name="MARKERS/MARKER A SLIDER-112x__.png" width="912" height="32"/>
-        <image name="MARKERS/MARKER B SLIDER-112x__.png" width="912" height="32"/>
-        <image name="TRIGGER LEVEL/TRIG SLIDER-SLOPE DOWN-112x__.png" width="912" height="32"/>
-        <image name="TRIGGER LEVEL/TRIG SLIDER-SLOPE UP-112x__.png" width="912" height="32"/>
-        <image name="VIEWPORT/SCROLL BAR-130x688.png" width="894" height="6"/>
-        <image name="VIEWPORT/VIEWPORT-130x78.png" width="894" height="612"/>
-        <image name="ZEROLINE/ZERO-CHAN1-131x__.png" width="892" height="22"/>
-        <image name="ZEROLINE/ZERO-CHAN2-131x__.png" width="892" height="22"/>
-        <image name="Icon-76.png" width="76" height="76"/>
-        <image name="Icon-72.png" width="72" height="72"/>
-        <image name="Icon-Small.png" width="29" height="29"/>
-        <image name="Icon-Small-50.png" width="50" height="50"/>
-        <image name="Icon-Small-40.png" width="40" height="40"/>
-        <image name="MARKERS/MARKER 1 SLIDER-__x60.png" width="32" height="628"/>
-        <image name="MARKERS/MARKER 2 SLIDER-__x60.png" width="32" height="628"/>
-        <image name="Default-Landscape.png" width="1024" height="748"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackOpaque"/>
