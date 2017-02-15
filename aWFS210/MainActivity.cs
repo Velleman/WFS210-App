@@ -15,6 +15,7 @@ using Android.Preferences;
 using Android.Net.Wifi;
 using Android.Net;
 using Java.Net;
+using Android.Util;
 
 namespace WFS210.Droid
 {
@@ -93,14 +94,17 @@ namespace WFS210.Droid
 			this.ServiceManager = new ServiceManager (Oscilloscope, ServiceType.Demo);
             //Set the IPAdress based on the gateway
             var liveService = this.ServiceManager.GetService(ServiceType.Live) as LiveService;
-            liveService.Connection.IPAdress = GetIPAdress();
+            liveService.Connection.IPAddress = GetIPAdress();
 
 			this._ScopeView = FindViewById<SignalView> (Resource.Id.SignalView);
+            _ScopeView.SetLayerType(LayerType.Hardware, null);
 			this._VoltTimeIndicator = FindViewById<TextView> (Resource.Id.VoltTimeIndicator);
-			this._VoltTimeIndicator.SetZ (999f);
+            //TODO Check API Compatibility 
+			//this._VoltTimeIndicator.SetZ (999f);
 
 			this._CalibratingIndicator = FindViewById<TextView> (Resource.Id.CalibratingIndicator);
-			this._CalibratingIndicator.SetZ (999f);
+            //TODO Check API Compatibility
+			//this._CalibratingIndicator.SetZ (999f);
 
 			this.DisplaySettings = new DisplaySettings (MarkerUnit.dt, SignalUnit.Vdc);
 			LoadControls();
@@ -111,27 +115,40 @@ namespace WFS210.Droid
 			_ScopeView.SelectedChannel = 0;
 			_ScopeView.NewData += (object sender, NewDataEventArgs e) => RunOnUiThread (() => UpdateMeasurements());
             _ScopeView.DrawMarkers = true;
+
+            
 		}
 
 		protected override void OnResume ()
 		{
 			base.OnResume ();
 
+            //Set the IPAdress based on the gateway
+            var liveService = this.ServiceManager.GetService(ServiceType.Live) as LiveService;
+            liveService.Connection.IPAddress = GetIPAdress();
+
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences (this);
 			if (prefs.GetBoolean ("DEMO", true)) {
 				this.ServiceManager.ServiceType = ServiceType.Demo;
+                RunOnUiThread(() => { AlertUser("Demo Mode", "Demo mode is now running"); });
 			} else {
 				this.ServiceManager.ServiceType = ServiceType.Live;
 				if (!Service.Active) {
-					if (!Service.Activate ()) {
-						this.ServiceManager.ServiceType = ServiceType.Demo;
-						Service.Activate ();
-						RunOnUiThread(()=>{ AlertUser ("No Connection", "No WFS210 found\r\nDemo mode is now running");});
-						var editor = prefs.Edit ();
-						editor.PutBoolean ("DEMO", true);
-						editor.Commit();
-
-					}
+                    if (!Service.Activate())
+                    {
+                        this.ServiceManager.ServiceType = ServiceType.Demo;
+                        Service.Activate();
+                        RunOnUiThread(() => { AlertUser("No Connection", "No WFS210 found\r\nDemo mode is now running"); });
+                        var editor = prefs.Edit();
+                        editor.PutBoolean("DEMO", true);
+                        editor.Commit();
+                    }
+                    else
+                    {
+                        Service.RequestWifiSettings();
+                        Service.RequestSettings();
+                        Service.RequestSamples();
+                    }
 				}
 			}
 
@@ -142,31 +159,44 @@ namespace WFS210.Droid
 				editor.Apply ();
 			}
 
+            _ScopeView.DrawMarkers = prefs.GetBoolean("MARKERS",true);
+
 			_UpdateTimer = new Timer (200);
 			_UpdateTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
 				_UpdateTimer.Stop();
 				Service.Update ();
-				RunOnUiThread (() =>_ScopeView.Update());
+                RunOnUiThread(() => _ScopeView.Update());
 				_UpdateTimer.Start();
 			};
 			_UpdateTimer.Enabled = true;
 			_UpdateTimer.Start ();
 
-			UpdateScopeControls ();
+			UpdateScopeControls ();            
 		}
 
 		protected override void OnPause ()
 		{
 			base.OnPause ();
 			_UpdateTimer.Close ();
+            _UpdateTimer.Dispose();
 		}
 
         private string GetIPAdress()
         {
             var wifiManager = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
-            
-            //return wifiManager.DhcpInfo.Gateway;
-            return "";
+
+            return GetStringIP(wifiManager.DhcpInfo.Gateway);
+        }
+
+        string GetStringIP(int ip)
+        {
+            int[] bytes = new int[4];
+            bytes[0] = ip & 0xFF;
+            bytes[1] = (ip >> 8) & 0xFF;
+            bytes[2] = (ip >> 16) & 0xFF;
+            bytes[3] = (ip >> 24) & 0xFF;
+            var s =  "" + bytes[0] + "." + bytes[1] + "." + bytes[2] + "." + bytes[3];
+            return s;
         }
 
 		private void AlertUser(string title,string message)
@@ -261,15 +291,17 @@ namespace WFS210.Droid
 
 		private void UpdateMeasurements ()
 		{
-//			// Channel 1
-			txtMeasurement1.Text = GetMeasurementString (DisplaySettings.SignalUnits [0], 0);
-			txtMarkerMeasurement1.Text = GetMarkerMeasurementString (DisplaySettings.MarkerUnits [0]);
+            //Log.Debug("Update Measurements", "timestamp");
+            txtMeasurement1.SetLayerType(LayerType.Software, null);
+            txtMarkerMeasurement1.SetLayerType(LayerType.Software, null);
+            txtMeasurement2.SetLayerType(LayerType.Software, null);
+            txtMarkerMeasurement2.SetLayerType(LayerType.Software, null);
+            txtMeasurement1.Text = GetMeasurementString(DisplaySettings.SignalUnits[0], 0);
+            txtMeasurement2.Text = GetMeasurementString(DisplaySettings.SignalUnits[1], 1);
+            txtMarkerMeasurement1.Text = GetMarkerMeasurementString(DisplaySettings.MarkerUnits[0]);
+            txtMarkerMeasurement2.Text = GetMarkerMeasurementString(DisplaySettings.MarkerUnits[1]);
 
-
-//			// Channel 2
-			txtMeasurement2.Text = GetMeasurementString (DisplaySettings.SignalUnits [1], 1);
-			txtMarkerMeasurement2.Text = GetMarkerMeasurementString (DisplaySettings.MarkerUnits [1]);
-
+            
 		}
 
 		private void UpdateSelectedChannel ()
@@ -575,12 +607,14 @@ namespace WFS210.Droid
 				editor.PutString ("VERSIONNUMBERSCOPE", ServiceManager.ActiveService.Oscilloscope.FirmwareVersion);
 				editor.PutString ("VERSIONNUMBERWIFI", ServiceManager.ActiveService.Oscilloscope.WifiSetting.Version);
 				editor.PutString ("WIFINAME", ServiceManager.ActiveService.Oscilloscope.WifiSetting.SSID);
-				editor.PutString ("APPVERSION", "1.1");
+				editor.PutString ("APPVERSION", "1.2");
+                editor.PutBoolean("MARKERS", _ScopeView.DrawMarkers);
 				editor.Apply ();
 
 			} else if (this.ServiceManager.ServiceType == ServiceType.Demo) {
 				var editor = prefs.Edit ();
-				editor.PutString ("APPVERSION", "1.1");
+				editor.PutString ("APPVERSION", "1.2");
+                editor.PutBoolean("MARKERS", _ScopeView.DrawMarkers);
 				editor.Apply ();
 			}
 		}

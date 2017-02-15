@@ -66,7 +66,9 @@ namespace WFS210.Droid
 					{
 						ISharedPreferences sp = PreferenceManager.SharedPreferences;
 						Preference p = pc.GetPreference(0);
-						p.Summary = sp.GetString("WIFINAME", "");
+						p.Summary = sp.GetString("WIFINAME", "FAILED TO RETREIVE WIFINAME");
+                        Preference p2 = pc.GetPreference(1);
+
 					}
 					if(pc.Title.ToString() == "Calibration")
 					{

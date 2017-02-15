@@ -115,7 +115,7 @@ namespace WFS210.IO
 			Client.Connect (remoteEP);
 
 			if (Connected) {
-
+                Client.ReceiveTimeout = 1000;
 				ReadWelcomeMessage ();
 
 				Writer = new MessageWriter (Client.GetStream (), new PacketSerializer ());

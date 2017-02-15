@@ -2,7 +2,7 @@
     
 <PreferenceCategory android:title="Settings">
     <EditTextPreference
-        android:defaultValue="DEMO"
+        android:defaultValue="WFS210"
         android:key="WIFINAME"
         android:summary="This will set the name of the wifi scope"
         android:title="Name of the wifi scope" />
@@ -10,6 +10,11 @@
         android:key="DEMO"
         android:summary="Enables the Demo mode"
         android:title="Demo mode" />
+  <CheckBoxPreference
+        android:key="MARKERS"
+        android:summaryOff="This will hide the markers"
+        android:summaryOn="This will show the markers"
+        android:title="Show Markers" />
 </PreferenceCategory>
 
 <PreferenceCategory android:title="Calibration">
@@ -31,6 +36,6 @@
         android:key="APPVERSION"
         android:title="App Version" 
         android:summary=""
-        android:defaultValue="1.1"/>
+        android:defaultValue="1.2"/>
 </PreferenceCategory>
 </PreferenceScreen>

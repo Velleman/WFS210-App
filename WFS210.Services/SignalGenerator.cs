@@ -111,7 +111,7 @@ namespace WFS210.Services
 					} else if ((tl < (channel.YPosition - (o + a))) || (tl > (channel.YPosition + (o + a)))) {
 						Phase = randomPhase;
 					} else if (oscilloscope.Trigger.Slope == TriggerSlope.Rising) {
-						Phase = Math.Asin ((tl - (channel.YPosition - o)) / a);
+						Phase = Math.Asin (((channel.YPosition - o) - tl) / a);
 					} else {
 						Phase = Math.PI - Math.Asin ((tl - (channel.YPosition - o)) / a);
 					}

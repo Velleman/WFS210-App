@@ -114,7 +114,10 @@ namespace WFS210.IO
 		{
 			var data = new byte[5120];
 			var actualsize = stream.Read(data, 0, data.Length);
-			packetBuffer.AddRange(data);
+            if (actualsize != 0)
+            {
+                packetBuffer.AddRange(data);
+            }
 			return actualsize;
 		}
 

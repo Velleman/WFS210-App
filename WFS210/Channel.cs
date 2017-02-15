@@ -87,7 +87,7 @@ namespace WFS210
 		/// <param name="sample">The sample's value in volts (V).</param>
 		public double Voltage (int sample)
 		{
-			return ((YPosition - sample) * VoltsPerUnit ());
+			return ((sample - YPosition) * VoltsPerUnit ());
 		}
 
 		/// <summary>

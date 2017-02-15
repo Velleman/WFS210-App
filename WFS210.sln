@@ -1,7 +1,6 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFS210.iOS", "WFS210.UI\WFS210.iOS.csproj", "{70236110-F85F-4A01-8AE8-53D6459AD1F6}"
 EndProject
@@ -17,9 +16,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFS210DataGenerator", "Wind
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		WFS210.Services\WFS210.Services.projitems*{2fade171-3743-427d-a44a-c63f10a32f27}*SharedItemsImports = 4
+		WFS210.IO\WFS210.IO.projitems*{70236110-f85f-4a01-8ae8-53d6459ad1f6}*SharedItemsImports = 4
+		WFS210\WFS210.projitems*{70236110-f85f-4a01-8ae8-53d6459ad1f6}*SharedItemsImports = 4
+		WFS210.Services\WFS210.Services.projitems*{70236110-f85f-4a01-8ae8-53d6459ad1f6}*SharedItemsImports = 4
 		WFS210.IO\WFS210.IO.projitems*{2fade171-3743-427d-a44a-c63f10a32f27}*SharedItemsImports = 4
 		WFS210\WFS210.projitems*{2fade171-3743-427d-a44a-c63f10a32f27}*SharedItemsImports = 4
+		WFS210.Services\WFS210.Services.projitems*{2fade171-3743-427d-a44a-c63f10a32f27}*SharedItemsImports = 4
 		WFS210.IO\WFS210.IO.projitems*{60f54f6c-7ad9-41c2-b6ce-5fe454189800}*SharedItemsImports = 13
 		WFS210\WFS210.projitems*{a7943d95-7c8c-425d-b144-b2460f3b2cbe}*SharedItemsImports = 13
 		WFS210.IO\WFS210.IO.projitems*{cbe0b6af-747c-44a7-bd6d-d028f1062531}*SharedItemsImports = 4
@@ -51,6 +53,7 @@ Global
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.AppStore|iPhoneSimulator.ActiveCfg = AppStore|iPhoneSimulator
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.AppStore|iPhoneSimulator.Build.0 = AppStore|iPhoneSimulator
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|iPhone.Build.0 = Debug|iPhone
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
@@ -60,7 +63,6 @@ Global
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhone.Build.0 = Release|iPhone
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-		{70236110-F85F-4A01-8AE8-53D6459AD1F6}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
 		{2FADE171-3743-427D-A44A-C63F10A32F27}.Ad-Hoc|Any CPU.ActiveCfg = Release|Any CPU
 		{2FADE171-3743-427D-A44A-C63F10A32F27}.Ad-Hoc|Any CPU.Build.0 = Release|Any CPU
 		{2FADE171-3743-427D-A44A-C63F10A32F27}.Ad-Hoc|Any CPU.Deploy.0 = Release|Any CPU
@@ -119,7 +121,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-		
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

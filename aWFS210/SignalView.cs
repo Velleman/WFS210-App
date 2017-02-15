@@ -1,9 +1,10 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-
+using System.Timers;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -39,7 +40,7 @@ namespace WFS210.Droid
 
 		private Paint[] paints;
 		private Paint paintGrid;
-
+        private Paint paintScroll;
 		private int offSet;
 
 		private float SampleToPointRatio;
@@ -64,6 +65,11 @@ namespace WFS210.Droid
 		Marker _closestMarker;
 
 		private Context _context;
+
+        Stopwatch sw = new Stopwatch();
+
+        Bitmap bmpSignals;
+        Canvas cnvsSignals;
 
 		/// <summary>
 		/// Gets or sets the service.
@@ -117,6 +123,11 @@ namespace WFS210.Droid
 			paintGrid.Color = Color.Gray;
 			paintGrid.StrokeWidth = 1;
 			paintGrid.SetStyle (Paint.Style.Stroke);
+
+            paintGrid = new Paint();
+            paintGrid.Color = Color.Gray;
+            paintGrid.StrokeWidth = 1;
+            paintGrid.SetStyle(Paint.Style.Fill);
 
 			Markers = new List<Marker> ();
 
@@ -181,6 +192,9 @@ namespace WFS210.Droid
 				_lastTouchY = y;
 				break;
 			case MotionEventActions.Up:
+                if((_closestMarker is ZeroLine || _closestMarker is TriggerMarker) && DrawMarkers)
+                    ApplyMarkerValuesToScope();
+                break;
 			case MotionEventActions.Cancel:
 				_closestMarker = null;
 				Invalidate ();
@@ -189,7 +203,7 @@ namespace WFS210.Droid
 				pointerIndex = (int)(e.Action & MotionEventActions.PointerIndexMask) >> (int)MotionEventActions.PointerIndexShift;
 				int pointerid = e.GetPointerId (pointerIndex);
 				if (pointerid == _activePointerId) {
-
+                    ApplyMarkerValuesToScope();
 				}
 				break;
 			default:
@@ -213,6 +227,7 @@ namespace WFS210.Droid
 			largeRectangle = new Rect (0, 0, w, h);
 			CalculateRatios ();
 			CalculateMarkers ();
+            bmpSignals = Bitmap.CreateBitmap(w, h, Bitmap.Config.Argb8888);
 
 		}
 
@@ -221,7 +236,30 @@ namespace WFS210.Droid
 		/// </summary>
 		public void Update ()
 		{
-			Invalidate ();
+            if (bmpSignals != null)
+            {
+                bmpSignals.EraseColor(Color.Transparent);
+                cnvsSignals = new Canvas(bmpSignals);
+                for (int i = 0; i < 2; i++)
+                {
+                    traces[i].Rewind();
+                    traces[i].MoveTo(Grid.StartWidth, MapSampleDataToScreen(Oscilloscope.Channels[i].Samples[0]));
+
+                    int s = 0;
+                    for (int j = (int)Grid.StartWidth; j < MapXPosToScreen(TotalSamples); j++)
+                    {
+                        traces[i].LineTo(MapXPosToScreen(s) + Grid.StartWidth, MapSampleDataToScreen(Oscilloscope.Channels[i].Samples[s]));
+                        s++;
+                    }
+                }
+
+                if (Service.Oscilloscope.Channels[0].VoltsPerDivision != VoltsPerDivision.VdivNone)
+                    cnvsSignals.DrawPath(traces[0], paints[0]);
+                if (Service.Oscilloscope.Channels[1].VoltsPerDivision != VoltsPerDivision.VdivNone)
+                    cnvsSignals.DrawPath(traces[1], paints[1]);
+                Invalidate();
+            }
+            
 		}
 
 		/// <param name="canvas">the canvas on which the background will be drawn</param>
@@ -231,23 +269,21 @@ namespace WFS210.Droid
 		protected override void OnDraw (Canvas canvas)
 		{
 			base.OnDraw (canvas);
-
+            
 			Grid.Draw (canvas, paintGrid);
+
+            //Draw Vertical line for scroll container
+            canvas.DrawLine(offSet, canvas.Height, offSet, canvas.Height - offSet, paintGrid);
+            //Draw Horizontal line for scroll container
+            canvas.DrawLine(offSet, canvas.Height-1, canvas.Width, canvas.Height-1, paintGrid);
+
+            canvas.DrawRect(offSet + 2, (canvas.Height - offSet) + 2, offSet + 100, canvas.Height - 2,paintGrid);
 
 			canvas.ClipRect (signalRectangle);
 
-			for (int i = 0; i < 2; i++) {
-				traces [i].Reset ();
-				traces [i].MoveTo (Grid.StartWidth, MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [0]));
+            canvas.DrawBitmap(bmpSignals, 0, 0, null);
 
-				for (int j = (int)Grid.StartWidth; j < MapXPosToScreen (TotalSamples); j++) {
-					traces [i].LineTo (MapXPosToScreen (j), MapSampleDataToScreen (Oscilloscope.Channels [i].Samples [j]));
-				}
-
-				canvas.DrawPath (traces [i], paints [i]);
-			}
-
-			canvas.ClipRect (largeRectangle, Region.Op.Replace);
+            canvas.ClipRect(largeRectangle, Region.Op.Replace);
 
             if (DrawMarkers)
             {
@@ -256,7 +292,7 @@ namespace WFS210.Droid
                     m.Draw(canvas);
                 }
             }
-
+            
 		}
 
 		/// <summary>
@@ -285,6 +321,18 @@ namespace WFS210.Droid
 			Markers.Add (new XMarker (_context, Resource.Drawable.marker2, (int)Grid.EndHeight, (int)(Grid.Width * 0.75)));
 		}
 
+        /// <summary>
+        /// Applies the marker values to scope object.
+        /// </summary>
+        private void ApplyMarkerValuesToScope()
+        {
+            Service.Execute(new YPositionCommand(0, MapScreenDataToScopeData(Markers[0].Value)));
+            Service.Execute(new YPositionCommand(1, MapScreenDataToScopeData(Markers[1].Value)));
+
+            var triggerLevel = MapScreenDataToScopeData(Markers[4].Value);
+            Service.Execute(new TriggerLevelCommand(triggerLevel));
+        }
+
 		/// <summary>
 		/// Calculates the ratios.
 		/// </summary>
@@ -312,7 +360,7 @@ namespace WFS210.Droid
 		/// <param name="value">Value.</param>
 		private int MapScreenDataToScopeData (double value)
 		{
-			return (int)((value) / SampleToPointRatio);
+			return (int)((value - Grid.StartHeight) / SampleToPointRatio);
 		}
 
 		/// <summary>
@@ -391,8 +439,8 @@ namespace WFS210.Droid
 					}
 				}
 			}
-
-			return closestMarker;
+            
+            return DrawMarkers ? closestMarker : null;
 		}
 
 		private class MyScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener

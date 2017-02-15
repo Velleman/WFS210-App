@@ -154,7 +154,7 @@
             <TextView
                 android:id="@+id/txtMarkerMeasurement1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/AC"
                 android:background="@drawable/backgroundmeasurements"
                 android:textSize="17sp" />
@@ -168,7 +168,7 @@
                 android:id="@+id/spMarkerMeasurement1"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rlHelperMeasurement1"
@@ -178,7 +178,7 @@
             <TextView
                 android:id="@+id/txtMeasurement1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/AC"
                 android:textSize="17sp"
                 android:background="@drawable/backgroundmeasurements" />
@@ -192,7 +192,7 @@
                 android:id="@+id/spMeasurement1"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </RelativeLayout>
     </LinearLayout>
     <ImageView
@@ -358,7 +358,7 @@
             <TextView
                 android:id="@+id/txtMarkerMeasurement2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/AC"
                 android:textSize="17sp"
                 android:background="@drawable/backgroundmeasurements" />
@@ -374,7 +374,7 @@
                 android:layout_height="1dp"
                 android:visibility="invisible"
                 android:scrollbars="none"
-                android:spinnerMode="dialog"/>
+                android:spinnerMode="dialog" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rlHelperMeasurement2"
@@ -384,7 +384,7 @@
             <TextView
                 android:id="@+id/txtMeasurement2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/AC"
                 android:textSize="17sp"
                 android:background="@drawable/backgroundmeasurements" />
