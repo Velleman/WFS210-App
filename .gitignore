@@ -24,3 +24,5 @@ UpgradeLog.*
 
 # DotCover
 *.dotCover
+
+*.ipa
